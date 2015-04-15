@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<apps>
+	<item>ugcore_default</item>
+	<item>ugcore_compact</item>
+	<item>ugcore_grid</item>
+	<item>ugcore_slider</item>
+	<item>ugcore_video</item>
+	<item>ugcore_tilescolumns</item>
+	<item>ugcore_tilesjustified</item>
+	<item>ugcore_tilesgrid</item>
+	<item>ugcore_carousel</item>
+</apps>

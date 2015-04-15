@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+
+			<fieldset name="general" label="General Settings" icon="eg-icon-cog-alt">
+				
+				<field name="gallery_skin"
+					   type="list"
+					   default=""
+					   label="Gallery Skin"
+					   description="the global skin of the gallery. Will change all gallery items by default.">
+				</field>
+
+				<field name="gallery_images_preload_type"
+					   type="list"
+					   default="minimal"
+					   label="Images Preload Type"
+					   description="The images preload type. &lt;br&gt; minimal - only image nabours will be loaded each time. &lt;br&gt; visible - visible thumbs images will be loaded each time. &lt;br&gt; all - load all the images first time.">
+						  <option value="minimal" text="Minimal"></option>
+						  <option value="visible" text="Visible Items"></option>
+						  <option value="all" text="All Items"></option>
+				</field>
+				
+				<field type="hr"></field>	
+				
+				<field name="gallery_autoplay"
+					   type="boolean"
+					   default="false"
+					   label="Autoplay At Start"
+					   description="begin slideshow autoplay on start">
+				</field>
+								
+				<field type="bulk_control_start"
+					   parent="gallery_autoplay"
+					   ctype="enable"
+					   value="true"
+				/>
+					
+				<field name="gallery_play_interval"
+					   type="text"
+					   default="3000"
+					   label="Play Interval"
+					   unit="ms"
+					   description="play interval of the slideshow. after that time the slide will change">
+				</field>
+				
+				<field name="gallery_pause_on_mouseover"
+					   type="boolean"
+					   default="true"
+					   label="Pause Playing on Mouseover"
+					   description="pause on mouseover when playing slideshow">
+				</field>
+				
+				<field type="bulk_control_end"></field>	
+				
+				<field type="hr"></field>	
+				
+				<field name="gallery_control_keyboard"
+					   type="boolean"
+					   default="true"
+					   label="Keyboard Control"
+					   description="Allow to control gallery with keyboard (left, right arrows)">
+				</field>
+				
+				<field name="gallery_carousel"
+					   type="boolean"
+					   default="true"
+					   label="Carousel Mode"
+					   description="next button on last image goes to first image.">
+				</field>
+				
+				<field name="gallery_preserve_ratio" 
+					type="boolean"
+					default="true" 
+					label="Preserve Ratio On Resize"
+					description="Preserve width and height ratio on gallery resize">	
+				</field>
+				
+				<field name="slider_background_color" 
+					type="color"
+					default="#000000" 
+					label="Gallery Background Color"
+					description="set custom background color. If not set it will be taken from css">  
+				</field>
+				
+			</fieldset>
+
+</fields>

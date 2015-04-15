@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+		<fieldset name="strip_panel" label="Thumbs Panel" icon="eg-icon-cog-alt">
+			
+			<field name="strippanel_padding_top" 
+				type="text"
+				default="8" 
+				label="Panel Padding Top"
+				unit="px"
+				description="space from top of the panel">
+			</field>
+			
+			<field name="strippanel_padding_bottom" 
+				type="text"
+				default="8" 
+				label="Panel Padding Bottom"
+				unit="px"
+				description="space from bottom of the panel">
+			</field>
+			
+			<field name="strippanel_padding_left" 
+				type="text"
+				default="0" 
+				label="Panel Padding Left"
+				unit="px"
+				description="space from left of the panel">
+			</field>
+			
+			<field name="strippanel_padding_right" 
+				type="text"
+				default="0" 
+				label="Panel Padding Right"
+				unit="px"
+				description="space from right of the panel">
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="strippanel_background_color" 
+				type="color"
+				default="#000000" 
+				label="Panel Background Color"
+				description="background color of the strip wrapper, if not set, it will be taken from the css">  
+			</field>
+
+
+			<field name="strippanel_background_transparent" 
+				type="boolean"
+				default="false" 
+				label="Panel Background Transparent"
+				description="Set the panel background color as transparent">	
+		    </field>
+			
+			<field type="control" 
+				parent="strippanel_background_transparent"
+				ctype="enable" 
+				child="strippanel_background_color"
+				value="false"
+				/>
+			
+			<field type="hr"></field>
+			
+			<field name="strippanel_enable_buttons" 
+				type="boolean"
+				default="true"
+				label="&lt;b&gt;Enable Panel Side Buttons&lt;/b&gt;"
+				description="enable buttons from the sides of the panel">	
+			</field>
+			
+			<field type="bulk_control_start" 
+				parent="strippanel_enable_buttons"
+				ctype="show" 
+				value="true"
+				/>
+			
+			<field name="strippanel_buttons_skin" 
+				type="list"
+				default="" 
+				label="&amp;nbsp; Panel Side Buttons Skin"
+				description="Select the skin of the panel side buttons."/>  
+				
+			<field name="strippanel_padding_buttons" 
+				type="text"
+				default="2" 
+				label="&amp;nbsp; Panel Side Buttons Padding"
+				unit="px"
+				description="">
+			</field>
+			
+			<field name="strippanel_buttons_role" 
+				type="list"
+				default="scroll_strip" 
+				label="&amp;nbsp; Panel Side Buttons Role"
+				description="the role of the buttons">  
+					<option value="scroll_strip" text="Scroll Strip"></option>
+					<option value="advance_item" text="Advance Item"></option>
+			</field>
+			
+			<field type="bulk_control_end"/>
+			
+			<field type="hr"></field>
+			
+			<field name="strippanel_enable_handle" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Show Panel Close Handle&lt;/b&gt;"
+				description="enable panel close / open handle">	
+			</field>
+			
+			<field type="bulk_control_start" 
+				parent="strippanel_enable_handle"
+				ctype="show" 
+				value="true"
+				/>
+			
+			<field name="strippanel_handle_align" 
+				type="list"
+				default="top" 
+				label="&amp;nbsp; Panel Handle Align"
+				description="close handle tip align on the handle bar according panel orientation"/>  
+			
+			<field name="strippanel_handle_offset" 
+				type="text"
+				default="0" 
+				label="&amp;nbsp; Panel Handle Offset"
+				unit="px"
+				description="offset of handle bar according the align">
+			</field>
+			
+			<field name="strippanel_handle_skin" 
+				type="list"
+				default="" 
+				label="&amp;nbsp; Panel Handle Skin"
+				description="the skin of the handle"/>  
+			
+			<field type="bulk_control_end"/>
+			
+			<field type="hr"></field>
+						
+			<field name="strip_thumbs_align" 
+				type="list"
+				default="left" 
+				label="Panel Thumbs Align"
+				description="the align of the thumbs when they smaller then the strip size."/>  
+			
+			<field name="strip_space_between_thumbs" 
+				type="text"
+				default="6" 
+				label="Space Between Thumbs"
+				unit="px"
+				description="space between thumbs">
+			</field>	
+						
+			<field name="strip_scroll_to_thumb_duration" 
+				type="text"
+				default="500" 
+				label="Scroll To Thumb Duration"
+				unit="ms"
+				description="duration of scrolling to thumb">
+			</field>
+			
+			<field name="strip_scroll_to_thumb_easing" 
+				type="list"
+				default="easeOutCubic" 
+				label="Scroll To Thumb Easning"
+				description="easing of scrolling to thumb animation"/>  
+			
+			<field type="hr"></field>
+			
+			<field name="strip_control_avia" 
+				type="boolean"
+				default="true" 
+				label="Enable Mouseover Control"
+				description="move the strip according strip moseover position">	
+			</field>
+			
+			<field name="strip_control_touch" 
+				type="boolean"
+				default="true" 
+				label="Enable Touch Control"
+				description="move the strip by dragging it in touch enabled devices">	
+			</field>
+			
+			<field name="strip_thumb_touch_sensetivity" 
+				type="text"
+				default="15" 
+				label="Panel Touch Sensetivity"
+				description="from 1-100, 1 - most sensetive, 100 - most unsensetive">
+			</field>
+									
+		</fieldset>
+		
+</fields>

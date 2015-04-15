@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+		<fieldset name="tile_design" label="Tile Design" icon="eg-icon-cog-alt">
+		
+			<field name="tile_enable_action" 
+				type="boolean"
+				default="true" 
+				label="Enable Lightbox"
+				description="Enable lightbox on tile click">	
+			</field>
+				
+			<field name="tile_as_link" 
+				type="boolean"
+				default="false" 
+				label="&lt;b&gt;Tile As Link&lt;/b&gt;"
+				description="act the tile as link, no lightbox will appear"></field>
+			
+				<field name="tile_link_newpage" 
+					type="list"
+					default="true" 
+					label="Open Link In"
+					description="open the tile link in new or same page">  
+						<option value="true" text="New Page"></option>
+						<option value="false" text="Same Page"></option>
+				</field>		
+				
+				<field type="control" 
+					parent="tile_as_link"
+					ctype="show" 
+					child="tile_link_newpage"
+					value="true" />
+			
+			<field type="hr"></field>
+			
+			<field name="tile_enable_border" 
+				type="boolean"
+				default="false" 
+				label="&lt;b&gt;Enable Border&lt;/b&gt;"
+				description="enable border of the tile"></field>
+			
+			<field type="bulk_control_start" 
+				parent="tile_enable_border"
+				ctype="show" 
+				value="true"
+				/>
+				
+				<field name="tile_border_width" 
+					type="text"
+					default="3" 
+					label="&amp;nbsp; Tile Border Width"
+					unit="px"
+					description="tile border width"></field>	
+				
+				<field name="tile_border_color" 
+					type="color"
+					default="#f0f0f0" 
+					label="&amp;nbsp; Tile Border Color"
+					description="tile border color"></field>
+				
+				<field name="tile_border_radius" 
+					type="text"
+					default="0" 
+					label="&amp;nbsp; Tile Border Radius"
+					unit="px"
+					description="tile border radius (applied to border only, not to outline)"></field>
+							
+			<field type="bulk_control_end"/>
+			
+			<field type="hr"></field>
+			
+			<field name="tile_enable_outline" 
+				type="boolean"
+				default="false" 
+				label="&lt;b&gt;Enable Outline&lt;/b&gt;"
+				description="enable outline of the tile - 1 pixel width only, (works only together with the border)"></field>		
+			
+			<field type="bulk_control_start" 
+				parent="tile_enable_outline"
+				ctype="show" 
+				value="true"/>
+				
+				<field name="tile_outline_color" 
+					type="color"
+					default="#8b8b8b" 
+					label="&amp;nbsp; Tile Outline Color"
+					description="tile outline color"></field>
+			
+			<field type="bulk_control_end"/>
+			
+			<field type="hr"></field>
+			
+			<field name="tile_enable_shadow" 
+				type="boolean"
+				default="false" 
+				label="&lt;b&gt;Enable Shadow&lt;/b&gt;"
+				description="enable shadow of the tile"></field>
+				
+			<field type="bulk_control_start" 
+				parent="tile_enable_shadow"
+				ctype="show" 
+				value="true"/>
+				
+				<field name="tile_shadow_h" 
+					type="text"
+					default="1" 
+					label="&amp;nbsp; Tile Shadow Pos Hor"
+					unit="px"
+					description="position of horizontal shadow"></field>
+				
+				<field name="tile_shadow_v" 
+					type="text"
+					default="1" 
+					label="&amp;nbsp; Tile Shadow Pos Vert"
+					unit="px"
+					description="position of vertical shadow"></field>
+				
+				<field name="tile_shadow_blur" 
+					type="text"
+					default="3" 
+					label="&amp;nbsp; Tile Shadow Blur"
+					description="shadow blur"></field>
+				
+				<field name="tile_shadow_spread" 
+					type="text"
+					default="2" 
+					label="&amp;nbsp; Tile Shadow Spread"
+					description="shadow spread"></field>
+				
+				<field name="tile_shadow_color" 
+					type="color"
+					default="#8b8b8b" 
+					label="&amp;nbsp; Tile Shadow Color"
+					description="shadow color"></field>
+							
+			<field type="bulk_control_end"/>
+			
+			<field type="hr"></field>
+			
+			<field name="tile_enable_image_effect" 
+				type="boolean"
+				default="false" 
+				label="&lt;b&gt;Enable Image Effect&lt;/b&gt;"
+				description="enable tile image effect">
+			</field>
+			
+			<field type="bulk_control_start" 
+				parent="tile_enable_image_effect"
+				ctype="show" 
+				value="true" />
+			
+			<field name="tile_image_effect_type" 
+				type="list"
+				default="bw" 
+				label="&amp;nbsp; Tile Image Effect Type"
+				description="tile effect type">  
+					<option value="bw" text="Black And White"></option>
+					<option value="blur" text="Blur"></option>
+					<option value="sepia" text="Sepia"></option>
+			</field>
+			
+			<field name="tile_image_effect_reverse" 
+				type="boolean"
+				default="false" 
+				label="&amp;nbsp; Tile Effect Reverse"
+				description="reverce the image, set only on mouseover state"></field>
+			
+			<field type="bulk_control_end"/>
+			
+			<field type="hr"></field>
+			
+			<field name="tile_enable_overlay" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Enable Mouseover Overlay&lt;/b&gt;"
+				description="enable tile color overlay on mouseover">	</field>
+			
+			<field type="bulk_control_start" 
+				parent="tile_enable_overlay"
+				ctype="show" 
+				value="true"/>
+			
+			<field name="tile_overlay_opacity" 
+				type="text"
+				default="0.4" 
+				label="&amp;nbsp; Tile Overlay Opacity"
+				description="tile overlay opacity"></field>
+			
+			<field name="tile_overlay_color" 
+				type="color"
+				default="#000000" 
+				label="&amp;nbsp; Tile Overlay Color"
+				description="tile overlay color"></field>
+			
+			<field type="hr"></field>
+			
+			<field type="bulk_control_end"/>
+			
+			<field name="tile_enable_icons" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Enable Icons On Mouseover&lt;/b&gt;"
+				description="enable icons in mouseover mode"></field>
+			
+			<field type="bulk_control_start" 
+				parent="tile_enable_icons"
+				ctype="show" 
+				value="true"/>
+			
+			<field name="tile_show_link_icon" 
+				type="boolean"
+				default="false"
+				label="&amp;nbsp; Show Link Icon"
+				description="show link icon (if the tile has a link). Make the tile look as 'portfolio style' In case of 'Tile As Link' option not enabled">	
+			</field>
+			
+			<field name="tile_space_between_icons" 
+				type="text"
+				default="26" 
+				label="&amp;nbsp; Space Between Icons"
+				unit="px"
+				description="initial space between icons, (on small tiles it may change)"></field>
+			
+			<field type="bulk_control_end"/>
+			
+			<field type="hr"></field>
+			
+			<field name="tile_enable_textpanel" 
+				type="boolean"
+				default="false" 
+				label="&lt;b&gt;Enable Tile Text Panel&lt;/b&gt;"
+				description="enable tile text panel"></field>
+			
+			<field type="bulk_control_start" 
+				parent="tile_enable_textpanel"
+				ctype="show" 
+				value="true" />
+
+				<field name="tile_textpanel_source" 
+					type="list"
+					default="title" 
+					label="&amp;nbsp; Tile Text Panel Source"
+					description="The source of text panel. Description, Title type will show the description. If description is empty it will show the title.">  
+						<option value="title" text="Title"></option>
+						<option value="desc" text="Description"></option>
+						<option value="desc_title" text="Description or Title (if desc empty)"></option>
+				</field>
+					
+				<field name="tile_textpanel_always_on" 
+					type="boolean"
+					default="false" 
+					label="&amp;nbsp; Tile Text Panel Always On"
+					description="Set tile text panel always visible"></field>
+				
+				<field name="tile_textpanel_appear_type" 
+					type="list"
+					default="slide" 
+					label="&amp;nbsp; Tile Text Panel Appear Type"
+					description="The appear type of the text panel">  
+						<option value="slide" text="Slide"></option>
+						<option value="fade" text="Fade"></option>
+				</field>
+				
+				<field type="control" 
+					parent="tile_textpanel_always_on"
+					ctype="enable" 
+					child="tile_textpanel_appear_type"
+					value="false" />
+				
+				
+			<field type="bulk_control_end"/>
+
+						
+		
+		</fieldset>
+
+</fields>

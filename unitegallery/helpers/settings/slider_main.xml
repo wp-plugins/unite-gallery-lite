@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+
+	<fieldset name="slider" label="Slider Area" icon="eg-icon-cog-alt">
+
+		<field name="slider_scale_mode" type="list" default="fill"
+			label="Scale Mode"
+			description="&lt;b&gt;Fill&lt;/b&gt;: scale down and up the image to always fit the slider. &lt;br&gt;&lt;br&gt; &lt;b&gt;Down&lt;/b&gt;: scale down only, smaller images will be shown, don't enlarge images (scale up). &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: fill the entire slider space by scaling, cropping and centering the image.">
+			<option value="fit" text="Fit"></option>
+			<option value="down" text="Down"></option>
+			<option value="fill" text="Fill"></option>
+		</field>
+
+		<field name="slider_scale_mode_media" type="list" default="fill"
+			label="Scale Mode For Media Items"
+			description="Scale mode for slider images that related to media items. &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: scale down and up the image to always fit the slider. &lt;br&gt;&lt;br&gt; &lt;b&gt;Down&lt;/b&gt;: scale down only, smaller images will be shown, don't enlarge images (scale up). &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: fill the entire slider space by scaling, cropping and centering the image.">
+			<option value="fit" text="Fit"></option>
+			<option value="down" text="Down"></option>
+			<option value="fill" text="Fill"></option>
+		</field>
+
+		<field name="slider_scale_mode_fullscreen" type="list" default="down"
+			label="Scale Mode For Fullscreen"
+			description="Scale mode for fullscreen mode &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: scale down and up the image to always fit the slider. &lt;br&gt;&lt;br&gt; &lt;b&gt;Down&lt;/b&gt;: scale down only, smaller images will be shown, don't enlarge images (scale up). &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: fill the entire slider space by scaling, cropping and centering the image.">
+			<option value="fit" text="Fit"></option>
+			<option value="down" text="Down"></option>
+			<option value="fill" text="Fill"></option>
+		</field>
+
+		<field type="hr"></field>
+
+		<field name="slider_controls_always_on" type="boolean" default="true"
+			label="Controls Always On"
+			description="Set on slider controls (arrows, bullets, zoom panel) always on, if no - show only on mouseover">
+		</field>
+
+		<field type="bulk_control_start" parent="slider_controls_always_on"
+			ctype="enable" value="false" />
+
+		<field name="slider_controls_appear_duration" type="text"
+			default="300" label="Controls Appear Duration" unit="ms"
+			description="the duration of appearing controls">
+		</field>
+
+		<field name="slider_controls_appear_ontap" type="boolean"
+			default="true" label="Controls Appear On Tap" description="appear controls on tap event on touch devices">
+		</field>
+
+		<field type="bulk_control_end" />
+
+		<field name="edit_slider_padding" type="boolean" default="false"
+			label="Edit Slider Area Padding" description="Check yes if you want to edit slider area padding.">
+		</field>
+
+		<field type="bulk_control_start" parent="edit_slider_padding"
+			ctype="show" value="true" />
+
+		<field name="slider_item_padding_top" type="text" default="0"
+			label="&amp;nbsp; Slider Padding Top" unit="px"
+			description="padding top of the slider item">
+		</field>
+
+		<field name="slider_item_padding_bottom" type="text" default="0"
+			label="&amp;nbsp; Slider Padding Bottom" unit="px"
+			description="padding bottom of the slider item">
+		</field>
+
+		<field name="slider_item_padding_left" type="text" default="0"
+			label="&amp;nbsp; Slider Padding Left" unit="px"
+			description="padding left of the slider item">
+		</field>
+
+		<field name="slider_item_padding_right" type="text" default="0"
+			label="&amp;nbsp; Slider Padding Right" unit="px"
+			description="padding right of the slider item">
+		</field>
+
+		<field type="bulk_control_end"></field>
+
+		<field type="hr"></field>
+
+		<field name="slider_transition" type="list" default="slide"
+			label="Slides Change Transition" description="the transition of the slide change">
+			<option value="slide" text="Slide"></option>
+			<option value="fade" text="Fade"></option>
+		</field>
+
+		<field name="slider_transition_speed" type="text" default="300"
+			label="Transition Duration" unit="ms"
+			description="transition duration of slide change">
+		</field>
+
+		<field name="slider_transition_easing" type="list" default="easeInOutQuad"
+			label="Transition Easing Function" description="transition easing function of slide change">
+		</field>
+
+		<field type="hr"></field>
+
+		<field name="slider_control_swipe" type="boolean" default="true"
+			label="Enable Swipe Control" description="enable swiping control on touch devices and using the mouse">
+		</field>
+
+		<field name="slider_control_zoom" type="boolean" default="true"
+			label="Enable Image Zooming"
+			description="Enable zooming control, zoom on mouse wheel and on punch gesture on touch devices">
+		</field>
+
+		<field name="slider_zoom_max_ratio" type="text" default="6"
+			label="Zoom Max Ratio" description="Max zoom ratio. The zooming will stop after this value.">
+		</field>
+
+		<field type="control" parent="slider_control_zoom" ctype="enable"
+			child="slider_zoom_max_ratio" value="true" />
+	
+		<field type="hr"></field>
+		
+		<field name="slider_video_enable_closebutton" 
+			type="boolean"
+			default="true" 
+			label="Enable Video Close Button"
+			description="Enable video close button on video play on right top corner"></field>	
+		
+	</fieldset>
+
+	<fieldset name="slider_elements_bullets" label="On Slider (Loader, Arrows, Bullets)"
+		icon="eg-icon-cog-alt">
+
+
+		<field name="slider_loader_type" type="list" default="1"
+			label="Slider Loader Shape" description="shape of the loader (1-7)">
+			<option value="1" text="Shape 1"></option>
+			<option value="2" text="Shape 2"></option>
+			<option value="3" text="Shape 3"></option>
+			<option value="4" text="Shape 4"></option>
+			<option value="5" text="Shape 5"></option>
+			<option value="6" text="Shape 6"></option>
+			<option value="7" text="Shape 7"></option>
+		</field>
+
+		<field name="slider_loader_color" type="list" default="white"
+			label="Slider Loader Color" description="color of the loader: (black , white)">
+			<option value="white" text="White"></option>
+			<option value="black" text="Black"></option>
+		</field>
+
+		<field type="hr"></field>
+
+		<field name="slider_enable_bullets" type="boolean" default="false"
+			label="&lt;b&gt;Show Bullets&lt;/b&gt;" description="show the bullets onslider element">
+		</field>
+
+		<field type="bulk_control_start" parent="slider_enable_bullets"
+			ctype="show" value="true" />
+
+		<field name="slider_bullets_skin" type="list" default=""
+			label="&amp;nbsp; Bullets Skin" description="skin of the bullets, if empty inherit from gallery skin">
+		</field>
+
+		<field name="slider_bullets_space_between" type="text" default="-1"
+			label="&amp;nbsp; Space Between Bullets"
+			description="set the space between bullets. If -1 then will be set default space from the skins">
+		</field>
+
+		<field name="slider_bullets_align_hor" type="list" default="center"
+			label="&amp;nbsp; Bullets Horizontal Align" description="bullets horizontal align">
+		</field>
+
+		<field name="slider_bullets_align_vert" type="list" default="bottom"
+			label="&amp;nbsp; Bullets Vertical Align" description="bullets vertical algin">
+		</field>
+
+		<field name="slider_bullets_offset_hor" type="text" default="0"
+			label="&amp;nbsp; Bullets Horizontal Offset" unit="px"
+			description="bullets horizontal offset">
+		</field>
+
+		<field name="slider_bullets_offset_vert" type="text" default="10"
+			label="&amp;nbsp; Bullets Vertical Offset" unit="px"
+			description="bullets vertical offset">
+		</field>
+
+		<field type="bulk_control_end" />
+
+		<field type="hr"></field>
+
+		<field name="slider_enable_arrows" type="boolean" default="true"
+			label="&lt;b&gt;Show Slider Arrows&lt;/b&gt;" description="show the arrows onslider element">
+		</field>
+
+		<field type="bulk_control_start" parent="slider_enable_arrows"
+			ctype="show" value="true" />
+
+		<field name="slider_arrows_skin" type="list" default=""
+			label="&amp;nbsp; Slider Arrows Skin" description="skin of the slider arrows, if empty inherit from gallery skin">
+		</field>
+
+		<field name="slider_arrow_left_align_hor" type="list" default="left"
+			label="&amp;nbsp; Left Arrow Horizontal Align" description="left arrow horizontal align">
+		</field>
+
+		<field name="slider_arrow_left_align_vert" type="list" default="middle"
+			label="&amp;nbsp; Left Arrow Vertical Align" description="left arrow vertical algin">
+		</field>
+
+		<field name="slider_arrow_left_offset_hor" type="text" default="20"
+			label="&amp;nbsp; Left Arrow Horizontal Offset" unit="px"
+			description="left arrow horizontal offset">
+		</field>
+
+		<field name="slider_arrow_left_offset_vert" type="text" default="0"
+			label="&amp;nbsp; Left Arrow Vertical Offset" unit="px"
+			description="left arrow vertical offset">
+		</field>
+
+		<field name="slider_arrow_right_align_hor" type="list" default="right"
+			label="&amp;nbsp; Right Arrow Horizontal Align" description="right arrow horizontal align">
+		</field>
+
+		<field name="slider_arrow_right_align_vert" type="list" default="middle"
+			label="&amp;nbsp; Right Arrow Vertical Align" description="right arrow vertical algin">
+		</field>
+
+		<field name="slider_arrow_right_offset_hor" type="text" default="20"
+			label="&amp;nbsp; Right Arrow Horizontal Offset" unit="px"
+			description="right arrow horizontal offset">
+		</field>
+
+		<field name="slider_arrow_right_offset_vert" type="text"
+			default="0" label="&amp;nbsp; Right Arrow Vertical Offset" unit="px"
+			description="right arrow vertical offset">
+		</field>
+
+		<field type="bulk_control_end" />
+
+	</fieldset>
+
+	<fieldset name="slider_elemnents_progressbar" label="On Slider (Progress Indicator)"
+		icon="eg-icon-cog-alt">
+
+		<field name="slider_enable_progress_indicator" type="boolean"
+			default="true" label="&lt;b&gt;Show Progress Indicator&lt;/b&gt;"
+			description="enable progress indicator onslider element">
+		</field>
+
+		<field type="bulk_control_start" parent="slider_enable_progress_indicator"
+			ctype="show" value="true" />
+
+		<field name="slider_progress_indicator_type" type="list"
+			default="pie" label="&amp;nbsp; Progress Indicator Type"
+			description="Progress indicator type. if pie not supported, it will switch to bar automatically.">
+			<option value="pie" text="Pie"></option>
+			<option value="pie2" text="Pie2"></option>
+			<option value="bar" text="Bar"></option>
+		</field>
+
+		<field name="slider_progress_indicator_align_hor" type="list"
+			default="left" label="&amp;nbsp; Progress Indicator Horizontal Align"
+			description="progress indicator horizontal align">
+		</field>
+
+		<field name="slider_progress_indicator_align_vert" type="list"
+			default="top" label="&amp;nbsp; Progress Indicator Vertical Align"
+			description="progress indicator vertical algin">
+		</field>
+
+		<field name="slider_progress_indicator_offset_hor" type="text"
+			default="16" label="&amp;nbsp; Progress Indicator Horizontal Offset"
+			unit="px" description="progress indicator horizontal offset">
+		</field>
+
+		<field name="slider_progress_indicator_offset_vert" type="text"
+			default="36" label="&amp;nbsp; Progress Indicator Vertical Offset"
+			unit="px" description="progress indicator vertical offset">
+		</field>
+
+		<field type="hr"></field>
+
+		<field name="slider_progressbar_color" type="color" default="#ffffff"
+			label="Progress Bar Color" description="progress bar color">
+		</field>
+
+		<field name="slider_progressbar_opacity" type="text" default="0.6"
+			label="Progress Bar Opacity" description="progress bar opacity">
+		</field>
+
+		<field name="slider_progressbar_line_width" type="text" default="5"
+			label="Progress Bar Line Width" unit="px" description="progress bar line width">
+		</field>
+
+		<field type="hr"></field>
+
+		<field name="slider_progresspie_color1" type="color" default="#b5b5b5"
+			label="Progress Pie Color" description="the first color of the progress pie">
+		</field>
+
+		<field name="slider_progresspie_color2" type="color" default="#e5e5e5"
+			label="Progress Pie Second Color" description="progress pie second color ">
+		</field>
+
+		<field name="slider_progresspie_stroke_width" type="text"
+			default="6" label="Progress Pie Stroke Width" unit="px"
+			description="progress pie stroke width">
+		</field>
+
+		<field name="slider_progresspie_width" type="text" default="30"
+			label="Progress Pie Width" unit="px" description="progess pie width">
+		</field>
+
+		<field name="slider_progresspie_height" type="text" default="30"
+			label="Progress Pie Height" description="progress pie height">
+		</field>
+
+		<field type="bulk_control_end" />
+
+	</fieldset>
+
+	<fieldset name="onslider_buttons" label="On Slider (Buttons, Zoom Panel)"
+		icon="eg-icon-cog-alt">
+
+		<field name="slider_enable_play_button" type="boolean" default="true"
+			label="&lt;b&gt;Show Play Button&lt;/b&gt;" description="enable play / pause button onslider element">
+		</field>
+
+		<field type="bulk_control_start" parent="slider_enable_play_button"
+			ctype="show" value="true" />
+
+		<field name="slider_play_button_skin" type="list" default=""
+			label="&amp;nbsp; Play Button Skin" description="skin of the slider play button">
+		</field>
+
+		<field name="slider_play_button_align_hor" type="list" default="left"
+			label="&amp;nbsp; Play Button Horizontal Align" description="play button horizontal align">
+		</field>
+
+		<field name="slider_play_button_align_vert" type="list" default="top"
+			label="&amp;nbsp; Play Button Vertical Align" description="play button vertical algin">
+		</field>
+
+		<field name="slider_play_button_offset_hor" type="text" default="40"
+			label="&amp;nbsp; Play Button Horizontal Offset" unit="px"
+			description="play button horizontal offset">
+		</field>
+
+		<field name="slider_play_button_offset_vert" type="text"
+			default="8" label="&amp;nbsp; Play Button Vertical Offset" unit="px"
+			description="play button vertical offset">
+		</field>
+
+		<field type="bulk_control_end" />
+
+		<field type="hr" name="hr_buttons1"></field>
+
+		<field name="slider_enable_fullscreen_button" type="boolean"
+			default="true" label="&lt;b&gt;Show Fullscreen Button&lt;/b&gt;"
+			description="enable fullscreen button onslider element">
+		</field>
+
+		<field type="bulk_control_start" parent="slider_enable_fullscreen_button"
+			ctype="show" value="true" />
+
+		<field name="slider_fullscreen_button_skin" type="list" default=""
+			label="&amp;nbsp; Fullscreen Button Skin" description="skin of the slider fullscreen button">
+		</field>
+
+		<field name="slider_fullscreen_button_align_hor" type="list"
+			default="left" label="&amp;nbsp; Fullscreen Button Horizontal Align"
+			description="fullscreen button horizontal align">
+		</field>
+
+		<field name="slider_fullscreen_button_align_vert" type="list"
+			default="top" label="&amp;nbsp; Fullscreen Button Vertical Align"
+			description="fullscreen button vertical algin">
+		</field>
+
+		<field name="slider_fullscreen_button_offset_hor" type="text"
+			default="11" label="&amp;nbsp; Fullscreen Button Horizontal Offset"
+			unit="px" description="fullscreen button horizontal offset">
+		</field>
+
+		<field name="slider_fullscreen_button_offset_vert" type="text"
+			default="9" label="&amp;nbsp; Fullscreen Button Vertical Offset"
+			unit="px" description="fullscreen button vertical offset">
+		</field>
+
+		<field type="bulk_control_end" />
+
+		<field type="hr" name="hr_buttons2"></field>
+
+		<field name="slider_enable_zoom_panel" type="boolean" default="true"
+			label="&lt;b&gt;Show Zoom Panel&lt;/b&gt;" description="enable the zoom buttons, works together with zoom control.">
+		</field>
+
+		<field type="bulk_control_start" parent="slider_enable_zoom_panel"
+			ctype="show" value="true" />
+
+		<field name="slider_zoompanel_skin" type="list" default=""
+			label="&amp;nbsp; Zoom Panel Skin" description="skin of the slider zoom panel">
+		</field>
+
+		<field name="slider_zoompanel_align_hor" type="list" default="right"
+			label="&amp;nbsp; Zoom Panel Horizontal Align" description="zoom panel horizontal align">
+		</field>
+
+		<field name="slider_zoompanel_align_vert" type="list" default="top"
+			label="&amp;nbsp; Zoom Panel Vertical Align" description="zoom panel vertical algin">
+		</field>
+
+		<field name="slider_zoompanel_offset_hor" type="text" default="12"
+			label="&amp;nbsp; Zoom Panel Horizontal Offset" unit="px"
+			description="zoom panel horizontal offset">
+		</field>
+
+		<field name="slider_zoompanel_offset_vert" type="text" default="10"
+			label="&amp;nbsp; Zoom Panel Vertical Offset" unit="px"
+			description="zoom panel vertical offset">
+		</field>
+
+		<field type="bulk_control_end" />
+
+	</fieldset>
+
+
+</fields>

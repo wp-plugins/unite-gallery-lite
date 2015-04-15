@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+		<fieldset name="gallery_options" label="Gallery Options" icon="eg-icon-cog-alt">
+			
+			<field name="tile_width" 
+				type="text"
+				default="180" 
+				label="Tile Width"
+				unit="px"
+				description="Tile width, fixed width of the tile"></field>	
+			
+			<field name="tile_height" 
+				type="text"
+				default="150"
+				label="Tile Height"
+				unit="px"
+				description="Tile height. fixed height of the tile"></field>
+
+			<field type="hr"></field>
+
+			<field name="theme_gallery_padding" 
+				type="text"
+				default="0" 
+				label="Gallery Padding Sides"
+				unit="px"
+				description="The padding from the sides of the gallery"></field>
+			
+			<field name="grid_padding" 
+				type="text"
+				default="10" 
+				label="Grid Padding"
+				unit="px"
+				description="The padding of the grid. Needed for the shadow or the outline not to be cut off."></field>
+			
+			<field name="grid_space_between_cols" 
+				type="text"
+				default="20" 
+				label="Space Between Columns"
+				unit="px"
+				description="The space between grid columns"></field>
+				
+			<field name="grid_space_between_rows" 
+				type="text"
+				default="20" 
+				label="Space Between Rows"
+				unit="px"
+				description="The space between grid rows"></field>
+	
+		</fieldset>
+		
+</fields>

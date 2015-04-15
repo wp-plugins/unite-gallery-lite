@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+	<fields>
+				
+		<fieldset name="general" loadfrom="helper"></fieldset>		
+
+		<fieldset name="position" loadfrom="helper"></fieldset>
+
+		<fieldset name="slider_main" loadfrom="helper"></fieldset>
+		
+		<fieldset name="slider_textpanel" loadfrom="helper"></fieldset>
+		
+		<fieldset name="troubleshooting" loadfrom="helper"></fieldset>
+		
+	</fields>
+		

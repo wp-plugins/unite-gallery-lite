@@ -1,0 +1,15 @@
+
+.ug-gallery-wrapper{
+	xbackground-color: #D1D1D1;
+}
+
+.ug-carousel-wrapper{
+	position:absolute;
+	xbackground-color:pink;
+	overflow:hidden;
+}
+
+.ug-carousel-inner{
+	position:absolute;
+	xbackground-color:green;
+}

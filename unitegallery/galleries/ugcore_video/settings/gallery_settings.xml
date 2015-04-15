@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+	<fields>
+		
+		<fieldset name="theme_options" label="Theme Options" icon="eg-icon-cog-alt">
+						
+			<field name="theme_skin" 
+				type="list"
+				default="right-thumb" 
+				label="Choose Scroller Skin"
+				description="Choose the video gallery skin. Each one represented by css file">  
+					<option value="right-thumb" text="With Icon"></option>
+					<option value="right-no-thumb" text="Title + Description"></option>
+					<option value="right-title-only" text="Title Only"></option>
+			</field>		
+			
+			<field name="button_edit_css" 
+				type="button"
+				default="Edit Skin Css" 
+				label="&amp;nbsp;"
+				description="">  
+			</field>
+			
+			<field name="theme_autoplay" 
+				type="boolean"
+				default="false" 
+				label="Autoplay Always"
+				description="Always autoplay video at start and at select">	
+			</field>
+			
+		</fieldset>
+
+		<fieldset name="position" loadfrom="helper"></fieldset>
+		
+		<fieldset name="troubleshooting" loadfrom="helper"></fieldset>
+		
+	</fields>
+		

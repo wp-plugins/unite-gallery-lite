@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+	<fields>
+		
+		<fieldset name="gallery_options" loadfrom="current" />
+	
+		<fieldset name="grid_navigation" label="Grid Navigation" icon="eg-icon-cog-alt">
+	
+			<field name="custom_enable_navigation" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Enable Navigation&lt;/b&gt;"
+				description="Enable navigation. If enabled, the navigation will be appeared after the grid exceeds the given rows"></field>
+			
+			<field name="grid_num_rows" 
+				type="text"
+				default="3" 
+				label="&amp;nbsp; Number Of Rows"
+				unit="px"
+				description="Num of the rows of the grid. If more rows required by number of tiles and the gallery given width, add more panes and grid navigation"></field>
+
+			<field type="hr"></field>
+			
+
+			<field name="theme_navigation_type" 
+				type="list"
+				default="bullets" 
+				label="&lt;b&gt;Navigation Type&lt;/b&gt;"
+				description="Navigation type. Arrows or bullets">  
+					<option value="bullets" text="Bullets"></option>
+					<option value="arrows" text="Arrows"></option>
+			</field>
+			
+			<field type="bulk_control_start" 
+				parent="theme_navigation_type"
+				ctype="show" 
+				value="arrows" />
+			
+				<field name="theme_arrows_margin_top" 
+					type="text"
+					default="20"
+					label="&amp;nbsp; Arrows Margin Top"
+					unit="px"
+					description="The margin top of the arrows, vertical sapce between the arrows and the grid"></field>
+				
+				<field name="theme_space_between_arrows" 
+					type="text"
+					default="5" 
+					label="&amp;nbsp; Space Between Arrows"
+					unit="px"
+					description="The space between arrows"></field>
+			
+			<field type="bulk_control_end"/>
+			
+			<field type="bulk_control_start" 
+				parent="theme_navigation_type"
+				ctype="show" 
+				value="bullets" />
+			
+			<field name="theme_bullets_color" 
+				type="list"
+				default="gray" 
+				label="&amp;nbsp; Bullets Color"
+				description="Choose the color set of the bullets. Each set loads different images.">  
+					<option value="gray" text="Gray"></option>
+					<option value="blue" text="Blue"></option>
+					<option value="brown" text="Brown"></option>
+					<option value="green" text="Green"></option>
+					<option value="red" text="Red"></option>
+			</field>
+							
+			<field name="bullets_space_between" 
+				type="text"
+				default="12"
+				label="&amp;nbsp; Space Between Bullets"
+				unit="px"
+				description="Space between bullets"></field>
+			
+			<field name="theme_bullets_margin_top" 
+				type="text"
+				default="40" 
+				label="&amp;nbsp; Bullets Margin Top"
+				unit="px"
+				description="The margin top of the bullets. vertical sapce between the arrows and the grid"></field>
+		
+			<field type="bulk_control_end"/>
+
+			<field type="control" 
+				parent="custom_enable_navigation"
+				ctype="enable" 
+				child="grid_num_rows, theme_navigation_type, theme_arrows_margin_top, theme_space_between_arrows, theme_bullets_color, bullets_space_between, theme_bullets_margin_top"
+				value="true"
+				/>
+			
+		</fieldset>
+		
+		<fieldset name="position" loadfrom="helper"></fieldset>
+		
+		<fieldset name="tiles_design" loadfrom="helper"></fieldset>
+
+		<fieldset name="tiles_textpanel" loadfrom="helper"></fieldset>
+		
+		<fieldset name="lightbox" loadfrom="helper"></fieldset>
+			
+		<fieldset name="troubleshooting" loadfrom="helper"></fieldset>
+		
+	</fields>
+		

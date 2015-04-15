@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+
+			<fieldset name="position" label="Position" icon="eg-icon-resize-full-alt">
+				<field name="position" type="list" default="center" label="Position on the page" description="The position of the slider on the page, &lt;br&gt; default - no styles added, &lt;br&gt; float:left, float:right, margin:0px auto;">
+					<option value="default" text="Default" />
+					<option value="left" text="Float Left" />
+					<option value="center" text="Center" />
+					<option value="right" text="Float Right" />
+				</field>
+				<field name="margin_top" type="text" label="Margin Top" default="0" unit="px" datatype="number" description="The top margin of the slider wrapper div" />
+				<field name="margin_bottom" type="text" label="Margin Bottom" default="0" unit="px" datatype="number" description="The bottom margin of the slider wrapper div" />
+				<field name="margin_left" type="text" label="Margin Left" default="0" unit="px" datatype="number" description="The left margin of the slider wrapper div" />
+				<field name="margin_right" type="text" label="Margin Right" default="0" unit="px" datatype="number" description="The right margin of the slider wrapper div" />
+				<field type="control" ctype="disable" parent="position" child="margin_left" value="center" />
+				<field type="control" ctype="disable" parent="position" child="margin_right" value="center" />
+			</fieldset>
+
+
+</fields>

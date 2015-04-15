@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+	<fields>
+		
+		<fieldset name="theme_options" label="Theme Options" icon="eg-icon-cog-alt">
+			
+			<field name="theme_panel_position" 
+				type="list"
+				default="bottom" 
+				label="Thumbs Panel Position"
+				description="The position of the thumbs panel">
+					<option value="bottom" text="Bottom"></option>
+					<option value="top" text="Top"></option>
+					<option value="left" text="Left"></option>
+					<option value="right" text="Right"></option>
+			</field>
+			
+			<field name="theme_button_set_defaults" 
+				type="button"
+				default="Set Defaults" 
+				label="Set Thumbs Panel Defaults"
+				description="Set the position defalut settings"
+				addtext="&lt;span class='loader_text' id='theme_button_set_defaults_loader' style='display:none'&gt;updating...&lt;/span&gt;">
+			</field>			
+			
+			<field name="theme_hide_panel_under_width" 
+				type="text"
+				default="480" 
+				label="Hide Panel Under Width"
+				unit="px"
+				description="hide panel under certain browser width, if 0, don't hide">
+			</field>
+			
+			
+		</fieldset>
+		
+		<fieldset name="general" loadfrom="helper"></fieldset>
+		<fieldset name="position" loadfrom="helper"></fieldset>
+				
+		<fieldset name="strip_panel" loadfrom="helper"></fieldset>
+		
+		<fieldset name="thumbnail" loadfrom="helper"></fieldset>
+					
+		<fieldset name="slider_main" loadfrom="helper"></fieldset>
+		
+		<fieldset name="slider_textpanel" loadfrom="helper"></fieldset>
+		
+		<!-- 
+			<fieldset name="grid_panel" loadfrom="helper"></fieldset>
+		-->
+		
+		<fieldset name="troubleshooting" loadfrom="helper"></fieldset>
+		
+	</fields>
+		

@@ -1,0 +1,218 @@
+version 1.3.2 b3
+
+-change: changed jquery-ui include to enqueue-script
+-change: changed all the scripts in the templates to wordpress way
+
+version 1.3.2 b2
+
+-change: changed to fancybox1 (was fancybox2)
+-change: removed all external jquery from the plugin, changed the jquery include to built in wordpress jquery include
+-change: removed all hard coded wordpress related variables, all the values now taken from wordpress functions.
+
+version 1.3.2 b1
+
+-feature: added "update plugin" button
+
+version 1.3.2
+
+-bug fix: fixed the flickering when close compact lightbox with view playing.
+-bug fix: fixed bug with text panel not always on on themes.
+
+
+version 1.3.1
+
+-feature: added option to disable close video button
+-bug fix: text panel was not show on carousel cloned items
+-bug fix: fixed issue with one item only on carousel
+
+version 1.3
+
+-feature: added "compact" lightbox type
+-bug fix: fixed youtube thumbnail output
+
+version 1.2.16 b2
+
+-bug fix: fixed the appearance of radio button in chrome browser
+
+version 1.2.16 b1
+
+-bug fix: show the captions that has been hidden from previous update
+
+version 1.2.16
+
+-bug fix: fixed the responsivness of regular themes.
+
+version 1.2.15
+
+-bug fix: fixed hide preloader on tiles theme
+-bug fix: fixed empty image was trying to load
+
+version 1.2.14 b1
+
+-bug fix: fixed text overflowing in video gallery
+-change: changed php output method, removed ob_start()
+
+version 1.2.14
+
+-feature: added close lightbox on escaape key
+
+version 1.2.13
+
+-feature: Make option to set the strip panel color as transparent
+
+-bug fix: make all the themes work within tabs
+-bug fix: fixed grid and compact themes default settings
+
+version 1.2.12
+
+-bug fix: make the gallery to work within tabs
+
+version 1.2.11 b1
+
+-bug fix: fixed items view compatability to some themes.
+
+version 1.2.11
+
+-bug fix: added clickable function for carousel and tiles grid mode for mobile and tablet
+
+version 1.2.10
+
+-bug fix: adopted tiles clickable functions for mobile and tablet
+
+version 1.2.9
+
+-bug fix: fixed lightbox text align
+
+version 1.2.8 b3
+
+-bug fix: fixed gallery background color
+
+version 1.2.8 b2
+
+-bug fix: fixed disable progress indicator option
+
+version 1.2.8 b1
+
+-bug fix: fixed a bug with thumb sizes on video items
+
+version 1.2.8
+
+-feature: added tile text panel source (title, description) option
+
+version 1.2.7
+
+- feature: added option to disable lightbox
+
+version 1.2.6
+
+- bug fix: fixed some bug with lightbox text cut off
+
+version 1.2.4 b1
+
+- added thumbs resolution options
+
+version 1.2.4
+
+- bug fix: fixed destorted images on some of the themes like avada
+
+version 1.2.3
+
+-feature: added lightbox additional options including lightbox slider options
+-bug fix: fixed admin color chooser position
+
+version 1.2.2 b1
+
+-feature: add wordpress gallery shortcode output like [gallery unitegallery="gallery1" ids="1,2,3"] 
+-feature: added tile image size options
+
+-change: add usage text in galleries view
+
+-bug fix: fixed widget output
+
+version 1.2.2
+
+-bug fix: fixed lightbox text padding on mobiles
+
+version 1.2.1
+
+-bug fix: fixed touch capabilities of the tiles
+
+version 1.2 b1
+
+- bug fix: fixed lightbox text panel with multiple lines bug
+
+version 1.2
+
+- addition: added tile columns gallery!
+- addition: added tile justified gallery!
+- addition: added tile grid gallery!
+- addition: added carousel gallery!
+
+version 1.1.4 b1
+
+-bug fix: fixed some js file include in grid theme
+
+version 1.1.4
+
+-feature: added API to output
+-feature: improved troubleshoting options
+-feature: added error message to gallery output
+
+version 1.1.3 - 5/12/14
+
+-addition: added video gallery!
+-change: the alias is validated now
+
+version 1.1.2 - 29/11/14
+
+- bug fix: when controls not alwqays on, don't show progress bar
+- bug fix: fixed fullscreen on ie11
+
+
+version 1.1.1 - 20/11/14
+
+-feature: added plugin for ease inserting the gallery into the content
+-feature: added basic permission for the component
+
+-change: edit category in items view now show gallery id
+
+version 1.1
+
+-feature: added video support. youtube / vimeo / html5 video, wistia videos are supported now.
+-feature: enable link adding link to description end from now
+
+-bug fix: fixed html entitles in description output
+-bug fix: fixed various visual bugs
+
+version 1.0.6
+
+-bug fix: fixed module category select
+
+version 1.0.5
+
+-bug fix: fixed two galleries in one page bug
+-bug fix: fixed js error on joomla 2.5 in admin pages
+-bug fix: fixed responsive functionality
+
+version 1.0.4
+
+-bug fix: disabled mootools on admin pages to avoid compatability bugs
+
+version 1.0.3
+
+-feature: added category select in the module
+-bug fix: fixed avia control strip navigation
+-bug fix: fixed items selection in chrome
+-change: upgraded jquery to 1.11.1, added jquery map file.
+-change: removed unused admin elements, reduced plugin size
+
+version 1.0.2
+
+-bug fix: removed error_reporting(0) from the lfinder
+
+version 1.0.1
+
+-change: added index.html to all the folder
+-change: changed php headers
+
+version 1.0

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+
+		<fieldset name="grid_panel" label="Grid Thumbs Panel" icon="eg-icon-cog-alt">
+		
+			<field name="grid_num_cols" 
+				type="text"
+				default="2" 
+				label="Number Of Columns"
+				description="number of grid columns">  
+			</field>
+			
+			<field name="grid_space_between_cols" 
+				type="text"
+				default="10" 
+				label="Space Between Columns"
+				unit="px"
+				description="the space between columns">
+			</field>
+			
+			<field name="grid_space_between_rows" 
+				type="text"
+				default="10" 
+				label="Space Between Rows"
+				unit="px"
+				description="the space between rows">
+			</field>
+		
+			<field name="gridpanel_vertical_scroll" 
+				type="list"
+				default="true" 
+				label="Scroll Type"
+				description="select grid scroll type (direction) - for right, left panels only">  
+					<option value="true" text="Vertical"></option>
+					<option value="false" text="Horizontal"></option>
+			</field>
+			
+			<field name="gridpanel_grid_align" 
+				type="list"
+				default="middle" 
+				label="Grid Panel Align"
+				description="the align of the thumbnails grid inside the panel"/>  
+			
+			<field name="grid_carousel" 
+				type="boolean"
+				default="false" 
+				label="Grid Carousel"
+				description="next pane goes to first when last">	
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="gridpanel_background_color" 
+				type="color"
+				default="" 
+				label="Grid Panel Background Color"
+				description="background color of the grid wrapper, if not set, it will be taken from the css">  
+			</field>
+			
+			<field type="hr"></field>			
+			
+			
+			<field name="gridpanel_padding_border_top" 
+				type="text"
+				default="10" 
+				label="Grid Panel Padding Top"
+				unit="px"
+				description="padding between the top border of the panel">
+			</field>
+			
+			<field name="gridpanel_padding_border_bottom" 
+				type="text"
+				default="4" 
+				label="Grid Panel Padding Bottom"
+				unit="px"
+				description="padding between the bottom border of the panel">
+			</field>
+			
+			<field name="gridpanel_padding_border_left" 
+				type="text"
+				default="10" 
+				label="Grid Panel Padding Left"
+				unit="px"
+				description="padding between the left border of the panel">
+			</field>
+			
+			<field name="gridpanel_padding_border_right" 
+				type="text"
+				default="10" 
+				label="Grid Panel Padding Right"
+				unit="px"
+				description="padding between the right border of the panel">
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="gridpanel_arrows_skin" 
+				type="list"
+				default="" 
+				label="Grid Panel Arrows Skin"
+				description="skin of the arrows"/>  
+			
+			<field name="gridpanel_arrows_align_vert" 
+				type="list"
+				default="middle" 
+				label="Grid Panel Arrows Vertical Align"
+				description="vertical align of arrows, to the top and bottom botders, to the grid, or in the middle space.">
+					<option value="middle" text="Middle"></option>
+					<option value="borders" text="Borders"></option>			
+					<option value="grid" text="Grid"></option>			
+			</field>  
+			
+			<field name="gridpanel_arrows_padding_vert" 
+				type="text"
+				default="4" 
+				label="Grid Panel Arrows Vertical Padding"
+				unit="px"
+				description="padding between the arrows and the grid, in case of middle align, it will be minimal padding">
+			</field>
+
+			<field name="gridpanel_arrows_align_hor" 
+				type="list"
+				default="center" 
+				label="Grid Panel Arrows Horizontal Align"
+				description="borders, grid, center - horizontal align of arrows, to the left and right botders, to the grid, or in the center space.">
+					<option value="center" text="Center"></option>
+					<option value="borders" text="Borders"></option>
+					<option value="grid" text="Grid"></option>			
+			</field>  
+		
+			<field name="gridpanel_arrows_padding_hor" 
+				type="text"
+				default="10" 
+				label="Grid Panel Arrows Horizontal Padding"
+				unit="px"
+				description="minimal size from the grid in case of 'borders' and size from the grid in case of 'grid'">
+			</field>
+
+			<field name="gridpanel_space_between_arrows" 
+				type="text"
+				default="20" 
+				label="Grid Panel Space Between Arrows"
+				unit="px"
+				description="space between arrows on left / right panel positions and horizontal grids only">
+			</field>
+			
+			<field name="gridpanel_arrows_always_on" 
+				type="boolean"
+				default="false" 
+				label="Grid Panel Arrows Always On"
+				description="always show arrows even if the grid is one pane only">	
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="gridpanel_enable_handle" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Grid Panel Show Close Handle&lt;/b&gt;"
+				description="enable grid close handle">	
+			</field>
+			
+			<field type="bulk_control_start" 
+				parent="gridpanel_enable_handle"
+				ctype="show" 
+				value="true"
+				/>
+				
+			<field name="gridpanel_handle_align" 
+				type="list"
+				default="top" 
+				label="&amp;nbsp; Grid Panel Handle Align"
+				description="close handle tip align on the handle bar according panel orientation"/>  
+				
+			<field name="gridpanel_handle_offset" 
+				type="text"
+				default="0" 
+				label="&amp;nbsp; Grid Panel Handle Offset"
+				unit="px"
+				description="offset of handle bar according the align">
+			</field>
+			
+			<field name="gridpanel_handle_skin" 
+				type="list"
+				default="" 
+				label="&amp;nbsp; Grid Panel Handle Skin"
+				description="skin of the handle, if empty inherit from gallery skin"/>  
+				
+			<field type="bulk_control_end"/>
+			
+			<field type="hr"></field>
+						
+			<field name="grid_transition_duration" 
+				type="text"
+				default="300" 
+				label="Grid Transition Duration"
+				unit="ms"
+				description="transition of the panes change duration">
+			</field>
+			
+			<field name="grid_transition_easing" 
+				type="list"
+				default="easeInOutQuad" 
+				label="Grid Transition Easing"
+				description="transition of the panes change easing function"/>  
+							
+		</fieldset>
+
+</fields>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<config>
+
+	<general>
+		<name>ug-video</name>
+		<title>Video Gallery</title>
+		<published>true</published>
+		<items_type>video</items_type>
+	</general>
+	
+</config>

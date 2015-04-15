@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+
+		<fieldset name="lightbox" label="Lightbox" icon="eg-icon-cog-alt">
+			
+			<field name="lightbox_type" 
+				type="list"
+				default="wide" 
+				label="&lt;b&gt;Lightbox Type&lt;/b&gt;"
+				description="Choose a lightbox type, wide or compact">  
+					<option value="wide" text="Wide"></option>
+					<option value="compact" text="Compact"></option>
+			</field>
+
+			<field type="hr"></field>
+				
+			<field name="lightbox_hide_arrows_onvideoplay" 
+				type="boolean"
+				default="true" 
+				label="Hide Arrows On Video Play"
+				description="Hide arrows on video play"></field>
+			
+			<field name="lightbox_slider_control_zoom" 
+				type="boolean"
+				default="true" 
+				label="Enable Slider Zooming"
+				description="Enable mouse wheel and pinch zooming of the lightbox slider">	
+			</field>
+						
+			<field type="hr"></field>
+			
+						
+		</fieldset>
+	
+		<fieldset name="lightbox_wide_design" label="Lightbox Wide Design" icon="eg-icon-cog-alt">
+
+			<field name="lightbox_overlay_opacity" 
+				type="text"
+				default="1" 
+				label="Lightbox Overlay Opacity"
+				description="The opacity of the lightbox overlay. Values (0-1)">
+			</field>
+			
+			<field name="lightbox_overlay_color" 
+				type="color"
+				default="#000000" 
+				label="Lightbox Overlay Color"
+				description="The color of the lightbox overlay">  
+			</field>
+			
+			<field name="lightbox_top_panel_opacity" 
+				type="text"
+				default="0.4" 
+				label="Lightbox Top Panel Opacity"
+				description="The opacity of the top panel. Values (0-1)">  
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="lightbox_show_numbers" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Show Item Numbers&lt;/b&gt;"
+				description="Show number of items and total items at the left top">	
+			</field>
+			
+			<field type="bulk_control_start" 
+				parent="lightbox_show_numbers"
+				ctype="show" 
+				value="true"
+			/>
+				
+				<field name="lightbox_numbers_size" 
+					type="text"
+					default="14" 
+					label="&amp;nbsp; Lightbox Numbers Size"
+					unit="px"
+					description="The size of the numbers text">
+				</field>
+				
+				<field name="lightbox_numbers_color" 
+					type="color"
+					default="#e5e5e5" 
+					label="&amp;nbsp; Lightbox Numbers Color"
+					description="The color of the numbers.">  
+				</field>
+			
+			<field type="bulk_control_end"/>
+			
+			<field type="hr"></field>
+			
+			<field name="lightbox_show_textpanel" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Show Text Panel&lt;/b&gt;"
+				description="Show lightbox text panel at the top center"></field>
+			
+			<field type="bulk_control_start" 
+				parent="lightbox_show_textpanel"
+				ctype="show" 
+				value="true"
+				/>
+				
+				<field name="lightbox_textpanel_width" 
+					type="text"
+					default="550" 
+					label="&amp;nbsp; Lightbox Text Panel Width"
+					unit="px"
+					description="the width of the text panel"></field>
+	
+				<field name="lightbox_textpanel_source" 
+					type="list"
+					default="title" 
+					label="&amp;nbsp; Lightbox Text Panel Text Source"
+					description="Choose the source for the text line on the lightbox">  
+						<option value="title" text="Title"></option>
+						<option value="desc" text="Description"></option>
+				</field>				
+				
+				<field type="hr"></field>
+				
+				<field name="lightbox_textpanel_title_color" 
+					type="color"
+					default="#e5e5e5"
+					label="&amp;nbsp; Lightbox Text Panel Text Color"
+					description="text panel text color, leave empty for default">  
+				</field>
+				
+				<field name="lightbox_textpanel_title_text_align" 
+					type="list"
+					default="left" 
+					label="&amp;nbsp; Lightbox Text Panel Text Align"
+					description="text panel text color, leave empty for default">
+				</field>
+				
+				<field name="lightbox_textpanel_title_font_size" 
+					type="text"
+					default="14"
+					label="&amp;nbsp; Lightbox Text Panel Font Size"
+					description="textg panel font size, leave empty for default"></field>
+				
+				<field name="lightbox_textpanel_title_bold" 
+					type="boolean"
+					default="false" 
+					label="&amp;nbsp; Lightbox Text Panel Bold Text"
+					description="text panel bold text"></field>
+					
+			<field type="bulk_control_end"/>	
+		
+		</fieldset>
+		
+		
+		<!-- **********   Lightbox Compact Design ********** -->
+	
+		
+		<fieldset name="lightbox_compact_design" label="Lightbox Compact Design" icon="eg-icon-cog-alt">
+			
+			<field name="lightbox_compact_overlay_opacity" 
+				type="text"
+				default="0.6" 
+				label="Lightbox Overlay Opacity"
+				description="The opacity of the lightbox overlay. Values (0-1)">
+			</field>
+			
+			<field name="lightbox_compact_overlay_color" 
+				type="color"
+				default="#000000" 
+				label="Lightbox Overlay Color"
+				description="The color of the lightbox overlay">  
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="lightbox_arrows_position" 
+				type="list"
+				default="sides" 
+				label="&lt;b&gt;Lightbox Arrows Position&lt;/b&gt;"
+				description="The position of lightbox arrows. on the sides or inside the image">  
+					<option value="sides" text="On The Sides"></option>
+					<option value="inside" text="Inside The Image"></option>
+			</field>			
+			
+			<field name="lightbox_arrows_inside_alwayson" 
+				type="boolean"
+				default="false" 
+				label="Lightbox Arrows Always On"
+				description="The arrows will be always visible, or show on mouseover">	
+			</field>
+			
+			<field type="control" 
+				parent="lightbox_arrows_position"
+				ctype="enable" 
+				child="lightbox_arrows_inside_alwayson"
+				value="inside"
+			/>
+			
+			<field type="hr"></field>
+			
+			<field name="lightbox_compact_show_numbers" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Show Item Numbers&lt;/b&gt;"
+				description="Show number of items and total items at the left top">	
+			</field>
+			
+			<field type="bulk_control_start" 
+				parent="lightbox_compact_show_numbers"
+				ctype="show" 
+				value="true"
+			/>
+				
+				<field name="lightbox_compact_numbers_size" 
+					type="text"
+					default="14" 
+					label="&amp;nbsp; Lightbox Numbers Size"
+					unit="px"
+					description="The size of the numbers text">
+				</field>
+				
+				<field name="lightbox_compact_numbers_color" 
+					type="color"
+					default="#e5e5e5" 
+					label="&amp;nbsp; Lightbox Numbers Color"
+					description="The color of the numbers">  
+				</field>
+				
+				<field name="lightbox_compact_numbers_padding_top" 
+					type="text"
+					default="7" 
+					label="&amp;nbsp; Lightbox Numbers Padding Top"
+					unit="px"
+					description="The top padding of the numbers text">
+				</field>
+
+				<field name="lightbox_compact_numbers_padding_right" 
+					type="text"
+					default="5" 
+					label="&amp;nbsp; Lightbox Numbers Padding Right"
+					unit="px"
+					description="The right padding of the numbers text">
+				</field>
+				
+			<field type="bulk_control_end"/>
+			
+			<field type="hr"></field>
+			
+			<field name="lightbox_compact_show_textpanel" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Show Text Panel&lt;/b&gt;"
+				description="Show lightbox text panel at the top center"></field>
+			
+			<field type="bulk_control_start" 
+				parent="lightbox_compact_show_textpanel"
+				ctype="show" 
+				value="true"
+				/>
+				
+	
+				<field name="lightbox_compact_textpanel_source" 
+					type="list"
+					default="title" 
+					label="&amp;nbsp; Lightbox Text Panel Text Source"
+					description="Choose the source for the text line on the lightbox">  
+						<option value="title" text="Title"></option>
+						<option value="desc" text="Description"></option>
+				</field>				
+				
+				
+				<field name="lightbox_compact_textpanel_title_color" 
+					type="color"
+					default="#e5e5e5"
+					label="&amp;nbsp; Lightbox Text Panel Text Color"
+					description="text panel text color, leave empty for default">  
+				</field>
+				
+				<field name="lightbox_compact_textpanel_title_font_size" 
+					type="text"
+					default="14"
+					label="&amp;nbsp; Lightbox Text Panel Font Size"
+					description="textg panel font size, leave empty for default"></field>
+				
+				<field name="lightbox_compact_textpanel_title_bold" 
+					type="boolean"
+					default="false" 
+					label="&amp;nbsp; Lightbox Text Panel Bold Text"
+					description="text panel bold text"></field>
+
+				<field name="lightbox_compact_textpanel_padding_top" 
+					type="text"
+					default="5" 
+					label="&amp;nbsp; Lightbox Text Panel Padding Top"
+					unit="px"
+					description="The space from top of the textpanel">
+				</field>
+								
+				<field name="lightbox_compact_textpanel_padding_left" 
+					type="text"
+					default="10" 
+					label="&amp;nbsp; Lightbox Text Panel Padding Left"
+					unit="px"
+					description="The space from left of the textpanel">
+				</field>
+
+				<field name="lightbox_compact_textpanel_padding_right" 
+					type="text"
+					default="10" 
+					label="&amp;nbsp; Lightbox Text Panel Padding Right"
+					unit="px"
+					description="The space from right of the textpanel">
+				</field>
+					
+					
+			<field type="bulk_control_end"/>	
+			
+			<field type="hr"></field>
+			
+			<field name="lightbox_compact_slider_image_border" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Enable Lightbox Image Border&lt;/b&gt;"
+				description="Enable border around the image">	
+			</field>
+			
+			<field type="bulk_control_start" 
+				parent="lightbox_compact_slider_image_border"
+				ctype="show" 
+				value="true"
+				/>
+			
+				<field name="lightbox_compact_slider_image_border_width" 
+					type="text"
+					default="10" 
+					label="&amp;nbsp; Lightbox Image Border Width"
+					unit="px"
+					description="Lightbox image border width">
+				</field>
+				
+				<field name="lightbox_compact_slider_image_border_color" 
+					type="color"
+					default="#ffffff" 
+					label="&amp;nbsp; Lightbox Image Border Color"
+					description="Lightbox image border color">  
+				</field>
+				
+				<field name="lightbox_compact_slider_image_border_radius" 
+					type="text"
+					default="0" 
+					label="&amp;nbsp; Lightbox Image Border Radius"
+					unit="px"
+					description="Lightbox Image Border Radius">
+				</field>
+			
+			<field type="bulk_control_end"/>
+				
+			<field type="hr"></field>
+			
+			<field name="lightbox_compact_slider_image_shadow" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Enable Lightbox Image Shadow&lt;/b&gt;"
+				description="Enable shadow around lightbox image">	
+			</field>
+			
+		</fieldset>
+		
+</fields>

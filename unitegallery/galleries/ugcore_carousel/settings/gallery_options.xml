@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+		
+		<fieldset name="general_options" label="General Options" icon="eg-icon-cog-alt">
+			
+			<field name="tile_width" 
+				type="text"
+				default="160" 
+				label="Tile Width"
+				unit="px"
+				description="Tile width, fixed width of the tile"></field>	
+			
+			<field name="tile_height" 
+				type="text"
+				default="160"
+				label="Tile Height"
+				unit="px"
+				description="Tile height. fixed height of the tile"></field>
+
+			<field type="hr"></field>
+			
+			<field name="theme_gallery_padding" 
+				type="text"
+				default="0" 
+				label="Gallery Padding Sides"
+				unit="px"
+				description="The padding from the sides of the gallery"></field>
+			
+			<field name="theme_carousel_align" 
+				type="list"
+				default="center" 
+				label="Carousel Align"
+				description="Align the carousel element in space">  
+			</field>
+			
+			<field name="theme_carousel_offset" 
+				type="text"
+				default="0" 
+				label="Carrousel Offset"
+				unit="px"
+				description="Carousel offset according the align"></field>
+		
+		</fieldset>
+</fields>

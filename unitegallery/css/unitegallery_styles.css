@@ -1,0 +1,537 @@
+
+/* ====================================== */
+/* 		debug
+/* ====================================== */
+
+
+#debug_line{
+	position:absolute;
+	width:700px;
+	height:30px;
+	border:1px solid green;
+	top:60px;
+	left:170px;
+	padding:5px;
+}
+
+#debug_side{
+	position:absolute;
+	width:300px;
+	height:400px;
+	border:1px solid red;
+	padding:5px;
+	top:60px;
+	left:800px;
+	padding:5px;
+	overflow:scroll;
+	z-index:1000;
+}
+
+/* ====================================== */
+/* 			Galleries View
+/* ====================================== */
+
+#---------------Galleries_View---------------------{}
+
+.dialog_new_gallery .inside{
+	margin-bottom:20px;
+	margin-top:20px;
+}
+
+ul.list_galleries li{
+	margin:0px;
+	padding:0px;
+}
+
+ul.list_galleries li{
+	float:left;
+	margin-top:10px;
+	margin-left:15px;
+}
+
+ul.list_galleries li a{
+	margin-bottom:2px;
+}
+
+ul.list_galleries li a:hover{
+	background-color:#D3EAFB;
+}
+
+.galleries-view-box{
+	margin-top:40px;
+	border:1px solid #e5e5e5; 
+	padding:15px; 
+	padding-left:28px; 
+	position:relative;
+	overflow:hidden;
+	background:#fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	line-height:1.6em;
+}
+
+.galleries-view-box .view-box-title{
+	font-size:16px;
+	font-weight:bold;
+	padding-bottom: 10px;
+}
+
+.galleries-view-box p{
+	margin-top:10px;
+	font-size:14px;	
+}
+
+#---------------End_Galleries_View---------------------{}
+
+/* ====================================== */
+/* 		End Galleries View
+/* ====================================== */
+
+#---------------Gallery_View---------------------{}
+
+/* ====================================== */
+/* 		Gallery View
+/* ====================================== */
+
+.update_button_wrapper{
+	float:left;
+	margin-right:10px;
+	width:110px;
+	xborder:1px solid black;
+}
+
+.update_button_wrapper div{
+	margin-top:5px;
+}
+
+#---------------End_Gallery_View---------------------{}
+
+/* ====================================== */
+/* 		End Gallery View
+/* ====================================== */
+
+
+
+#---------------Items_Page_General---------------------{}
+
+/* ====================================== */
+/* 		Items Page - General
+/* ====================================== */
+
+
+#galleryw{
+	width:100%;
+	min-width:520px;
+	position:relative;
+	margin-bottom:20px;
+}
+
+#galleryw .layout_table{
+	width:100%;
+	table-collapse:collapse;
+}
+
+#galleryw .layout_table td{
+	background-color:white;
+}
+
+
+.content_wrapper .gallery_shadow_overlay{
+	position:absolute;
+	background:black;
+	width:100%;
+	height:100%;
+	top:0px;
+	left:0px;
+	opacity:0.05;
+  	filter:alpha(opacity=5);
+}
+
+.gallery_wrapper .gallery_title{
+	font-size:16px;
+	line-height:24px;
+	padding-left:10px;
+	padding-top:5px;
+}
+
+.gallery_wrapper .gallery_buttons{
+	margin-top:10px;
+	margin-left:10px;
+	min-height:32px;
+}
+
+.gallery_wrapper .gallery_buttons a{
+	margin-right:5px;
+}
+
+.gallery_wrapper hr{
+	border:1px solid #444;
+	margin-left:2px;
+	margin-right:2px;
+	margin-top:12px;
+	margin-bottom:0px;
+}
+
+.settings_tabs
+{
+	background-color:#eee;
+	border-top:1px solid lightgray;
+	border-right:1px solid lightgray;
+}
+
+.items_wrapper .gallery_buttons .unite-button-secondary.button-disabled{
+	display:none;
+}
+
+
+#---------------End_Items_Page_General---------------------{}
+/* ====================================== */
+/* 		End Items Page - General
+/* ====================================== */
+
+#---------------Items_Page_Categories---------------------{}
+
+/* ====================================== */
+/* 		Items Page - Categories
+/* ====================================== */
+
+
+#galleryw .categories_wrapper{
+	background-color:#fff;
+	border-left:1px solid lightgray;
+}
+
+#galleryw .items_wrapper{
+	background-color:#fff;
+	position:relative;
+	overflow:hidden;
+	border-right:1px solid lightgray;
+}
+
+.categories_wrapper .cats_section{
+	height:450px;
+	background-color:#F8F8F8;
+	overflow-y:auto;
+}
+	
+.categories_wrapper .cat_list_wrapper{
+	position:relative;
+	padding-top:10px;
+	padding-left:10px;
+	padding-bottom:10px;	
+}
+	
+.categories_wrapper .list_cats{
+	margin:0px;
+	padding:0px;
+}
+
+.categories_wrapper .list_cats li{
+	margin:0px;
+	padding:5px;		
+	margin-top:10px;
+	width:162px;
+	display:block;
+	border:1px solid #BFBFBF;
+	border-radius:3px;
+	background-color:#F0F0F0;
+	width:178px;
+	height:20px;
+	color:#333333;
+	text-align:left;
+	font-weight:bold;
+	box-shadow:1px 2px 2px rgba(0,0,0,0.1);
+	box-sizing: content-box;
+}
+
+.list_cats li.item-hover{
+	background-color:#D9E6F9;
+}
+
+.list_cats li span{
+	display:block;
+	padding-left:6px;
+	padding-top:2px;
+	white-space:nowrap;
+	overflow:hidden;
+}
+
+.list_cats li.selected-item{
+	background-color:#BCD2F4;
+	border-color:#96B9EE;
+}
+
+
+.status_line{
+	clear:both;
+	width:100%;	
+	height:48px;
+	xborder:1px solid #BFBFBF;
+	background-color:#D8D8D8;
+	border-top:none;
+}
+
+.status_line .status_text{
+	display:block;
+	padding-top:7px;
+}
+
+.status_line .status_text_wrapper{
+	padding-left:10px;
+	width:220px;
+	height:30px;
+	float:left;
+}
+
+.status_line .status_operations{
+	float:left;
+	width:400px;
+	margin-left:20px;
+	padding-top:3px;
+}
+
+.status_line .status_num_selected{
+	float:left;
+	line-height:41px;
+}
+
+.item_operations_wrapper{
+	float:left;
+	margin-left:10px;
+	margin-top:4px;
+}
+
+.item_operations_wrapper select
+{
+	width:auto;
+	display:inline;
+}
+
+.item_operations_wrapper select{
+	margin-right:3px;
+}
+
+.status_loader_wrapper{
+	margin-left:10px;
+	width:16px;
+	height:16px;
+	float:left;
+	margin-top:7px;
+}
+
+.status_loader{
+	width:16px;
+	height:16px;
+	background-image:url('../images/loader-status.gif');
+}
+
+.dialog_edit_category_inner{
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+#---------------End_Items_Page_Categories---------------------{}
+
+/* ====================================== */
+/* 		End Items Page - Categories
+/* ====================================== */
+
+#---------------Items_Page_Items---------------------{}
+
+/* ====================================== */
+/* 		Items Page - Items
+/* ====================================== */
+
+#dialog_edit_item .dialog_edit_item_content{
+	margin-top:10px;
+	margin-bottom:10px;
+	min-height:360px;
+}
+
+#dialog_edit_item #dialog_edit_item_loader{
+	margin-top:10px;
+	margin-bottom:10px;
+	width:200px;
+	height:30px;
+	position:absolute;
+	top:20px;
+	left:10px;
+}
+
+
+.items_outer{
+	margin:0px;
+	padding:0px;
+	overflow-y:auto;
+	overflow-x:none;
+	background-color:#ffffff;
+}
+
+.items_list_wrapper{
+	margin:0px;
+	xbackground-color:green;
+	position:relative;
+	overflow:hidden;
+}
+
+.items_list_wrapper .items_loader{
+	padding-top:20px;
+	padding-left:10px;
+	font-size:18px;
+	padding-bottom:10px;
+}
+
+.items_list_wrapper .icon_drag{
+	width:24px;
+	height:24px;
+	background-image:url('../images/icon_drag.png');
+	z-index:1000;
+	position:absolute;
+}
+
+.items_list_wrapper .icon_notdrag{
+	width:22px;
+	height:22px;
+	background-image:url('../images/icon_notdrag.png');
+	z-index:1000;
+	position:absolute;
+}
+
+.items_wrapper .drag_indicator{
+	width:120px;
+	height:30px;
+	border:1px solid #B4B0B0;
+	background-color:rgba(255,255,255,0.85);
+	position:absolute;
+	z-index:1001;
+	text-align:center;
+	line-height:30px;
+	overflow:hidden;
+	font-size:16px;
+	color:#484646;
+	box-shadow:1px 2px 2px rgba(0,0,0,0.1);
+}
+
+.items_list_wrapper .no_items_text{
+	font-size:18px;
+	margin-top:20px;
+	margin-left:10px;
+}
+
+.list_items{
+	padding:0px;
+	margin:0px;
+}
+
+.list_items li{
+	width:130px;
+	height:100px;
+	border:1px solid #BFBFBF;
+	background-color:#F0F0F0;
+	position:absolute;
+	box-shadow:1px 2px 2px rgba(0,0,0,0.1);
+	border-radius:3px;
+	overflow:hidden;
+	box-sizing: content-box;
+}
+
+.list_items li.item-hover{
+	background-color:#D9E6F9;
+}
+
+.list_items li.item-selected{
+	xbackground-color:#BCD2F4;
+	background-color:#E2F34B;
+	border-color:#96B9EE;
+	xcursor:default;
+}
+
+.list_items li .item_title{
+	text-align:center;
+	overflow:hidden;
+	font-weight:bold;
+	padding-top:2px;
+	padding-bottom:2px;
+	white-space: nowrap;
+	margin-left:4px;
+	margin-right:4px;
+	height:14px;
+	font-family:Arial,​Helvetica,​sans-serif;
+	line-height:none;
+	color:#000000;	
+	box-sizing: content-box;
+}
+
+.list_items li.item-selected .item_title{
+	 background-color:#F6FBC7;
+}
+
+.list_items li .item_image{
+	overflow:hidden;
+	background-color:#E7E7E7;
+	margin:0px auto;
+	height:69px;
+	margin-top:4px;
+	width:122px;
+	background-size:cover;
+	background-position:center center;
+}
+
+.list_items li .item_icon{
+	position:absolute;
+	bottom:-2px;
+	right:-2px;
+	width:32px;
+	height:32px;	
+}
+
+.list_items li.item_type_youtube .item_icon{
+	background-repeat:no-repeat;
+	background-image:url('../images/icon_youtube_32.png');
+}
+
+.list_items li.item_type_vimeo .item_icon{
+	background-repeat:no-repeat;
+	background-image:url('../images/icon_vimeo_32.png');
+}
+
+.list_items li.item_type_wistia .item_icon{
+	background-repeat:no-repeat;
+	background-image:url('../images/icon_wistia_32.png');
+}
+
+
+.list_items li.item_type_html5video .item_icon{
+	background-repeat:no-repeat;
+	background-image:url('../images/icon_html5video_32.png');
+	bottom:-3px;
+	right:-3px;	
+}
+
+
+.shadow_bar{
+	position:absolute;
+	top:1px;
+	left:1px;
+	width:100%;
+	height:100%;
+	z-index:10002;
+	background-color:#ffffff;
+	opacity:0;
+  	filter:alpha(opacity=0);	
+}
+
+.select_bar{
+	border:1px solid black;
+	position:absolute;
+	z-index:10003;
+}
+
+#---------------End_Items_Page_Items---------------------{}
+
+.settings_limit_message{
+	float:left;
+	padding-top:2px;
+	padding-left:70px;
+	padding-right:5px;
+	line-height: 1.6em;
+}

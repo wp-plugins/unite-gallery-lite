@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+	<fields>
+		
+		<fieldset name="gallery_options" loadfrom="current" />
+		
+		<fieldset name="carousel_options" label="Carousel Options" icon="eg-icon-cog-alt">
+		
+			<field name="carousel_padding" 
+				type="text"
+				default="8" 
+				label="Carousel Padding"
+				unit="px"
+				description="Padding from each side of the carousel to avoid tile cut in case of shadow or outline"></field>
+			
+			<field name="carousel_space_between_tiles" 
+				type="text"
+				default="20" 
+				label="Space Between Tiles"
+				unit="px"
+				description="space between tiles"></field>
+			
+			<field type="hr"></field>
+			
+			<field name="carousel_scroll_duration" 
+				type="text"
+				default="500" 
+				label="Carousel Scroll Duration"
+				unit="ms"
+				description="The scroll duration. in milliseconds"></field>
+			
+			<field name="carousel_scroll_easing" 
+				type="list"
+				default="easeOutCubic" 
+				label="Carousel Scroll Easing"
+				description="The easing of the carousel scrool motion">  
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="carousel_autoplay" 
+				type="boolean"
+				default="true" 
+				label="Carousel Autoplay At Start"
+				description="Autoplay the carousel at start"></field>
+			
+			<field name="carousel_autoplay_timeout" 
+				type="text"
+				default="3000" 
+				label="Carousel Autoplay Timeout"
+				unit="ms"
+				description="The timeout till next scroll"></field>
+			
+			<field name="carousel_autoplay_direction" 
+				type="radio"
+				default="right" 
+				label="Carousel Autoplay Direction"
+				description="The direction that the carousel scrolls on autoplay">  
+					<option value="left" text="Left"></option>
+					<option value="right" text="Right"></option>
+			</field>
+			
+			<field name="carousel_autoplay_pause_onhover" 
+				type="boolean"
+				default="true" 
+				label="Pause Autoplay On Mouseover"
+				description="Pause carousel autoplay on mouseover"></field>
+			
+		
+		</fieldset>
+		
+		<fieldset name="carousel_navigation" label="Carousel Navigation" icon="eg-icon-cog-alt">
+			
+			<field name="theme_enable_navigation" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Enable Navigation&lt;/b&gt;"
+				description="enable carousel navigation"> </field>
+			
+			<field type="bulk_control_start" 
+				parent="theme_enable_navigation"
+				ctype="enable" 
+				value="true" />
+			
+				<field name="theme_navigation_enable_play" 
+					type="boolean"
+					default="true" 
+					label="&amp;nbsp; Enable Play Button"
+					description="enable carousel play button between the arrows"></field>
+				
+				<field name="theme_navigation_align" 
+					type="list"
+					default="center" 
+					label="&amp;nbsp; Navigation Align"
+					description="the align of the navigation relating to the tiles">  
+				</field>
+				
+				<field name="theme_navigation_offset_hor" 
+					type="text"
+					default="0" 
+					label="&amp;nbsp; Navigation Position Offset"
+					unit="px"
+					description="The position offset relating to the align. Can be negative"></field>
+				
+				<field name="theme_navigation_margin_top" 
+					type="text"
+					default="20" 
+					label="&amp;nbsp; Navigation Margin Top"
+					unit="px"
+					description="Vertical space between the carousel and the navigation"></field>
+				
+				<field name="theme_space_between_arrows" 
+					type="text"
+					default="5" 
+					label="&amp;nbsp; Space Between Arrows"
+					unit="px"
+					description="space between navigation arrows"></field>
+			
+				<field name="carousel_navigation_numtiles" 
+					type="text"
+					default="3" 
+					label="&amp;nbsp; Number Of Tiles To Scroll"
+					unit="px"
+					description="The number of tiles the carousel scrolls on navigation arrow press"></field>
+			
+			<field type="bulk_control_end"/>
+			
+			
+		</fieldset>	
+		
+		<fieldset name="position" loadfrom="helper"></fieldset>
+		
+		<fieldset name="tiles_design" loadfrom="helper"></fieldset>
+
+		<fieldset name="tiles_textpanel" loadfrom="helper"></fieldset>
+		
+		<fieldset name="lightbox" loadfrom="helper"></fieldset>
+			
+		<fieldset name="troubleshooting" loadfrom="helper"></fieldset>
+		
+	</fields>
+		

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+
+		<fieldset name="troubleshooting" label="Troubleshooting" icon="eg-icon-cog-alt">
+				
+				<field name="include_jquery" 
+					   type="boolean"
+					   default="true" 
+					   label="Include jQuery Library" 
+					   description="Add include of jquery js. If you have jquery include in other module, and you don't want to double include, choose 'No'">
+				</field>				
+
+				<field name="js_to_body" 
+					type="boolean"
+					default="false" 
+					label="Put JS Includes To Body"
+					description="Put the gallery javascript includes to body. This may help in situations when multiple jquery.js libraries are loaded.">	
+				</field>
+
+				<field name="gallery_debug_errors" 
+					type="boolean"
+					default="false" 
+					label="Debug Javascript Errors"
+					description="show error message when there is some error on the gallery area">	
+				</field>
+
+		</fieldset>
+
+
+</fields>

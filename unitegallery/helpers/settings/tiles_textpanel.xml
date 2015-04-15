@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+
+		<fieldset name="tile_textpanel" label="Tile Text Panel Options" icon="eg-icon-cog-alt">
+		
+			<field name="tile_textpanel_padding_top" 
+				type="text"
+				default="8" 
+				label="Text Panel Padding Top"
+				unit="px"
+				description="textpanel padding top">
+			</field>
+			
+			<field name="tile_textpanel_padding_bottom" 
+				type="text"
+				default="8" 
+				label="Text Panel Padding Bottom"
+				unit="px"
+				description="textpanel padding bottom">
+			</field>
+			
+			<field name="tile_textpanel_padding_left" 
+				type="text"
+				default="11" 
+				label="Text Panel Padding Left"
+				unit="px"
+				description="cut some space for text from left">
+			</field>
+			
+			<field name="tile_textpanel_padding_right" 
+				type="text"
+				default="11" 
+				label="Text Panel Padding Right"
+				unit="px"
+				description="cut some space for text from right">
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="tile_textpanel_bg_color" 
+				type="color"
+				default="#000000" 
+				label="Text Panel Background Color"
+				description="textpanel background color">  
+			</field>
+			
+			<field name="tile_textpanel_bg_opacity" 
+				type="text"
+				default="0.6" 
+				label="Text Panel Background Opacity"
+				description="text panel background opacity">
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="tile_textpanel_title_color" 
+				type="color"
+				default="#ffffff"
+				label="Text Panel Text Color"
+				description="text panel text color, leave empty for default">  
+			</field>
+			
+			<field name="tile_textpanel_title_text_align" 
+				type="list"
+				default="left" 
+				label="Text Panel Text Align"
+				description="text panel text color, leave empty for default">
+			</field>
+			
+			<field name="tile_textpanel_title_font_size" 
+				type="text"
+				default="14"
+				label="Text Panel Font Size"
+				description="textg panel font size, leave empty for default"></field>
+			
+			<field name="tile_textpanel_title_bold" 
+				type="boolean"
+				default="true" 
+				label="Text Panel Bold Text"
+				description="text panel bold text"></field>
+			
+			
+		</fieldset>
+
+
+</fields>

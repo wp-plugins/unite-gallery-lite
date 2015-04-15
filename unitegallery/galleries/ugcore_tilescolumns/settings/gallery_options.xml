@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>		
+		<fieldset name="gallery_options" label="Gallery Options" icon="eg-icon-cog-alt">
+				
+				<field name="theme_gallery_padding" 
+					type="text"
+					default="0" 
+					label="Gallery Padding Sides"
+					unit="px"
+					description="The padding from the sides of the gallery"></field>
+				
+				<field name="tiles_col_width" 
+					type="text"
+					default="250" 
+					label="Tiles Column Width"
+					unit="px"
+					description="Column width of the tiles gallery"></field>
+				
+				<field name="tiles_space_between_cols" 
+					type="text"
+					default="3" 
+					label="Space Between Columns"
+					unit="px"
+					description="Space between columns. Horizontal and vertical space"></field>
+				
+				<field name="tiles_set_initial_height" 
+					type="boolean"
+					default="true" 
+					label="Set Initial Height"
+					description="Set gallery initial estimated height before tiles are placed(in case that scrollbar don't exists, to avoid jumps)"></field>			
+				
+				<field type="hr"></field>
+				
+				<field name="theme_enable_preloader" 
+					type="boolean"
+					default="true" 
+					label="&lt;b&gt;Show Gallery Preloader&lt;/b&gt;"
+					description="show gallery preloader, to show before first tile place"></field>
+				
+				<field type="bulk_control_start" 
+					parent="theme_enable_preloader"
+					ctype="show" 
+					value="true" />
+				
+					<field name="theme_preloading_height" 
+						type="text"
+						default="200" 
+						label="&amp;nbsp; Preloading Area Height"
+						unit="px"
+						description="The height of the preloading area"></field>
+					
+					<field name="theme_preloader_vertpos" 
+						type="text"
+						default="100" 
+						label="&amp;nbsp; Preloader Circle Y Pos"
+						unit="px"
+						description="The y position of the preloading circle"></field>
+				
+				<field type="bulk_control_end"/>
+				
+				<field type="hr"></field>
+				
+				<field name="tiles_enable_transition" 
+					type="boolean"
+					default="true" 
+					label="Enable Transition"
+					description="Enable transition on width resize"></field>
+	
+					
+		</fieldset>
+		
+</fields>

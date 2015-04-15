@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+	<fields>
+		
+		<fieldset name="gallery_options" label="Gallery Options" icon="eg-icon-cog-alt">
+				
+				<field name="theme_gallery_padding" 
+					type="text"
+					default="0" 
+					label="Gallery Padding Sides"
+					unit="px"
+					description="The padding from the sides of the gallery"></field>
+				
+				<field name="tiles_justified_space_between" 
+					type="text"
+					default="3" 
+					label="Space Between Tiles"
+					unit="px"
+					description="Space between tiles. Horizontal and vertical space"></field>
+				
+				<field name="tiles_justified_row_height" 
+					type="text"
+					default="150" 
+					label="Initial Row Height"
+					unit="px"
+					description="The row height from wich the algorythm will count the final height."></field>		
+				
+				<field type="hr"></field>
+				
+				<field name="theme_enable_preloader" 
+					type="boolean"
+					default="true" 
+					label="&lt;b&gt;Show Gallery Preloader&lt;/b&gt;"
+					description="show gallery preloader, to show before first tile place"></field>
+				
+				<field type="bulk_control_start" 
+					parent="theme_enable_preloader"
+					ctype="show" 
+					value="true" />
+				
+					<field name="theme_preloading_height" 
+						type="text"
+						default="200" 
+						label="&amp;nbsp; Preloading Area Height"
+						unit="px"
+						description="The height of the preloading area"></field>
+					
+					<field name="theme_preloader_vertpos" 
+						type="text"
+						default="100" 
+						label="&amp;nbsp; Preloader Circle Y Pos"
+						unit="px"
+						description="The y position of the preloading circle"></field>
+				
+				<field type="bulk_control_end"/>
+
+				<field type="hr"></field>
+				
+				<field name="tiles_enable_transition" 
+					type="boolean"
+					default="true" 
+					label="Enable Transition"
+					description="Enable transition on width resize"></field>
+				
+		</fieldset>
+</fields>

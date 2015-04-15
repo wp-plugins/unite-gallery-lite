@@ -1,0 +1,77 @@
+@CHARSET "ISO-8859-1";
+
+.unite-view-wrapper{
+	padding-top:20px;
+	padding-right:20px;
+}
+
+table.unite_table_settings_wide input[type="text"]{
+	height:31px;
+}
+
+.unite_table_settings_wide input[type="radio"],
+.unite-view-wrapper .setting_input input[type="radio"]{
+	-webkit-appearance:radio !important;
+}
+
+/* --------- Items View ------------ */
+
+.list_items li .item_title{
+	paddibng-top:1px;
+	padding-bottom:3px;
+}
+
+/* --------- Video Dialog ------------ */
+
+.dialog-video .video-title{
+	margin-top:0px !importrant;
+	margin-bottom:1px !important;
+}
+
+.dialog-video input[type="text"]{
+	padding:3px;
+}
+
+.dialog-video .input-url-long{
+	width:419px;
+}
+
+.dialog-video .input-url{
+	width:261px;
+}
+
+.dialog-video .input-title {
+    width: 361px;
+}
+
+.dialog-video .input-description{
+	width: 363px;
+}
+
+#dv_error_message_bottom {
+    top: 438px;
+}
+
+
+.ug-update-plugin-wrapper{
+	text-align:right;
+	padding-top:10px;
+}
+
+#dialog_update_plugin .ug-update-dialog-title{
+	font-weight:bold;
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+#dialog_update_plugin  .ug-update-dialog-desc{
+	font-style:italic;
+	padding-bottom:10px;
+}
+
+#dialog_update_plugin  .ug-input-file-update{
+	width:500px;
+}
+
+
+

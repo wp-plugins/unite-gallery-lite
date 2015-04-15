@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+	<fields>
+			<fieldset name="general" label="General Settings">
+
+				<field name="ug_item_title"
+					   type="text" 
+					   default="" 
+					   label="Title" 
+					   description="Item title">
+				</field>
+				
+				<field name="ug_item_description" 
+					   type="textarea" 
+					   default="" 
+					   label="Description" 
+					   style="height:80px;"
+					   description="Item description">
+				</field>
+				
+				<field name="ug_item_enable_link"
+					   type="radio"
+					   default="false"
+					   label="Enable link"
+					   description="Enable or disable the link to the item.">
+						  <option value="true" text="On"></option>
+						  <option value="false" text="Off"></option>
+				</field>
+				
+				<field type="bulk_control_start"
+					   parent="ug_item_enable_link"
+					   ctype="enable"
+					   value="true"
+				/>
+
+				<field name="ug_item_link"
+					   type="text" 
+					   default="" 
+					   class="input-link"
+					   label="Link" 
+					   description="Item Link">
+				</field>
+				
+				<field name="ug_item_link_open_in"
+					   type="radio" 
+					   default="same" 
+					   label="Link Open In" 
+					   description="Where the link will be opened">
+						  <option value="same" text="Same Window"></option>
+						  <option value="new" text="New Window"></option>
+				</field>
+				
+				<field type="bulk_control_end"></field>				
+				
+			</fieldset>
+			
+			
+		</fields>

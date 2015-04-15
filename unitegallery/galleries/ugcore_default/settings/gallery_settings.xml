@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+	<fields>
+		
+		<fieldset name="theme_options" label="Theme Options" icon="eg-icon-cog-alt">
+						
+			<field name="theme_enable_fullscreen_button" 
+				type="boolean"
+				default="true" 
+				label="Show Fullscreen Button"
+				description="show, hide the theme fullscreen button. The position in the theme is constant">	
+			</field>
+			
+			<field name="theme_enable_play_button" 
+				type="boolean"
+				default="true" 
+				label="Show Play Button"
+				description="show, hide the theme play button. The position in the theme is constant">	
+			</field>
+			
+			<field name="theme_enable_hidepanel_button" 
+				type="boolean"
+				default="true" 
+				label="Show 'Hide Panel' Button"
+				description="show, hide the hidepanel button">	
+			</field>
+			
+			<field name="theme_enable_text_panel" 
+				type="boolean"
+				default="true" 
+				label="Show Text Panel"
+				description="enable the panel text panel">	
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="theme_hide_panel_under_width" 
+				type="text"
+				default="480" 
+				label="Hide Panel Under Width"
+				unit="px"
+				description="hide panel under certain browser width, if 0, don't hide">
+			</field>
+			
+		</fieldset>
+		
+		<fieldset name="general" loadfrom="helper"></fieldset>
+	
+		<fieldset name="position" loadfrom="helper"></fieldset>
+				
+		<fieldset name="strip_panel" loadfrom="helper"></fieldset>
+		
+		<fieldset name="thumbnail" loadfrom="helper"></fieldset>
+					
+		<fieldset name="slider_main" loadfrom="helper"></fieldset>
+		
+		<fieldset name="slider_textpanel" loadfrom="helper"></fieldset>
+		
+		<!-- 
+			<fieldset name="grid_panel" loadfrom="helper"></fieldset>
+		-->
+		
+		<fieldset name="troubleshooting" loadfrom="helper"></fieldset>
+		
+	</fields>
+		

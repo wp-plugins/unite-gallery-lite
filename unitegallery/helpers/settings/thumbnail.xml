@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+		<fieldset name="thumb_design" label="Thumbnail" icon="eg-icon-cog-alt">
+						
+			<field name="thumb_width" 
+				type="text"
+				default="88" 
+				label="Thumb Width"
+				unit="px"
+				description="thumb width">
+			</field>
+			
+			<field name="thumb_height" 
+				type="text"
+				default="50" 
+				label="Thumb Height"
+				unit="px"
+				description="thumb height">
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="thumb_border_effect" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Thumb Border Effect&lt;/b&gt;"
+				description="enable the thumbnail border effect, if the thumbnail will has border or not.">	
+			</field>
+			
+			<field type="bulk_control_start" 
+				parent="thumb_border_effect"
+				ctype="show" 
+				value="true"
+			/>
+			
+			<field name="thumb_border_width" 
+				type="text"
+				default="0" 
+				label="&amp;nbsp; Thumb Border Width"
+				unit="px"
+				description="thumb border width regular state">
+			</field>
+			
+			<field name="thumb_border_color" 
+				type="color"
+				default="#000000" 
+				label="&amp;nbsp; Thumb Border Color"
+				description="thumbnail border color regular state">  
+			</field>
+			
+			<field name="thumb_over_border_width" 
+				type="text"
+				default="0" 
+				label="&amp;nbsp; Thumb Mouseover Border Width"
+				unit="px"
+				description="thumb border width in mouseover state">
+			</field>
+			
+			<field name="thumb_over_border_color" 
+				type="color"
+				default="#d9d9d9" 
+				label="&amp;nbsp; Thumb Mouseover Border Color"
+				description="thumb border color in mouseover state">  
+			</field>
+			
+			<field name="thumb_selected_border_width" 
+				type="text"
+				default="1" 
+				label="&amp;nbsp; Thumb Selected Border Width"
+				unit="px"
+				description="thumb width in selected state">
+			</field>
+			
+			<field name="thumb_selected_border_color" 
+				type="color"
+				default="#d9d9d9" 
+				label="&amp;nbsp; Thumb Selected Border Color"
+				description="thumb border color in selected state">  
+			</field>
+			
+			<field name="thumb_round_corners_radius" 
+				type="text"
+				default="0" 
+				label="&amp;nbsp; Thumb Border Radius"
+				unit="px"
+				description="thumb border radius">
+			</field>
+			
+			<field type="bulk_control_end"/>
+			
+			<field type="hr"></field>
+			
+			<field name="thumb_color_overlay_effect" 
+				type="boolean"
+				default="true" 
+				label="&lt;b&gt;Thumb Color Overlay Effect&lt;/b&gt;"
+				description="thumb color overlay effect, release the overlay on mouseover and selected states">	
+			</field>
+			
+			<field type="bulk_control_start" 
+				parent="thumb_color_overlay_effect"
+				ctype="show" 
+				value="true"
+			/>
+			
+			<field name="thumb_overlay_color" 
+				type="color"
+				default="#000000" 
+				label="&amp;nbsp; Thumb Overlay Color"
+				description="thumb overlay color">  
+			</field>
+			
+			<field name="thumb_overlay_opacity" 
+				type="text"
+				default="0.4" 
+				label="&amp;nbsp; Thumb Overlay Opacity"
+				description="thumb overlay color opacity">  
+			</field>
+			
+			<field name="thumb_overlay_reverse" 
+				type="boolean"
+				default="false" 
+				label="&amp;nbsp; Thumb Overlay Reverse"
+				description="reverse the overlay, will be shown on selected state only">	
+			</field>
+			
+			<field type="bulk_control_end"/>
+			
+			<field type="hr"></field>
+			
+			<field name="thumb_image_overlay_effect" 
+				type="boolean"
+				default="false" 
+				label="&lt;b&gt;Thumb Image Overlay Effect&lt;/b&gt;"
+				description="images overlay effect on normal state only">	
+			</field>
+			
+			<field name="thumb_image_overlay_type" 
+				type="list"
+				default="bw" 
+				label="&amp;nbsp; Thumb Image Overlay Type"
+				description="the type of image effect overlay, black and white, sepia and blur.">  
+					<option value="bw" text="Black and White"></option>
+					<option value="blur" text="Blur"></option>
+					<option value="sepia" text="Sepia"></option>
+			</field>
+			
+			<field type="control" 
+				parent="thumb_image_overlay_effect"
+				ctype="show" 
+				child="thumb_image_overlay_type"
+				value="true"
+			/>
+			
+			<field type="hr"></field>
+			
+			<field name="thumb_transition_duration" 
+				type="text"
+				default="200" 
+				label="Thumb Transition Duration"
+				unit="ms"
+				description="thumb effect transition duration">
+			</field>
+			
+			<field name="thumb_transition_easing" 
+				type="list"
+				default="easeOutQuad" 
+				label="Thumb Transition Easing"
+				description="thumb effect transition easing"/>  
+			
+			<field type="hr"></field>	
+			
+			<field name="thumb_show_loader" 
+				type="boolean"
+				default="true" 
+				label="Thumb Show Loader"
+				description="show thumbnail loader">	
+			</field>
+			
+			<field name="thumb_loader_type" 
+				type="list"
+				default="dark" 
+				label="Thumb Loader Type"
+				description="the type of thumb loader">  
+					<option value="dark" text="Dark"></option>
+					<option value="light" text="Light"></option>
+			</field>
+			
+			
+		</fieldset>
+
+</fields>

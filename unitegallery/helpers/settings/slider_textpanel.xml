@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+
+		<fieldset name="onslider_textpanel" label="On Slider (Text Panel)" icon="eg-icon-cog-alt">
+		
+			<field name="slider_enable_text_panel" 
+				type="boolean"
+				default="true" 
+				label="Show Text Panel"
+				description="enable the text panel">	
+			</field>
+			
+			<field type="bulk_control_start" 
+				parent="slider_enable_text_panel"
+				ctype="show" 
+				value="true"
+			/>
+			
+			<field name="slider_textpanel_always_on" 
+				type="boolean"
+				default="true" 
+				label="Text Panel Always On"
+				description="text panel are always on, if no - show only on mouseover">	
+			</field>
+			
+			<field type="hr" name="hr_textpanel1"></field>
+			
+			<field name="slider_textpanel_align" 
+				type="list"
+				default="bottom"
+				label="Text Panel Align"
+				description="The align of the text panel to some side of the slider">  
+					<option value="top" text="Top"></option>
+					<option value="bottom" text="Bottom"></option>
+			</field>
+			
+			<field name="slider_textpanel_margin" 
+				type="text"
+				default="0" 
+				label="Text Panel Margin"
+				description="margin from the textpanel position according the textpanel align option">  
+			</field>
+			
+			<field name="slider_textpanel_text_valign" 
+				type="list"
+				default="middle" 
+				label="Text Vertical Align"
+				description="text vertical align">  
+			</field>
+			
+			<field name="slider_textpanel_padding_top" 
+				type="text"
+				default="10" 
+				label="Text Panel Padding Top"
+				unit="px"
+				description="textpanel padding top">
+			</field>
+			
+			<field name="slider_textpanel_padding_bottom" 
+				type="text"
+				default="10" 
+				label="Text Panel Padding Bottom"
+				unit="px"
+				description="textpanel padding bottom">
+			</field>
+			
+			<field name="slider_textpanel_height" 
+				type="text"
+				default="-1" 
+				label="Text Panel Height"
+				unit="px"
+				description="textpanel height. if it has negative value (for example -1) it will be set dynamically">
+			</field>
+			
+			<field name="slider_textpanel_padding_title_description" 
+				type="text"
+				default="5" 
+				label="Padding Between Title And Description"
+				unit="px"
+				description="padding between title and description">
+			</field>
+			
+			<field name="slider_textpanel_padding_left" 
+				type="text"
+				default="11" 
+				label="Text Panel Padding Left"
+				unit="px"
+				description="cut some space for text from left">
+			</field>
+			
+			<field name="slider_textpanel_padding_right" 
+				type="text"
+				default="11" 
+				label="Text Panel Padding Right"
+				unit="px"
+				description="cut some space for text from right">
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="slider_textpanel_fade_duration" 
+				type="text"
+				default="200" 
+				label="Text Panel Fade Duration"
+				unit="ms"
+				description="the fade duration of textpanel appear">
+			</field>
+			
+			<field name="slider_textpanel_enable_title" 
+				type="boolean"
+				default="true" 
+				label="Enable Title Text"
+				description="enable the title text">	
+			</field>
+			
+			<field name="slider_textpanel_enable_description" 
+				type="boolean"
+				default="true" 
+				label="Enable Description Text"
+				description="enable the description text">	
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="slider_textpanel_enable_bg" 
+				type="boolean"
+				default="true" 
+				label="Enable Text Panel Background"
+				description="enable the textpanel background">	
+			</field>
+			
+			<field name="slider_textpanel_bg_color" 
+				type="color"
+				default="#000000" 
+				label="Text Panel Background Color"
+				description="textpanel background color">  
+			</field>
+			
+			<field name="slider_textpanel_bg_opacity" 
+				type="text"
+				default="0.4" 
+				label="Text Panel Background Opacity"
+				description="text panel background opacity">
+			</field>
+			
+			<field name="slider_textpanel_bg_css" 
+				type="textarea"
+				default="{}" 
+				label="Background Additional CSS"
+				description="textpanel background additional css javasscript style like {'padding-left':'10px', color:'#ff000'}">  
+			</field>
+			
+			<field type="hr"></field>
+			
+			<field name="slider_textpanel_css_title" 
+				type="textarea"
+				default="{}" 
+				label="Title Additional CSS"
+				description="textpanel title additional css javasscript style like {'padding-left':'10px', color:'#ff000'}">  
+			</field>
+			
+			<field name="slider_textpanel_css_description" 
+				type="textarea"
+				default="{}" 
+				label="Description Additional CSS"
+				description="textpanel description additional css javasscript style like {'padding-left':'10px', color:'#ff000'}">  
+			</field>
+			
+			<field type="bulk_control_end"/>
+			
+		</fieldset>
+
+
+</fields>
