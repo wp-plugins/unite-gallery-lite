@@ -187,40 +187,24 @@ defined('_JEXEC') or die('Restricted access');
 				$arrJs[] = "g_settingsObj['$formID'].controls = JSON.parse(g_settingsObj['$formID'].jsonControls);";
 			}
 						
-			/*
-			//put types onready function
-			$arrTypes = $this->getArrTypes();			
-			//put script includes:
-			foreach($arrTypes as $type){
-				switch($type){
-					case UniteSettingsUG::TYPE_ORDERBOX:
-						$arrOnReady[] = "$(function() { $( '.orderbox' ).sortable();}); ";
-					break;
-					case UniteSettingsUG::TYPE_ORDERBOX_ADVANCED:
-						$arrOnReady[] = "init_advanced_orderbox();";
-					break; 				
-				}
-			}
-			*/		
-			//put js vars and onready func.
+			$strJs = "";
 			
-			echo "<script type='text/javascript'>\n";
-				
 			//put js 
 			foreach($arrJs as $line){
-				echo $line."\n";
+				$strJs .= $line."\n";
 			}
 				
 			if(!empty($arrOnReady)):
 				//put onready
-				echo "$(document).ready(function(){\n";
+				$strJs .= "$(document).ready(function(){\n";
 				foreach($arrOnReady as $line){
-					echo $line."\n";
+					$strJs .= $line."\n";
 				}				
-				echo "});";
+				$strJs .= "});";
 			endif;
-			echo "\n</script>\n";
 			
+			UniteProviderFunctionsUG::printCustomScript($strJs);
+						
 		}
 		
 		

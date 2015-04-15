@@ -25,6 +25,7 @@ class UniteProviderFunctionsUG{
 		
 		GlobalsUG::$pathPlugin = realpath($pluginFolder)."/";
 		
+				
 		GlobalsUG::$path_media_ug = GlobalsUG::$pathPlugin."unitegallery-plugin/";
 		
 		GlobalsUG::$path_base = ABSPATH;
@@ -36,7 +37,8 @@ class UniteProviderFunctionsUG{
 		
 		GlobalsUG::$path_cache = GlobalsUG::$pathPlugin."cache/";
 		
-		GlobalsUG::$urlPlugin = plugins_url($pluginName)."/";
+		GlobalsUG::$urlPlugin = plugin_dir_url( $pluginFolder."/unitegallery.php" );
+		
 		
 		GlobalsUG::$url_component_client = "";
 		GlobalsUG::$url_component_admin = admin_url()."admin.php?page=$pluginName";
