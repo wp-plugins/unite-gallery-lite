@@ -102,10 +102,19 @@
 					unit="px"
 					description="The position offset relating to the align. Can be negative"></field>
 				
-				<field name="theme_navigation_margin_top" 
+				<field name="theme_navigation_position" 
+					type="list"
+					default="bottom" 
+					label="&amp;nbsp; Navigation Vertical Position"
+					description="the vertical position of the navigation reative to the carousel">  
+						<option value="top" text="Top"></option>
+						<option value="bottom" text="Bottom"></option>
+				</field>
+				
+				<field name="theme_navigation_margin" 
 					type="text"
 					default="20" 
-					label="&amp;nbsp; Navigation Margin Top"
+					label="&amp;nbsp; Navigation Margin"
 					unit="px"
 					description="Vertical space between the carousel and the navigation"></field>
 				
@@ -120,7 +129,7 @@
 					type="text"
 					default="3" 
 					label="&amp;nbsp; Number Of Tiles To Scroll"
-					unit="px"
+					unit="tiles"
 					description="The number of tiles the carousel scrolls on navigation arrow press"></field>
 			
 			<field type="bulk_control_end"/>

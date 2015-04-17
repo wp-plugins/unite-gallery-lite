@@ -21,7 +21,7 @@ try{
 	
 	
 	/**
-	 * replace the post gallery with Unite Gallery
+	 * replace the post gallery with unite gallery
 	 */
 	function unitegallery_postgallery( $output = '', $atts, $content = false, $tag = false){
 		
@@ -72,7 +72,7 @@ try{
 	}catch(Exception $e){
 		$message = $e->getMessage();
 		$trace = $e->getTraceAsString();
-		echo "Unite Gallery Lite Error: <b>".$message."</b>";
+		echo "Unite Gallery Error: <b>".$message."</b>";
 	
 		if(GlobalsUG::SHOW_TRACE == true)
 			dmp($trace);

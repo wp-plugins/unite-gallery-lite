@@ -70,7 +70,8 @@ defined('_JEXEC') or die('Restricted access');
 			$arr[] = $this->buildJsParam("theme_navigation_enable_play", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("theme_navigation_align");
 			$arr[] = $this->buildJsParam("theme_navigation_offset_hor", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
-			$arr[] = $this->buildJsParam("theme_navigation_margin_top", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
+			$arr[] = $this->buildJsParam("theme_navigation_position");
+			$arr[] = $this->buildJsParam("theme_navigation_margin", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
 			$arr[] = $this->buildJsParam("theme_space_between_arrows", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
 			$arr[] = $this->buildJsParam("carousel_navigation_numtiles", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
 			

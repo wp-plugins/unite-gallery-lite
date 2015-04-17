@@ -1,3 +1,15 @@
+version 1.3.5
+
+-bug fix: the lightbox was closing on video slider touch
+
+version 1.3.4
+
+-feature: added mobile hide options to slider buttons and zoom panel
+
+version 1.3.3
+
+-feature: added top position navigation option in carousel view
+
 version 1.3.2
 
 -bug fix: fixed the flickering when close compact lightbox with view playing.

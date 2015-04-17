@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Unite Gallery Lite
+ * @package Unite Gallery
  * @author UniteCMS.net / Valiano
  * @copyright (C) 2012 Unite CMS, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -342,7 +342,7 @@ defined('_JEXEC') or die('Restricted access');
 				return($uniteGalleryOutput);
 				
 			}catch(Exception $e){
-				$message = "<b>Unite Gallery Lite Error:</b><br><br> ".$e->getMessage();
+				$message = "<b>Unite Gallery Error:</b><br><br> ".$e->getMessage();
 			
 				$operations = new UGOperations();
 				$operations->putModuleErrorMessage($message);

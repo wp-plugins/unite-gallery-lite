@@ -25,7 +25,6 @@ class UniteProviderFunctionsUG{
 		
 		GlobalsUG::$pathPlugin = realpath($pluginFolder)."/";
 		
-				
 		GlobalsUG::$path_media_ug = GlobalsUG::$pathPlugin."unitegallery-plugin/";
 		
 		GlobalsUG::$path_base = ABSPATH;
@@ -38,7 +37,6 @@ class UniteProviderFunctionsUG{
 		GlobalsUG::$path_cache = GlobalsUG::$pathPlugin."cache/";
 		
 		GlobalsUG::$urlPlugin = plugin_dir_url( $pluginFolder."/unitegallery.php" );
-		
 		
 		GlobalsUG::$url_component_client = "";
 		GlobalsUG::$url_component_admin = admin_url()."admin.php?page=$pluginName";
@@ -437,21 +435,21 @@ class UniteProviderFunctionsUG{
 			
 			//get product folder
 			$productFolder = $arrFolders[0];
+						
 			if(empty($productFolder))
 				UniteFunctionsUG::throwError("Wrong product folder.");
-
-			if($productFolder != GlobalsUG::PLUGIN_NAME)
-				UniteFunctionsUG::throwError("The update folder don't match the product folder, please check the update file.");
-			
+									
 			$pathUpdateProduct = $pathUpdate.$productFolder."/";
-
+						
 			//check some file in folder to validate it's the real one:
-			$checkFilepath = $pathUpdateProduct.$productFolder.".php";
+			$checkFilepath = $pathUpdateProduct."unitegallery.php";
+						
 			if(file_exists($checkFilepath) == false)
 				UniteFunctionsUG::throwError("Wrong update extracted folder. The file: ".$checkFilepath." not found.");
-			
+						
 			//copy the plugin without the captions file.
 			$pathOriginalPlugin = GlobalsUG::$pathPlugin;
+						
 			$arrBlackList = array();
 			UniteFunctionsUG::copyDir($pathUpdateProduct, $pathOriginalPlugin,"",$arrBlackList);
 			

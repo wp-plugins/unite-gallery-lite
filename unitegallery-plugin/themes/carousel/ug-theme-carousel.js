@@ -15,17 +15,18 @@ function UGTheme_carousel(){
 	var g_objNavWrapper, g_objButtonLeft, g_objButtonRight, g_objButtonPlay;
 	
 	var g_options = {
-			theme_gallery_padding: 0,			
+			theme_gallery_padding: 0,				//the padding of the gallery wrapper
 			
-			theme_carousel_align: "center",
-			theme_carousel_offset: 0,			
+			theme_carousel_align: "center",			//the align of the carousel
+			theme_carousel_offset: 0,				//the offset of the carousel from the align sides
 
 			theme_enable_navigation: true,
-			theme_navigation_enable_play: true,
-			theme_navigation_align: "center",
-			theme_navigation_offset_hor: 0,			
-			theme_navigation_margin_top: 20,
-			theme_space_between_arrows: 5
+			theme_navigation_position: "bottom",	//top,bottom: the vertical position of the navigation reative to the carousel
+			theme_navigation_enable_play: true,		//enable / disable the play button of the navigation
+			theme_navigation_align: "center",		//the align of the navigation
+			theme_navigation_offset_hor: 0,			//horizontal offset of the navigation
+			theme_navigation_margin: 20,			//the space between the carousel and the navigation
+			theme_space_between_arrows: 5			//the space between arrows in the navigation
 	};
 	
 	var g_defaults = {
@@ -134,7 +135,7 @@ function UGTheme_carousel(){
 		var height = g_carousel.getEstimatedHeight();
 		if(g_objNavWrapper){
 			var navHeight = g_objNavWrapper.height();
-			height += navHeight + g_options.theme_navigation_margin_top;
+			height += navHeight + g_options.theme_navigation_margin;
 		}
 		return(height);
 	}
@@ -180,26 +181,32 @@ function UGTheme_carousel(){
 		
 		var carouselElement = g_carousel.getElement();
 		var sizeCar = g_functions.getElementSize(carouselElement);
+		var sizeNav = g_functions.getElementSize(g_objNavWrapper);
 		
-		var galleryHeight = sizeCar.height;
-				
+		var galleryHeight = sizeCar.height + g_options.theme_navigation_margin + sizeNav.height;
+		
+		//vars for bottom nav position
+		var carouselTop = 0;
+		var navTop = sizeCar.height + g_options.theme_navigation_margin;
+		
+		//change vars for top nav position
+		if(g_options.theme_navigation_position == "top"){
+			
+			carouselTop = sizeNav.height + g_options.theme_navigation_margin;
+			navTop = 0;
+		}	
+		
 		//align the carousel
-		g_functions.placeElement(carouselElement, g_options.theme_carousel_align, 0, g_options.theme_carousel_offset, 0);
-		
+		g_functions.placeElement(carouselElement, g_options.theme_carousel_align, carouselTop, g_options.theme_carousel_offset, 0);
 		var sizeCar = g_functions.getElementSize(carouselElement);
 		
 		//position buttons
 		if(g_objNavWrapper){
-			
 			var navX = sizeCar.left + g_functions.getElementRelativePos(g_objNavWrapper, g_options.theme_navigation_align, g_options.theme_navigation_offset_hor, carouselElement);
+			g_functions.placeElement(g_objNavWrapper, navX, navTop);
 			
-			g_functions.placeElement(g_objNavWrapper, navX, galleryHeight + g_options.theme_navigation_margin_top);
-			
-			var sizeNav = g_functions.getElementSize(g_objNavWrapper);
-			
-			galleryHeight = sizeNav.bottom;
 		}
-				
+		
 		g_objWrapper.height(galleryHeight);		//temp height
 	}
 		

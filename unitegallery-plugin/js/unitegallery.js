@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.3.2, released 08 Apr 2015 
+// Unite Gallery, Version: 1.3.5, released 16 Apr 2015 
 
 
 /**
@@ -5127,6 +5127,18 @@ function UniteGalleryMain(){
 	}
 	
 	
+	/**
+	 * return if the size is suited for mobile
+	 */
+	this.isMobileMode = function(){
+		
+		if(g_objWrapper.hasClass("ug-under-480"))
+			return(true);
+		
+		return(false);
+	}
+	
+	
 	function __________END_GENERAL_______(){};
 		
 	
@@ -7166,16 +7178,20 @@ function UGLightbox(){
 	 */
 	function onSliderClick(data, event){
 		
+		var slideType = g_objSlider.getSlideType();
+		if(slideType != "image")
+			return(true);
+		
 		var isPreloading = g_objSlider.isPreloading();
 		if(isPreloading == true){
 			t.close("slider");
 			return(true);
 		}
 		
-		var isInside = g_objSlider.isMouseInsideSlideImage(event);
+		//var isInside = g_objSlider.isMouseInsideSlideImage(event);
 		
 		if(isInside == false)
-			t.close("slider");
+			t.close("slider_inside");
 	}
 	
 	
@@ -7502,12 +7518,12 @@ function UGLightbox(){
 	 * close the lightbox
 	 */
 	this.close = function(fromWhere){
-						
+				
 		g_temp.isOpened = false;
 		
 		if(g_temp.isCompact == true)
 			hideCompactElements();
-
+		
 		if(g_objSlider)
 			g_objSlider.stopSlideAction();
 		
@@ -8201,13 +8217,15 @@ function UGSlider(){
 		  slider_play_button_align_vert:"top",     		 //top, middle, bottom - play button vertical align
 		  slider_play_button_offset_hor:40,	       		 //play button horizontal offset 
 		  slider_play_button_offset_vert:8,	   			 //play button vertical offset
-
+		  slider_play_button_mobilehide:false,		 	 //hide the play button on mobile
+		  
 		  slider_enable_fullscreen_button: true,		 //true,false - enable fullscreen button onslider element
 		  slider_fullscreen_button_skin: "",			 //skin of the slider fullscreen button, if empty inherit from gallery skin
 		  slider_fullscreen_button_align_hor:"left",     //left, center, right	- fullscreen button horizonatal align
 		  slider_fullscreen_button_align_vert:"top",     //top, middle, bottom - fullscreen button vertical align
 		  slider_fullscreen_button_offset_hor:11,	     //fullscreen button horizontal offset 
 		  slider_fullscreen_button_offset_vert:9,	   	 //fullscreen button vertical offset
+		  slider_fullscreen_button_mobilehide:false,	 //hide the button on mobile
 		  
 		  slider_enable_zoom_panel: true,				 //true,false - enable the zoom buttons, works together with zoom control.
 		  slider_zoompanel_skin: "",					 //skin of the slider zoom panel, if empty inherit from gallery skin		  
@@ -8215,6 +8233,7 @@ function UGSlider(){
 		  slider_zoompanel_align_vert:"top",     	 	 //top, middle, bottom - zoom panel vertical align
 		  slider_zoompanel_offset_hor:12,	       		 //zoom panel horizontal offset 
 		  slider_zoompanel_offset_vert:92,	   			 //zoom panel vertical offset
+		  slider_zoompanel_mobilehide:false,		     //hide the zoom panel on mobile
 		  
 		  slider_controls_always_on: false,				//true,false - controls are always on, false - show only on mouseover
 		  slider_controls_appear_ontap: true,			//true,false - appear controls on tap event on touch devices
@@ -8388,6 +8407,7 @@ function UGSlider(){
 		
 		return(html);
 	}
+	
 	
 	/**
 	 * set the slider html
@@ -8593,7 +8613,10 @@ function UGSlider(){
 		//place slide elements
 		positionSlideElements(g_objSlide1);
 		positionSlideElements(g_objSlide2);
-		positionSlideElements(g_objSlide3);		
+		positionSlideElements(g_objSlide3);
+		
+		checkMobileModify();
+		
 	}
 	
 	
@@ -9105,6 +9128,54 @@ function UGSlider(){
 	
 	
 	function __________CONTROLS_OBJECT_______(){};
+	
+	/**
+	 * modify the slider for mobile
+	 */
+	function modifyForMobile(){
+		
+		if(g_options.slider_fullscreen_button_mobilehide == true && g_objButtonFullscreen)
+			g_objButtonFullscreen.hide();
+		
+		if(g_options.slider_play_button_mobilehide == true && g_objButtonPlay)
+			g_objButtonPlay.hide();
+		
+		if(g_options.slider_zoompanel_mobilehide == true && g_objZoomPanel)
+			g_objZoomPanel.getElement().hide();
+		
+	}
+	
+	
+	/**
+	 * modify for no mobile
+	 */
+	function modifyForDesctop(){
+		
+		if(g_options.slider_fullscreen_button_mobilehide == true && g_objButtonFullscreen)
+			g_objButtonFullscreen.show();
+
+		if(g_options.slider_play_button_mobilehide == true && g_objButtonPlay)
+			g_objButtonPlay.show();
+		
+		if(g_options.slider_zoompanel_mobilehide == true && g_objZoomPanel)
+			g_objZoomPanel.getElement().show();
+		
+	}
+	
+	
+	/**
+	 * check and modify for mobile or desctop
+	 */
+	function checkMobileModify(){
+		
+		var isMobile = g_gallery.isMobileMode();
+		
+		if(isMobile)
+			modifyForMobile();
+		else
+			modifyForDesctop();
+				
+	}
 	
 	
 	/**
