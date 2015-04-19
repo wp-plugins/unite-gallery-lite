@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.3.5, released 16 Apr 2015 
+// Unite Gallery, Version: 1.3.6, released 19 Apr 2015 
 
 
 /**
@@ -7188,7 +7188,7 @@ function UGLightbox(){
 			return(true);
 		}
 		
-		//var isInside = g_objSlider.isMouseInsideSlideImage(event);
+		var isInside = g_objSlider.isMouseInsideSlideImage(event);
 		
 		if(isInside == false)
 			t.close("slider_inside");
