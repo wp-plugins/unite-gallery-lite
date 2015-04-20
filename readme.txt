@@ -21,6 +21,7 @@ Yet this gallery is very powerfull, fast and has the most of nowdays must have f
 Check the gallery demo at: http://wp.unitegallery.net
 
 > #### **View Live Demos**
+>
 > * <a href="http://wp.unitegallery.net/tiles-columns/" target="_blank">Tiles - Columns</a>
 > * <a href="http://wp.unitegallery.net/tiles-justified/" target="_blank">Tiles - Justified</a>
 > * <a href="http://wp.unitegallery.net/tiles-grid/" target="_blank">Tiles - Grid</a>
@@ -30,6 +31,34 @@ Check the gallery demo at: http://wp.unitegallery.net
 > * <a href="http://wp.unitegallery.net/slider-theme/" target="_blank">Slider</a>
 > * <a href="http://wp.unitegallery.net/video-gallery/" target="_blank">Video Gallery</a>
 > * <a href="http://wp.unitegallery.net/carousel/" target="_blank">Carousel</a>
+
+= Tiles - Columns = 
+A tiles columns type gallery for best images organization and fast load. The tiles can be lined close to each other or separate.
+
+= Tiles - Justfied = 
+The justified type is the best for elegant images organizing, without any gaps and spaces from all the sides.
+
+= Tiles Grid = 
+his type is the best if you want the tiles to be same sized. In addition it can scroll through panes with bottom navigation.
+
+= Default Theme = 
+The default theme is the most popular theme. It has the text and the control buttons in one line above the thumbs strip.
+
+= Compact Theme = 
+The compact theme is a minimal theme allowing you to place the thumbnail panel anywhere you like.
+
+= Grid Theme = 
+This theme allows you to set up any amount of thumbnails in as many columns you like from all the sides.
+
+= Video Gallery = 
+The video gallery is a special theme for best video displaying, with 3 special navigation solutions on the right.
+
+= Slider = 
+The slider theme is a simple gallery with navigation bullets on the bottom to navigate between the slides.
+
+= Carousel = 
+Carousel displaying solution that allows you to show image thumbnails and open in light-box.
+
 
 == Installation ==
 
