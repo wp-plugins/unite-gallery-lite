@@ -20,6 +20,17 @@ Yet this gallery is very powerfull, fast and has the most of nowdays must have f
 
 Check the gallery demo at: http://wp.unitegallery.net
 
+> #### **View Live Demos**
+> * <a href="http://wp.unitegallery.net/tiles-columns/" target="_blank">Tiles - Columns</a>
+> * <a href="http://wp.unitegallery.net/tiles-justified/" target="_blank">Tiles - Justified</a>
+> * <a href="http://wp.unitegallery.net/tiles-grid/" target="_blank">Tiles - Grid</a>
+> * <a href="http://wp.unitegallery.net/default-theme/" target="_blank">Defaul Theme</a>
+> * <a href="http://wp.unitegallery.net/compact-theme/compact-theme-bottom-panel/" target="_blank">Compact Theme</a>
+> * <a href="http://wp.unitegallery.net/grid-theme/grid-theme-right-panel/" target="_blank">Grid Theme</a>
+> * <a href="http://wp.unitegallery.net/slider-theme/" target="_blank">Slider</a>
+> * <a href="http://wp.unitegallery.net/video-gallery/" target="_blank">Video Gallery</a>
+> * <a href="http://wp.unitegallery.net/carousel/" target="_blank">Carousel</a>
+
 == Installation ==
 
 1. Download the plugin then upload 'unitegallery' folder to the '/wp-content/plugins/'  directory
