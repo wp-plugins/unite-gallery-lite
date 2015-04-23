@@ -14,10 +14,10 @@ function UGTheme_tiles(){
 	var g_functions = new UGFunctions(), g_objTileDesign = new UGTileDesign();
 	
 	var g_options = {
-			theme_enable_preloader: true,
-			theme_preloading_height: 200,
-			theme_preloader_vertpos: 100,
-			theme_gallery_padding: 0
+			theme_enable_preloader: true,		//enable preloader circle
+			theme_preloading_height: 200,		//the height of the preloading div, it show before the gallery
+			theme_preloader_vertpos: 100,		//the vertical position of the preloader
+			theme_gallery_padding: 0			//the horizontal padding of the gallery from the sides
 	};
 	
 	var g_defaults = {

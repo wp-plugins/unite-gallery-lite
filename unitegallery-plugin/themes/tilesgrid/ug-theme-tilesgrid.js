@@ -16,16 +16,14 @@ function UGTheme_tilesgrid(){
 	
 
 	var g_options = {
-			theme_gallery_padding: 0,
+			theme_gallery_padding: 0,				//padding from sides of the gallery
 			theme_navigation_type: "bullets",		//bullets, arrows
-			theme_arrows_margin_top: 20,
-			theme_space_between_arrows: 5,
-			
-			theme_bullets_margin_top: 40,
-			
-			theme_navigation_align: "center",
-			theme_navigation_offset_hor: 0,
-			theme_bullets_color: "gray"			//gray, blue, brown, green, red
+			theme_arrows_margin_top: 20,			//the space between arrows and grid
+			theme_space_between_arrows: 5,			//horizontal space between arrows
+			theme_bullets_margin_top: 40,			//the space 
+			theme_navigation_align: "center",		//center, left, right - horizontal align of the navigation
+			theme_navigation_offset_hor: 0,			//horizontal offset of the navigation, according the align
+			theme_bullets_color: "gray"				//gray, blue, brown, green, red - color of the bullets
 	};
 	
 	var g_defaults = {

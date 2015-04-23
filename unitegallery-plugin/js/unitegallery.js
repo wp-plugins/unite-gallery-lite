@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.3.6, released 19 Apr 2015 
+// Unite Gallery, Version: 1.3.7, released 23 Apr 2015 
 
 
 /**
@@ -540,15 +540,15 @@ function UGCarousel(){
 	
 	var g_options = {
 			carousel_padding: 8,							//padding at the sides of the carousel
-			carousel_space_between_tiles: 20,
-			carousel_navigation_numtiles:3,
+			carousel_space_between_tiles: 20,				//space between tiles
+			carousel_navigation_numtiles:3,					//number of tiles to scroll when user clicks on next/prev button
 			carousel_scroll_duration:500,					//duration of scrolling to tile
 			carousel_scroll_easing:"easeOutCubic",			//easing of scrolling to tile animation
 			
-			carousel_autoplay: true,
-			carousel_autoplay_timeout: 3000,
-			carousel_autoplay_direction: "right",
-			carousel_autoplay_pause_onhover: true
+			carousel_autoplay: true,						//true,false - autoplay of the carousel on start
+			carousel_autoplay_timeout: 3000,				//autoplay timeout
+			carousel_autoplay_direction: "right",			//left,right - autoplay direction
+			carousel_autoplay_pause_onhover: true			//pause the autoplay on mouse over
 	};
 	
 	this.events = {
@@ -3085,6 +3085,18 @@ function UGFunctions(){
 		  
 		  return(g_temp.isTouchDevice);
 	}
+	
+	
+	/**
+	 * check if it's a desctop devide
+	 */
+	this.isDesktopDevice = function(){
+		
+		var isDesktop = typeof window.screenX !== undefined && !t.isTouchDevice() ? true : false;		
+		
+		return(isDesktop);
+	}
+	
 	
 	/**
 	 * function checks if enought time passsed between function calls.
@@ -15911,6 +15923,15 @@ function UGTileDesign(){
 		return(objTextPanel);
 	}
 	
+	/**
+	 * get text panel element from the tile
+	 */
+	function getTextPanelElement(objTile){
+		var objTextPanel = objTile.find(".ug-textpanel");
+		
+		return(objTextPanel);
+	}
+	
 	
 	/**
 	 * get button link
@@ -16111,7 +16132,9 @@ function UGTileDesign(){
 						
 		var animationDuration = g_options.thumb_transition_duration;
 		
-		var objTextPanel = getTextPanel(objTile).getElement();
+		var objTextPanel = getTextPanelElement(objTile);
+		if(!objTextPanel)
+			return(true);
 		
 		if(g_options.tile_textpanel_appear_type == "slide"){
 			
@@ -16125,7 +16148,7 @@ function UGTileDesign(){
 			if(isActive == true){
 								
 				objTextPanel.fadeTo(0,1);
-
+				
 				if(objTextPanel.is(":animated") == false)
 					objTextPanel.css("bottom",startPos+"px");
 					
@@ -16446,14 +16469,13 @@ function UGTiles(){
 	
 	var g_options = {
 		 tiles_type: "columns",				//columns / justified - tiles layout type
-		 tiles_col_width: 250,
-		 tiles_space_between_cols: 3,
-		 tiles_set_initial_height: true,		//columns type related only
-		 
-		 tiles_justified_row_height: 150,
-		 tiles_justified_space_between: 3,
-		 
-		 tiles_enable_transition: true
+		 tiles_col_width: 250,				//column width
+		 tiles_space_between_cols: 3,		//space between images
+		 tiles_justified_row_height: 150,	//base row height of the justified type
+		 tiles_justified_space_between: 3,	//space between the tiles justified type
+
+		 tiles_set_initial_height: true,	//set some estimated height before images show
+		 tiles_enable_transition: true		//enable transition when screen width change
 	};
 	
 	this.events = {
