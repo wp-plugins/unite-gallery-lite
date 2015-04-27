@@ -175,6 +175,7 @@ defined('_JEXEC') or die('Restricted access');
 			
 			//put the settings into form id
 			
+			$arrJs[] = "if(typeof(g_settingsObj) == 'undefined') var g_settingsObj={};";
 			$arrJs[] = "g_settingsObj['$formID'] = {}";
 						
 			//put controls json object:
@@ -203,8 +204,9 @@ defined('_JEXEC') or die('Restricted access');
 				$strJs .= "});";
 			endif;
 			
-			UniteProviderFunctionsUG::printCustomScript($strJs);
-						
+			
+			UniteProviderFunctionsUG::printCustomScript($strJs, true);
+
 		}
 		
 		

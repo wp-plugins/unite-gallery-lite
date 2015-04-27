@@ -42,7 +42,8 @@ defined('_JEXEC') or die('Restricted access');
 		var g_pluginName = \"".GlobalsUG::PLUGIN_NAME."\";
 		var g_urlAjaxActions = \"".GlobalsUG::$url_ajax."\";
 		var g_urlViewBase = \"".GlobalsUG::$url_component_admin."\";
-		var g_settingsObj = {};
+		if(typeof(g_settingsObj) == 'undefined')
+			var g_settingsObj = {};
 		var g_ugAdmin;
 	";
 	

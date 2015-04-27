@@ -211,12 +211,15 @@ class UniteProviderFunctionsUG{
 	/**
 	 * print some script at some place in the page
 	 */
-	public static function printCustomScript($script){
+	public static function printCustomScript($script, $hardCoded = false){
 		
-		self::$arrScripts[] = $script;
+		if($hardCoded == false)
+			self::$arrScripts[] = $script;
+		else 
+			echo "<script type='text/javascript'>{$script}</script>";
 		
 	}
-	
+		
 	
 	/**
 	 * get all custom scrips
@@ -257,7 +260,7 @@ class UniteProviderFunctionsUG{
 			<br> For removing the limitations, get the <b>"Unite Gallery Full Version"</b> and update plugin (button of the bottom). 
 			<br>It's only 17$, and lifetime support.
 			No worry, every gallery you have made will remain.
-			<a href="http://codecanyon.net/item/unite-gallery-wordpress-plugin/10458750" target="_blank">Get It Now!</a>
+			<a href="http://codecanyon.net/item/unite-gallery-wordpress-plugin/10458750?ref=valiano" target="_blank">Get It Now!</a>
 			
 			
 		</div>

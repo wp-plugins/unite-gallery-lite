@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.3.7, released 23 Apr 2015 
+// Unite Gallery, Version: 1.3.8, released 27 Apr 2015 
 
 
 /**
@@ -16037,7 +16037,8 @@ function UGTileDesign(){
 						
 			var gapVert = 0;
 			if(g_options.tile_enable_textpanel == true){
-				var texPanelSize = g_functions.getElementSize(objTextPanel.getElement());
+				var objTextPanelElement = getTextPanelElement(objTile);
+				var texPanelSize = g_functions.getElementSize(objTextPanelElement);
 				if(texPanelSize.height > 0)
 					gapVert = Math.floor((texPanelSize.height / 2) * -1);  
 			}

@@ -43,7 +43,7 @@ defined('_JEXEC') or die('Restricted access');
 					This gallery has limitations: <b> <?php echo $ugMaxItems?> items limit </b> in the preview and output.
 					<br>
 					For removing the limitations, upgrade to <b>"Unite Gallery Full Version"</b>.
-					&nbsp; <a href="http://codecanyon.net/item/unite-gallery-wordpress-plugin/10458750" target="_blank">Get It Now!</a>
+					&nbsp; <a href="http://codecanyon.net/item/unite-gallery-wordpress-plugin/10458750?ref=valiano" target="_blank">Get It Now!</a>
 				</div>
 				
 				<div class="unite-clear"></div>
