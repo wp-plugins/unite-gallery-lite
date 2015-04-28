@@ -8,7 +8,7 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Unite Gallery - all in one image and video gallery for WordPress.
+Unite Gallery - ALL IN ONE IMAGE AND VIDEO GALLERY for WordPress.
 
 == Description ==
 
