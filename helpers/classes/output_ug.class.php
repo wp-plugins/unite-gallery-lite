@@ -304,11 +304,13 @@ defined('_JEXEC') or die('Restricted access');
 			$arr[] = $this->buildJsParam("gallery_autoplay", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("gallery_play_interval", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
 			$arr[] = $this->buildJsParam("gallery_pause_on_mouseover", null, self::TYPE_BOOLEAN);
+			$arr[] = $this->buildJsParam("gallery_mousewheel_role");
 			$arr[] = $this->buildJsParam("gallery_control_keyboard", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("gallery_preserve_ratio", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("gallery_debug_errors", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("slider_background_color");
-			
+			$arr[] = $this->buildJsParam("slider_background_opacity", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
+					
 			$arr[] = $this->buildJsParam("slider_scale_mode");
 			$arr[] = $this->buildJsParam("slider_scale_mode_media");
 			$arr[] = $this->buildJsParam("slider_scale_mode_fullscreen");

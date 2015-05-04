@@ -4,6 +4,7 @@
    		
    		private static $arrMenuPages = array();
 	   	private static $arrSubMenuPages = array();
+	   	private static $capability = "manage_options";
 	   	
    		private $mainFilepath;
 	   	
@@ -23,7 +24,10 @@
 			self::$t = $this;
 			
 			$this->mainFilepath = $mainFilepath;
-					
+
+			if(GlobalsUG::PERMISSION == "editor")
+				self::$capability = "edit_posts";
+			
 			parent::__construct();
 			
 			$this->init();
@@ -153,16 +157,19 @@
 			self::$arrSubMenuPages[] = array("slug"=>$slug,"title"=>$title,"pageFunction"=>$pageFunctionName);
 		}
 		
+		
 		/**
 		 * add admin menus from the list.
 		 */
 		public static function addAdminMenu(){
-						
+			
+				
 			//return(false);
 			foreach(self::$arrMenuPages as $menu){
 				$title = $menu["title"];
 				$pageFunctionName = $menu["pageFunction"];
-				add_menu_page( $title, $title, 'manage_options', GlobalsUG::PLUGIN_NAME, array(self::$t, $pageFunctionName) );
+				
+				add_menu_page( $title, $title, self::$capability, GlobalsUG::PLUGIN_NAME, array(self::$t, $pageFunctionName) );
 			}
 		
 			foreach(self::$arrSubMenuPages as $key=>$submenu){
@@ -175,7 +182,7 @@
 				if($key == 0)
 					$slug = GlobalsUG::PLUGIN_NAME;
 		
-				add_submenu_page(GlobalsUG::PLUGIN_NAME, $title, $title, 'manage_options', $slug, array(self::$t, $pageFunctionName) );
+				add_submenu_page(GlobalsUG::PLUGIN_NAME, $title, $title, self::$capability, $slug, array(self::$t, $pageFunctionName) );
 			}
 		
 		}
@@ -212,8 +219,8 @@
 		 */
 		protected static function validateAdminPermissions(){
 			
-			if(UniteFunctionsWPUG::isAdminPermissions() == false){
-				echo "access denied, no admin permissions";
+			if(UniteFunctionsWPUG::isAdminPermissions(self::$capability) == false){
+				echo "access denied, no ".GlobalsUG::PERMISSION." permissions";
 				return(false);
 			}
 			

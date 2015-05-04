@@ -4,7 +4,7 @@
 defined('_JEXEC') or die;
 
 global $uniteGalleryVersion;
-$uniteGalleryVersion = "1.3.8";
+$uniteGalleryVersion = "1.4";
 
 $currentFile = __FILE__;
 $currentFolder = dirname($currentFile);
@@ -35,7 +35,6 @@ foreach($arrGalleries as $gallery){
 	if(file_exists($filepathIncludes))
 		require $filepathIncludes;
 }
-
 
 
 ?>

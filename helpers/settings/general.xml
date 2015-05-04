@@ -55,6 +55,16 @@
 				
 				<field type="hr"></field>	
 				
+				<field name="gallery_mousewheel_role" 
+					type="list"
+					default="zoom" 
+					label="Mouse Wheel Role"
+					description="The role of mouse wheel. Zoom image, advance items, or none">  
+						<option value="none" text="None"></option>
+						<option value="zoom" text="Zoom Image"></option>
+						<option value="advance" text="Advance Items"></option>
+				</field>				
+				
 				<field name="gallery_control_keyboard"
 					   type="boolean"
 					   default="true"
@@ -76,11 +86,20 @@
 					description="Preserve width and height ratio on gallery resize">	
 				</field>
 				
+				<field type="hr"></field>
+				
 				<field name="slider_background_color" 
 					type="color"
 					default="#000000" 
 					label="Gallery Background Color"
-					description="set custom background color. If not set it will be taken from css">  
+					description="set custom background color on slider area. If not set it will be taken from css">  
+				</field>
+				
+				<field name="slider_background_opacity" 
+					type="text"
+					default="1" 
+					label="Gallery Background Opacity"
+					description="The opacity of the gallery background. Set to 0 for transparent background, and give some color">
 				</field>
 				
 			</fieldset>

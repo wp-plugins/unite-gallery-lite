@@ -16,6 +16,8 @@ defined('_JEXEC') or die('Restricted access');
 		const PLUGIN_TITLE = "Unite Gallery Lite";
 		const PLUGIN_NAME = "unitegallery";
 		
+		const PERMISSION = "admin";			//admin, editor
+		
 		const TABLE_GALLERIES_NAME = "unitegallery_galleries";
 		const TABLE_ITEMS_NAME = "unitegallery_items";
 		const TABLE_CATEGORIES_NAME = "unitegallery_categories";

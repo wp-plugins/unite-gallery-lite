@@ -6,26 +6,29 @@
 
 		<field name="slider_scale_mode" type="list" default="fill"
 			label="Scale Mode"
-			description="&lt;b&gt;Fill&lt;/b&gt;: scale down and up the image to always fit the slider. &lt;br&gt;&lt;br&gt; &lt;b&gt;Down&lt;/b&gt;: scale down only, smaller images will be shown, don't enlarge images (scale up). &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: fill the entire slider space by scaling, cropping and centering the image.">
+			description="Scale mode for slider images that related to media items. &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: scale down and up the image to always fit the slider. &lt;br&gt;&lt;br&gt; &lt;b&gt;Down&lt;/b&gt;: scale down only, smaller images will be shown, don't enlarge images (scale up). &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: fill the entire slider space by scaling, cropping and centering the image. &lt;br&gt;&lt;br&gt; &lt;b&gt;Fit Vertical&lt;/b&gt;: make the image always fill the vertical slider area">
 			<option value="fit" text="Fit"></option>
 			<option value="down" text="Down"></option>
 			<option value="fill" text="Fill"></option>
+			<option value="fitvert" text="Fit Vertical"></option>
 		</field>
 
 		<field name="slider_scale_mode_media" type="list" default="fill"
 			label="Scale Mode For Media Items"
-			description="Scale mode for slider images that related to media items. &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: scale down and up the image to always fit the slider. &lt;br&gt;&lt;br&gt; &lt;b&gt;Down&lt;/b&gt;: scale down only, smaller images will be shown, don't enlarge images (scale up). &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: fill the entire slider space by scaling, cropping and centering the image.">
+			description="Scale mode for slider images that related to media items. &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: scale down and up the image to always fit the slider. &lt;br&gt;&lt;br&gt; &lt;b&gt;Down&lt;/b&gt;: scale down only, smaller images will be shown, don't enlarge images (scale up). &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: fill the entire slider space by scaling, cropping and centering the image. &lt;br&gt;&lt;br&gt; &lt;b&gt;Fit Vertical&lt;/b&gt;: make the image always fill the vertical slider area">
 			<option value="fit" text="Fit"></option>
 			<option value="down" text="Down"></option>
 			<option value="fill" text="Fill"></option>
+			<option value="fitvert" text="Fit Vertical"></option>
 		</field>
 
 		<field name="slider_scale_mode_fullscreen" type="list" default="down"
 			label="Scale Mode For Fullscreen"
-			description="Scale mode for fullscreen mode &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: scale down and up the image to always fit the slider. &lt;br&gt;&lt;br&gt; &lt;b&gt;Down&lt;/b&gt;: scale down only, smaller images will be shown, don't enlarge images (scale up). &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: fill the entire slider space by scaling, cropping and centering the image.">
+			description="Scale mode for slider images that related to media items. &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: scale down and up the image to always fit the slider. &lt;br&gt;&lt;br&gt; &lt;b&gt;Down&lt;/b&gt;: scale down only, smaller images will be shown, don't enlarge images (scale up). &lt;br&gt;&lt;br&gt; &lt;b&gt;Fill&lt;/b&gt;: fill the entire slider space by scaling, cropping and centering the image. &lt;br&gt;&lt;br&gt; &lt;b&gt;Fit Vertical&lt;/b&gt;: make the image always fill the vertical slider area">
 			<option value="fit" text="Fit"></option>
 			<option value="down" text="Down"></option>
 			<option value="fill" text="Fill"></option>
+			<option value="fitvert" text="Fit Vertical"></option>
 		</field>
 
 		<field type="hr"></field>
