@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.4, released 04 May 2015 
+// Unite Gallery, Version: 1.4.1, released 06 May 2015 
 
 
 /**
@@ -17129,6 +17129,8 @@ function UGTiles(){
 		var arrWidths = [];
 		var totalWidth = 0;
 		var gap = g_options.tiles_justified_space_between;
+		var numTiles = objTiles.length;
+		
 		
 		//get arr widths and total width
 		jQuery.each(objTiles, function(index, objTile){
@@ -17158,8 +17160,11 @@ function UGTiles(){
 
 		
 		var numRows = Math.ceil(totalWidth / galleryWidth);
+		
+		if(numRows > numTiles)
+			numRows = numTiles;
+		
 		var finalRowWidth = totalWidth / numRows;
-
 		
 		//fill rows array, break tiles to rows
 		var arrRows = [], eachRowWidth = 0;
