@@ -4,7 +4,7 @@ Plugin Name: Unite Gallery Lite
 Plugin URI: http://wp.unitegallery.net
 Description: Unite Gallery Lite - All in one image and video gallery
 Author: Valiano
-Version: 1.4.1
+Version: 1.4.1 b1
 Author URI: http://unitegallery.net
 */
 

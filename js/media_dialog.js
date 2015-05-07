@@ -558,39 +558,36 @@ function UniteMediaDialogUG(){
 		
 		data.preview_image = {url:obj.thumbnail_large,width:640,height:360};
 		
-		//trace(data);
 		
 		return(data);
 	}
 	
+	
 	/**
 	 * get data from youtube callback object
 	 */
-	function getDataFromYoutube(obj){
+	function getDataFromYoutube(youtubeID){
 		
 		var data = {};
-				
-		var entry = obj.entry;
-		data.id = entry.media$group.yt$videoid.$t;
 		
+		data.id = youtubeID;
 		data.video_type = "youtube";
-		data.title = entry.title.$t;
-		data.author = entry.author[0].name.$t;
-		data.link = entry.link[0].href;
-		data.description = entry.media$group.media$description.$t;
-		data.desc_small = data.description;
+		
+		data.title = "Youtube Video";
+		data.author = "";
+		data.link = "";
+		data.description = "";
+		data.desc_small = "";
 		
 		if(data.description.length > g_desc_small_size)
 			data.desc_small = data.description.slice(0,g_desc_small_size)+"...";
+
+		data.thumb_small = {url:"https://img.youtube.com/vi/"+youtubeID+"/default.jpg"};
+		data.thumb_medium = {url:"https://img.youtube.com/vi/"+youtubeID+"/mqdefault.jpg"};
+		data.thumb_big = {url:"https://img.youtube.com/vi/"+youtubeID+"/sddefault.jpg"};
 		
-		var thumbnails = entry.media$group.media$thumbnail;
+		data.preview_image = data.thumb_big;
 		
-		data.thumb_small = {url:thumbnails[0].url,width:thumbnails[0].width,height:thumbnails[0].height};
-		data.thumb_medium = {url:thumbnails[1].url,width:thumbnails[1].width,height:thumbnails[1].height};
-		data.thumb_big = {url:thumbnails[2].url,width:thumbnails[2].width,height:thumbnails[2].height};
-		
-		data.preview_image = {url:thumbnails[3].url,width:thumbnails[3].width,height:thumbnails[3].height};
-				
 		return(data);
 	}
 	
@@ -649,14 +646,19 @@ function UniteMediaDialogUG(){
 			showSearchErrorMessage("Empty Youtube ID");
 			return(false);
 		}
+
+		var proxyImage = jQuery('<img/>');
 		
-		//call API
-		var urlAPI = "https://gdata.youtube.com/feeds/api/videos/"+youtubeID+"?v=2&alt=json-in-script&callback=g_ugMediaDialog.onYoutubeCallback";
+		proxyImage.on("load", function(){
+			t.onYoutubeCallback(youtubeID);
+		});
 		
-		jQuery.getScript(urlAPI);
+		proxyImage.on("error", function(){
+			t.videoDialogOnError();
+		});
 		
-		//handle url don't pass:
-		setTimeout("g_ugMediaDialog.videoDialogOnError()", g_searchTimeout);
+		proxyImage.attr("src", "https://img.youtube.com/vi/"+youtubeID+"/default.jpg");
+		
 	}
 	
 	
@@ -777,14 +779,15 @@ function UniteMediaDialogUG(){
 	/**
 	 * youtube callback script, set and store youtube data, and add it to dialog
 	 */
-	this.onYoutubeCallback = function(obj){
+	this.onYoutubeCallback = function(youtubeID){
+		
 		jQuery("#dv_youtube_loader").hide();
 		
 		try{
 		
 			//prepare data
-			var data = getDataFromYoutube(obj);
-					
+			var data = getDataFromYoutube(youtubeID);
+			
 			//store last video data
 			g_lastVideoData = data;
 			

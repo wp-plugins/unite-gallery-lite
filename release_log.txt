@@ -1,6 +1,11 @@
+version 1.4.1 b1
+
+- fixed youtube backend select
+
 version 1.4.1
 
 -bug fix: fixed some bug in justified tiles view in mobile width
+-bug fix: fixed issue with video size at tabs
 
 version 1.4
 
