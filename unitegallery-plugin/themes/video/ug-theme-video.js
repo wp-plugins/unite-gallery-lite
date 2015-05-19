@@ -1,6 +1,8 @@
 
-if(g_ugFunctions)
+if(typeof g_ugFunctions != "undefined")
 	g_ugFunctions.registerTheme("video");
+else 
+	jQuery(document).ready(function(){g_ugFunctions.registerTheme("video")});
 
 
 /**
@@ -88,7 +90,7 @@ function UGTheme_video(){
 	 * this function should work on resize too.
 	 */
 	function initAndPlaceElements(){
-		
+				
 		//place objects:
 		initThumbsPanel();
 		placeThumbsPanel();

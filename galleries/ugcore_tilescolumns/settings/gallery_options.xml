@@ -66,7 +66,13 @@
 					default="true" 
 					label="Enable Transition"
 					description="Enable transition on width resize"></field>
-	
+
+				<field name="gallery_shuffle" 
+					type="boolean"
+					default="false" 
+					label="Shuffle Items At Start"
+					description="Shuffle (randomize) items at gallery start">	
+				</field>
 					
 		</fieldset>
 		

@@ -198,8 +198,6 @@ defined('_JEXEC') or die('Restricted access');
 				}
 			}
 			
-			//dmp($this->arrParams);
-			//exit();
 			
 		}
 		
@@ -307,6 +305,7 @@ defined('_JEXEC') or die('Restricted access');
 			$arr[] = $this->buildJsParam("gallery_mousewheel_role");
 			$arr[] = $this->buildJsParam("gallery_control_keyboard", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("gallery_preserve_ratio", null, self::TYPE_BOOLEAN);
+			$arr[] = $this->buildJsParam("gallery_shuffle", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("gallery_debug_errors", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("slider_background_color");
 			$arr[] = $this->buildJsParam("slider_background_opacity", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
@@ -321,6 +320,8 @@ defined('_JEXEC') or die('Restricted access');
 			$arr[] = $this->buildJsParam("slider_control_swipe", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("slider_control_zoom", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("slider_zoom_max_ratio", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
+			$arr[] = $this->buildJsParam("slider_enable_links", null, self::TYPE_BOOLEAN);
+			$arr[] = $this->buildJsParam("slider_links_newpage", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("slider_video_enable_closebutton", null, self::TYPE_BOOLEAN);
 			
 			$arr[] = $this->buildJsParam("slider_controls_always_on", null, self::TYPE_BOOLEAN);
@@ -681,12 +682,13 @@ defined('_JEXEC') or die('Restricted access');
 				if($enableLink == true){
 					$link = $objItem->getParam("ug_item_link");
 					
+					/*
 					if(!empty($link) && $this->isTilesType == false){
 						$isBlank = ($objItem->getParam("ug_item_link_open_in") == "new");
 						$htmlLink = UniteFunctionsUG::getHtmlLink($link, $link, "", "", $isBlank);
 						$description .= " ".$htmlLink;
 					}
-					
+					*/
 				}
 				
 				$title = htmlspecialchars($title);
@@ -704,7 +706,7 @@ defined('_JEXEC') or die('Restricted access');
 				//set link (on tiles mode)
 				$linkStart = "";
 				$linkEnd = "";
-				if($enableLink == true && $this->isTilesType == true){
+				if($enableLink == true){
 					$linkStart = "<a href=\"{$link}\">";
 					$linkEnd = "</a>";
 				}
@@ -846,7 +848,13 @@ defined('_JEXEC') or die('Restricted access');
 				$output .= $br;
 				$output .= $linePrefix."<!-- END UNITEGALLERY -->";
 				
+				$compressOutput = $this->getParam("compress_output", self::FORCE_BOOLEAN);
 				
+				if($compressOutput == true){
+					$output = str_replace("\r", "", $output);
+					$output = str_replace("\n", "", $output);
+					$output = trim($output);
+				}
 				return $output;
 				?>
 				

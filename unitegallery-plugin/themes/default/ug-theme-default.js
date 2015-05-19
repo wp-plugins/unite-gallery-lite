@@ -1,6 +1,8 @@
 
-if(g_ugFunctions)
+if(typeof g_ugFunctions != "undefined")
 	g_ugFunctions.registerTheme("default");
+else 
+	jQuery(document).ready(function(){g_ugFunctions.registerTheme("default")});
 
 
 /**
@@ -438,7 +440,6 @@ function UGTheme_default(){
 		initAndPlaceElements();
 		
 		checkHidePanel();
-		
 	}
 	
 	

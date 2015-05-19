@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.4.1, released 06 May 2015 
+// Unite Gallery, Version: 1.4.4, released 17 May 2015 
 
 
 /**
@@ -1696,6 +1696,8 @@ function UGFunctions(){
 		lastEventTime:0,
 		handle: null			//interval handle
 	};
+	
+	this.debugVar = "";
 
 	this.z__________FULL_SCREEN___________ = function(){}
 	
@@ -1716,9 +1718,10 @@ function UGFunctions(){
 	
 	/**
 	 * move to full screen mode
+	 * fullscreen ID - the ID of current fullscreen
 	 */
-	this.toFullscreen = function(element) {
-		
+	this.toFullscreen = function(element, fullscreenID) {
+				  
 		  if(element.requestFullscreen) {
 		    element.requestFullscreen();
 		  } else if(element.mozRequestFullScreen) {
@@ -1774,11 +1777,23 @@ function UGFunctions(){
 	 * add fullscreen event to some function
 	 */
 	this.addFullScreenChangeEvent = function(func){
-				
+		
 		addEvent("fullscreenchange",document,func);		 
 		addEvent("mozfullscreenchange",document,func);
 		addEvent("webkitfullscreenchange",document,func);
 		addEvent("msfullscreenchange",document,func);
+	}
+	
+	
+	/**
+	 * destroy the full screen change event
+	 */
+	this.destroyFullScreenChangeEvent = function(){
+		
+		jQuery(document).unbind("fullscreenchange");
+		jQuery(document).unbind("mozfullscreenchange");
+		jQuery(document).unbind("webkitfullscreenchange");
+		jQuery(document).unbind("msfullscreenchange");
 	}
 	
 	
@@ -2890,6 +2905,26 @@ function UGFunctions(){
 		return(col);
 	}
 	
+	this.z_________DATA_FUNCTIONS_______ = function(){}
+	
+	/**
+	 * set data value
+	 */
+	this.setGlobalData = function(key, value){
+		
+		jQuery.data(document.body, key, value);
+		
+	}
+	
+	/**
+	 * get global data
+	 */
+	this.getGlobalData = function(key){
+		
+		var value = jQuery.data(document.body, key);
+		
+		return(value);
+	}
 	
 	this.z_________EVENT_DATA_FUNCTIONS_______ = function(){}
 
@@ -3070,6 +3105,7 @@ function UGFunctions(){
 		g_temp.dataCache[id] = null;
 	}
 	
+		
 	this.z_________GENERAL_FUNCTIONS_______ = function(){}
 	
 	/**
@@ -3565,6 +3601,18 @@ function UGFunctions(){
 		
 	}
 	
+	/**
+	 * shuffle (randomise) array
+	 */
+	this.arrayShuffle = function(arr){
+		
+		if(typeof arr != "object")
+			return(arr);
+			
+	    for(var j, x, i = arr.length; i; j = parseInt(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
+	    return arr;
+	}
+	
 	this.z_________END_GENERAL_FUNCTIONS_______ = function(){}
 	
 }
@@ -3672,12 +3720,12 @@ function UniteGalleryMain(){
 			gallery_carousel:true,						//true,false - next button on last image goes to first image.
 			
 			gallery_preserve_ratio: true,				//true, false - preserver ratio when on window resize
+			gallery_background_color: "",				//set custom background color. If not set it will be taken from css.
 			gallery_debug_errors:false,					//show error message when there is some error on the gallery area.
-			gallery_background_color: ""				//set custom background color. If not set it will be taken from css.
+			gallery_shuffle:false						//randomise position of items at start.
 	};
 	
 	//gallery_control_thumbs_mousewheel
-	
 	
 	var g_temp = {					//temp variables
 		objCustomOptions:{},
@@ -3799,7 +3847,7 @@ function UniteGalleryMain(){
 				 var arrItems = g_objWrapper.children();
 				 
 				 fillItemsArray(arrItems);
-				 			 
+				 
 				 loadAPIs();
 				 
 				 //hide images:
@@ -3809,6 +3857,7 @@ function UniteGalleryMain(){
 				 clearInitData();
 		    	 
 		     }else{		//reset options
+		    	 destroy();
 		    	 resetOptions();
 		     }
 			 
@@ -3818,7 +3867,15 @@ function UniteGalleryMain(){
 			 //modify and verify the params
 			 modifyInitParams(objCustomOptions);
 			 validateParams();
-
+			 
+			 //shuffle items
+			 if(g_options.gallery_shuffle == true){
+				g_arrItems = g_functions.arrayShuffle(g_arrItems);
+				
+				for(var index in g_arrItems)		//fix index
+					g_arrItems[index].index = parseInt(index);
+			 }
+			 
 			 //init the theme
 			 initTheme(objCustomOptions);
 			 			 				 
@@ -3829,6 +3886,7 @@ function UniteGalleryMain(){
 			 setHtmlObjectsProperties();
 			 
 			 var galleryWidth = g_objWrapper.width();
+			 		 
 			 if(galleryWidth == 0){
 				 g_functions.waitForWidth(g_objWrapper, runGalleryActually);
 			 }else
@@ -3841,6 +3899,8 @@ function UniteGalleryMain(){
 	 * actually run the gallery
 	 */
 	function runGalleryActually(){
+		 
+		t.setSizeClass();
 		
 		if(g_temp.isFreestyleMode == false){
 			 	
@@ -3853,7 +3913,7 @@ function UniteGalleryMain(){
 		 preloadBigImages();
 		 
 		 initEvents();
-		 		 
+		 
 		 //select first item
 		 if(g_numItems > 0) 
 			 t.selectItem(0);
@@ -4023,7 +4083,6 @@ function UniteGalleryMain(){
 	 * fill items array from images object
 	 */
 	function fillItemsArray(arrChildren){
-		
 		 
 		 var numIndex = 0;
 		 
@@ -4061,8 +4120,13 @@ function UniteGalleryMain(){
 				 objItem.objThumbImage = null;
 			 }
 			 
+			 
 			 objItem.link = itemLink;
-			 objItem.description = objChild.data("description");
+			 
+			 //get description:
+			 objItem.description = objChild.attr("title");
+			 if(!objItem.description)				 
+				 objItem.description = objChild.data("description");
 			 
 			 if(!objItem.description)
 				 objItem.description = "";
@@ -4133,11 +4197,9 @@ function UniteGalleryMain(){
 				 objItem.objThumbImage.removeAttr("data-image", "");				 
 			 }
 			 
-			 if(objItem.urlThumb && objItem.urlThumb !== undefined && objItem.urlThumb != ""){
-				 objItem.index = numIndex;
-				 g_arrItems.push(objItem);
-				 numIndex++;
-			 }
+			 objItem.index = numIndex;
+			 g_arrItems.push(objItem);
+			 numIndex++;
 			 
 		 }
 		 
@@ -4439,7 +4501,7 @@ function UniteGalleryMain(){
 	/**
 	 * on gallery mousewheel event handler, advance the thumbs
 	 */
-	function onGalleryMouseWheel(event, delta, deltaX, deltaY){
+	this.onGalleryMouseWheel = function(event, delta, deltaX, deltaY){
 		
 		event.preventDefault();
 		
@@ -4447,8 +4509,8 @@ function UniteGalleryMain(){
 			t.prevItem();
 		else
 			t.nextItem();
-			
 	}
+	
 	
 	/**
 	 * on mouse enter event
@@ -4465,8 +4527,13 @@ function UniteGalleryMain(){
 	 */
 	function onSliderMouseLeave(event){
 		
-		if(g_options.gallery_pause_on_mouseover == true && g_temp.isPlayMode == true && g_objSlider && g_objSlider.isSlideActionActive() == false)
-			t.continuePlaying();
+		if(g_options.gallery_pause_on_mouseover == true && g_temp.isPlayMode == true && g_objSlider && g_objSlider.isSlideActionActive() == false){
+			
+			var isStillLoading = g_objSlider.isCurrentSlideLoadingImage();
+			
+			if(isStillLoading == false)
+				t.continuePlaying();
+		}
 		
 	}
 	
@@ -4497,6 +4564,11 @@ function UniteGalleryMain(){
 	 * check that the gallery resized, if do, trigger onresize event
 	 */
 	function onGalleryResized(){
+		
+		var objSize = t.getSize();
+		
+		if(objSize.width == 0)	//fix hidden gallery change
+			return(true);
 		
 		t.setSizeClass();
 		
@@ -4532,10 +4604,16 @@ function UniteGalleryMain(){
 	 * on full screen change event
 	 */
 	function onFullScreenChange(){
-		 
+		
 		var isFullscreen = g_functions.isFullScreen();
 		 var event = isFullscreen ? t.events.ENTER_FULLSCREEN:t.events.EXIT_FULLSCREEN; 
 		 
+		 var fullscreenID = g_functions.getGlobalData("fullscreenID");
+		 
+		 //check if this gallery was affected
+		 if(g_galleryID !== fullscreenID)
+			 return(true);
+		 		 
 		 //add classes for the gallery
 		 if(isFullscreen){
 			 g_objWrapper.addClass("ug-fullscreen");
@@ -4555,6 +4633,15 @@ function UniteGalleryMain(){
 		
 		var objItem = t.getItem(index);		
 		checkPreloadItemImage(objItem);		
+	}
+	
+	/**
+	 * on current slide image load end. If playing mode, begin playing again
+	 */
+	function onCurrentSlideImageLoadEnd(){
+		
+		if(t.isPlayMode() == true)
+			t.continuePlaying();
 	}
 	
 	
@@ -4584,8 +4671,8 @@ function UniteGalleryMain(){
 		}
 		
 		//init mouse wheel
-		if(g_options.gallery_mousewheel_role == "advance")
-			g_objWrapper.on("mousewheel",onGalleryMouseWheel);
+		if(g_options.gallery_mousewheel_role == "advance" && g_temp.isFreestyleMode == false)
+			g_objWrapper.on("mousewheel", t.onGalleryMouseWheel);
 		
 		 //on resize event
 		 storeLastSize();
@@ -4624,14 +4711,66 @@ function UniteGalleryMain(){
 			 retriggerEvent(g_objSlider, g_objSlider.events.ACTION_START, t.events.SLIDER_ACTION_START);
 			 retriggerEvent(g_objSlider, g_objSlider.events.ACTION_END, t.events.SLIDER_ACTION_END);
 			 
+			 jQuery(g_objSlider).on(g_objSlider.events.CURRENTSLIDE_LOAD_END, onCurrentSlideImageLoadEnd);
+		 
 		 }
-		 		 
+		  
 		 //add keyboard events
 		 if(g_options.gallery_control_keyboard == true)
 			 jQuery(document).keydown(onKeyPress);
 		 		 
 	}
+	
+	
+	/**
+	 * destroy all gallery events
+	 */
+	function destroy(){
 		
+		g_objWrapper.off("dragstart");
+		g_objGallery.off(t.events.ITEM_IMAGE_UPDATED);
+		
+		//init custom event on strip moving
+		if(g_objThumbs){
+			switch(g_temp.thumbsType){
+				case "strip":
+					jQuery(g_objThumbs).off(g_objThumbs.events.STRIP_MOVE);
+				break;
+				case "grid":
+					jQuery(g_objThumbs).off(g_objThumbs.events.PANE_CHANGE);
+				break;
+			}
+		}
+		
+		 g_objWrapper.off("mousewheel");
+		
+		 jQuery(window).off("resize");
+		 
+		 //fullscreen:
+		 g_functions.destroyFullScreenChangeEvent();
+		 
+		 //on slider item changed event
+		 if(g_objSlider){
+			 
+			 jQuery(g_objSlider).off(g_objSlider.events.ITEM_CHANGED);
+			 
+			 //add slider onmousemove event
+			 var sliderElement = g_objSlider.getElement();
+			 sliderElement.off("mouseenter");
+			 sliderElement.off("mouseleave");
+			 
+			 g_objGallery.off(t.events.ENTER_FULLSCREEN);
+			 jQuery(g_objSlider).off(g_objSlider.events.ACTION_START);
+			 jQuery(g_objSlider).off(g_objSlider.events.ACTION_END);
+			 jQuery(g_objSlider).off(g_objSlider.events.CURRENTSLIDE_LOAD_END);
+		 }
+		 		 
+		 //add keyboard events
+		 if(g_options.gallery_control_keyboard == true)
+			 jQuery(document).off("keydown");
+		
+	}
+	
 	
 	function __________GENERAL_______(){};
 	
@@ -4911,7 +5050,7 @@ function UniteGalleryMain(){
 		g_functions.setButtonOnClick(objButton, t.togglePlayMode);
 		
 		g_objGallery.on(t.events.START_PLAY,function(){
-			objButton.addClass("ug-stop-mode");			
+			objButton.addClass("ug-stop-mode");
 		});
 		
 		g_objGallery.on(t.events.STOP_PLAY, function(){
@@ -5014,10 +5153,12 @@ function UniteGalleryMain(){
 	
 	this.___________PLAY_MODE___________ = function(){}
 	
+	
 	/**
 	 * start play mode
 	 */
 	this.startPlayMode = function(){
+		
 		g_temp.isPlayMode = true;
 		g_temp.isPlayModePaused = false;
 		
@@ -5034,6 +5175,12 @@ function UniteGalleryMain(){
 		}
 		
 		g_objGallery.trigger(t.events.START_PLAY);
+		
+		//check if there is a need to pause
+		if(g_objSlider && g_objSlider.isCurrentSlideLoadingImage() == true){
+			t.pausePlaying();
+		}
+		
 	}
 	
 	
@@ -5166,11 +5313,16 @@ function UniteGalleryMain(){
 		g_selectedItem = objItem;		
 		g_selectedItemIndex = itemIndex;
 		
-		//reset playback, if playing
-		if(g_temp.isPlayMode == true)
-			t.resetPlaying();
-		
 		g_objGallery.trigger(t.events.ITEM_CHANGE, objItem);
+
+		//reset playback, if playing
+		if(g_temp.isPlayMode == true){
+				t.resetPlaying();
+			
+			var stillLoading = g_objSlider.isCurrentSlideLoadingImage();
+			if(stillLoading == true)
+				t.pausePlaying();
+		}
 				
 	}
 	
@@ -5279,12 +5431,13 @@ function UniteGalleryMain(){
 	 * go to fullscreen mode
 	 */
 	this.toFullScreen = function(){
-				
+		
+		g_functions.setGlobalData("fullscreenID", g_galleryID);
+		
 		var divGallery = g_objWrapper.get(0);
 		
 		var isSupported = g_functions.toFullscreen(divGallery);
 		
-		//trace(isSupported);
 		if(isSupported == false)
 			toFakeFullScreen();
 		
@@ -5359,6 +5512,9 @@ function UniteGalleryMain(){
 		if(width < 960){
 			addClass = "ug-under-960";
 		}
+		
+		if(objWrapper.hasClass(addClass) == true)
+			return(true);
 		
 		removeAllSizeClasses(objWrapper);
 		if(addClass != "")
@@ -6437,7 +6593,8 @@ function UGLightbox(){
 			
 			video_enable_closebutton: false,
 			lightbox_slider_video_enable_closebutton: false,
-			video_youtube_showinfo: false
+			video_youtube_showinfo: false,
+			lightbox_slider_enable_links:false
 	};
 	
 	var g_defaultsCompact = {
@@ -6493,7 +6650,6 @@ function UGLightbox(){
 			g_objSlider = null;
 		}
 		
-			
 		if(g_options.lightbox_show_textpanel == true){
 			g_objTextPanel.init(g_gallery, g_options, "lightbox");
 		}
@@ -7548,13 +7704,34 @@ function UGLightbox(){
 		 
 	}
 	
+	/**
+	 * on mouse wheel
+	 */
+	function onMouseWheel(event, delta, deltaX, deltaY){
+		
+		if(g_temp.isOpened == false)
+			return(true);
+		
+		if(g_options.gallery_mousewheel_role == "advance"){
+			
+			g_gallery.onGalleryMouseWheel(event, delta, deltaX, deltaY);
+		
+		}else{
+			
+			var slideType = g_objSlider.getSlideType();
+			if(slideType != "image"){
+				event.preventDefault();
+			}
+			
+		}
+		
+		
+	}
 	
 	/**
 	 * init events
 	 */
 	function initEvents(){
-		
-		//g_objOverlay.on("click touchstart", onOverlayClick);
 		
 		g_objOverlay.on("touchstart", function(event){
 			event.preventDefault();
@@ -7625,14 +7802,7 @@ function UGLightbox(){
 		 }
 		
 		//on mouse wheel - disable functionality if video
-		g_objWrapper.on("mousewheel", function(event){
-			
-			var slideType = g_objSlider.getSlideType();
-			if(slideType != "image" && g_options.gallery_mousewheel_role != "advance"){
-				event.preventDefault();
-			}
-						
-		});
+		g_objWrapper.on("mousewheel", onMouseWheel);
 
 	}
 
@@ -8387,12 +8557,14 @@ function UGSlider(){
 		AFTER_DRAG_CHANGE: "after_drag_change",		//after finish drag chagne transition
 		ACTION_START: "action_start",				//on slide action start
 		ACTION_END: "action_end",					//on slide action stop
-		CLICK: "click",								//on click event
+		CLICK: "slider_click",						//on click event
 		TRANSITION_START:"slider_transition_start",	//before transition start event
 		TRANSITION_END:"slider_transition_end",		//on transition end event
 		AFTER_PUT_IMAGE: "after_put_image",			//after put slide image
 		IMAGE_MOUSEENTER: "slider_image_mouseenter", //on slide image mouseonter
-		IMAGE_MOUSELEAVE: "slider_image_mouseleave"	 //on slide image mouseleave
+		IMAGE_MOUSELEAVE: "slider_image_mouseleave",	 		//on slide image mouseleave
+		CURRENTSLIDE_LOAD_START: "slider_current_loadstart",	//on current slide load image start
+		CURRENTSLIDE_LOAD_END: "slider_current_loadend",		//on finish load current slide image
 	}
 	
 	var g_options = {
@@ -8444,6 +8616,8 @@ function UGSlider(){
 		  slider_vertical_scroll_ondrag: false,			//vertical scroll on slider area drag					  
 		  slider_loader_type: 1,						//shape of the loader (1-7)
 		  slider_loader_color:"white",					//color of the loader: (black , white)
+		  slider_enable_links: true,					//enable slide as link functionality
+		  slider_links_newpage: false,					//open the slide link in new page
 		  
 		  slider_enable_bullets: false,					//enable the bullets onslider element
 		  slider_bullets_skin: "",						//skin of the bullets, if empty inherit from gallery skin
@@ -8850,11 +9024,15 @@ function UGSlider(){
 	 * position elements
 	 */
 	function positionElements(){
-				
+		
 		//place bullets
 		if(g_objBullets){
 			objBullets = g_objBullets.getElement();
+			
+			//strange bug fix (bullets width: 20) by double placing
 			g_functions.placeElement(objBullets, g_options.slider_bullets_align_hor, g_options.slider_bullets_align_vert, g_options.slider_bullets_offset_hor, g_options.slider_bullets_offset_vert);
+			g_functions.placeElement(objBullets, g_options.slider_bullets_align_hor, g_options.slider_bullets_align_vert, g_options.slider_bullets_offset_hor, g_options.slider_bullets_offset_vert);
+			
 		}
 		
 		//place arrows
@@ -9272,6 +9450,10 @@ function UGSlider(){
 			else{		//if the image not loaded, load the image and show it after.
 				objImage.fadeTo(0,0);
 				showPreloader(objPreloader);
+				objSlide.data("isLoading", true);
+				
+				if(t.isSlideCurrent(objSlide))
+					g_objThis.trigger(t.events.CURRENTSLIDE_LOAD_START);
 				
 				objImage.data("itemIndex", objItem.index);
 				objImage.on("load",function(){
@@ -9290,6 +9472,10 @@ function UGSlider(){
 					var scaleMode = t.getScaleMode(objSlide);
 					
 					hidePreloader(objPreloader);
+					objSlide.data("isLoading", false);
+					
+					if(t.isSlideCurrent(objSlide))
+						g_objThis.trigger(t.events.CURRENTSLIDE_LOAD_END);
 					
 					g_gallery.onItemBigImageLoaded(null, objImage);
 					
@@ -9339,6 +9525,15 @@ function UGSlider(){
 			
 			objSlide.data("index",objItem.index);
 			objSlide.data("type", objItem.type);
+			
+			//set link class
+			if(g_options.slider_enable_links == true && objItem.type == "image"){
+				
+				if(objItem.link)
+					objSlide.addClass("ug-slide-clickable");
+				else
+					objSlide.removeClass("ug-slide-clickable");
+			}
 			
 			setImageToSlide(objSlide, objItem);
 			
@@ -9666,7 +9861,6 @@ function UGSlider(){
 		g_gallery.selectItem(bulletIndex);		
 	}
 	
-	//function isP
 	
 	/**
 	 * on touch end
@@ -9674,26 +9868,49 @@ function UGSlider(){
 	 */
 	function onClick(event){
 		
-		//TODO: prevent double touch end
-		//debugLine("slider touchend",true,true);
-				
-		if(!g_objTouchSlider || g_objTouchSlider.isTapEventOccured(event) == true){
-						
-			g_objThis.trigger(t.events.CLICK, event);
+		//double tap action
+		if(g_objTouchSlider && g_objTouchSlider.isTapEventOccured(event) == false)
+			return(true);
+		
+		g_objThis.trigger(t.events.CLICK, event);
 			
-			if(g_options.slider_controls_always_on == false && 
-			   g_options.slider_controls_appear_ontap == true && t.isCurrentSlideType("image") == false){
-				
-				toggleControls();
-				
-				//show text panel if hidden
-				if(g_objTextPanel && g_options.slider_textpanel_always_on == true && t.isCurrentSlideType("image") && t.isCurrentSlideImageFit())
-					showTextPanel();
-				
+		
+	}
+
+	
+	/**
+	 * on actual click event
+	 */
+	function onActualClick(){
+
+		//check link
+		var currentSlide = t.getCurrentSlide();
+		var isClickable = currentSlide.hasClass("ug-slide-clickable");
+		var objItem = t.getCurrentItem();
+		
+		if(isClickable){
+			
+			//redirect to link
+			if(g_options.slider_links_newpage == false){
+				location.href = objItem.link;
+			}else{
+				window.open(objItem.link, '_blank');			
 			}
-						
 			
+			return(true);
 		}
+		
+		//check toggle controls
+		if(g_options.slider_controls_always_on == false && 
+		   g_options.slider_controls_appear_ontap == true && t.isCurrentSlideType("image") == true){
+			
+			toggleControls();
+			
+			//show text panel if hidden
+			if(g_objTextPanel && g_options.slider_textpanel_always_on == true && t.isCurrentSlideType("image") && t.isCurrentSlideImageFit())
+				showTextPanel();
+		}
+		
 		
 	}
 	
@@ -9857,10 +10074,11 @@ function UGSlider(){
 		}
 		
 		//touch events appear on tap event
-		//if(g_options.slider_controls_appear_ontap == true)
-		
 		g_objSlider.on("touchend click", onClick);
-
+		
+		//actual click event
+		g_objThis.on(t.events.CLICK, onActualClick);
+		
 		//show / hide text panel, if it's saparate from controls
 		if(g_objTextPanel && g_temp.isTextPanelSaparateHover == true){
 			g_objSlider.hover(showTextPanel, hideTextPanel);
@@ -9938,6 +10156,7 @@ function UGSlider(){
 		
 		g_objSlider.off("touchend");
 		g_objSlider.off("click");
+		g_objThis.off(t.events.CLICK);
 		
 		if(g_objZoomSlider)
 			g_objThis.off(t.events.ZOOM_CHANGE);
@@ -10281,6 +10500,20 @@ function UGSlider(){
 		
 		return(false);
 	}
+	
+	
+	/**
+	 * check if current slide is loading image
+	 */
+	this.isCurrentSlideLoadingImage = function(){
+		var currentSlide = t.getCurrentSlide();
+		var isLoading = currentSlide.data("isLoading");
+		if(isLoading === true)
+			return(true);
+		
+		return(false);
+	}
+	
 	
 	/**
 	 * change the slider to some item content
@@ -17470,9 +17703,6 @@ function UGTouchSliderControl(){
 	
 	var g_functions = new UGFunctions();
 	
-	this.events = {
-		CLICK:"click"
-	};
 	
 	var g_options = {
 		  slider_transition_continuedrag_speed: 250,				//the duration of continue dragging after drag end
@@ -17937,7 +18167,7 @@ function UGTouchSliderControl(){
 	function onTouchEnd(event){
 		
 		//debugLine("touchend", true, true);
-				
+		
 		var arrTouches = g_functions.getArrTouches(event);
 		var numTouches = arrTouches.length;
 		var isParentInPlace = g_parent.isInnerInPlace();
@@ -17948,11 +18178,7 @@ function UGTouchSliderControl(){
 		}
 				
 		if(numTouches == 0 && g_temp.touch_active == true){
-			
-			//trigger click event
-			if(isParentInPlace == true)
-				jQuery(t).trigger(t.events.CLICK);
-									
+											
 			disableTouchActive("3");
 			
 			var isValid = false;

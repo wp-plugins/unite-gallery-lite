@@ -1,6 +1,8 @@
 
-if(g_ugFunctions)
+if(typeof g_ugFunctions != "undefined")
 	g_ugFunctions.registerTheme("tilesgrid");
+else 
+	jQuery(document).ready(function(){g_ugFunctions.registerTheme("tilesgrid")});
 
 
 /**

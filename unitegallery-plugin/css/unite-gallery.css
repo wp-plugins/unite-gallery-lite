@@ -101,6 +101,10 @@
 	position:absolute;
 }
 
+.ug-slide-wrapper.ug-slide-clickable{
+	cursor:pointer;
+}
+
 .ug-slider-wrapper .ug-slider-inner{
 	position:absolute;
 	z-index:0;

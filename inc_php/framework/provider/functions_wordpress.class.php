@@ -1208,9 +1208,9 @@ defined('_JEXEC') or die('Restricted access');
 		 *
 		 * validate permission that the user is admin, and can manage options.
 		 */
-		public static function isAdminPermissions(){
+		public static function isAdminPermissions($capability = "manage_options"){
 		
-			if( is_admin() &&  current_user_can("manage_options") )
+			if( is_admin() &&  current_user_can($capability) )
 				return(true);
 		
 			return(false);

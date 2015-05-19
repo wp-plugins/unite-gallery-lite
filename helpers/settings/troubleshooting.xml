@@ -18,6 +18,12 @@
 					description="Put the gallery javascript includes to body. This may help in situations when multiple jquery.js libraries are loaded.">	
 				</field>
 
+				<field name="compress_output" 
+					type="boolean"
+					default="false" 
+					label="Compress Output"
+					description="Sometimes some output filters adds html tags at the html / javascript output. It breaks the gallery from appear. Try this option when you see weird code like output.">	
+				</field>
 				<field name="gallery_debug_errors" 
 					type="boolean"
 					default="false" 

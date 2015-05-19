@@ -1,3 +1,22 @@
+version 1.4.4
+
+-feature: enable slider area links
+-bug fix: on playing mode slides was advanced even when images was not loaded
+-bug fix: fixed mousewheel advance item on lightbox
+
+version 1.4.3
+
+-bug fix: gallery on hidden tab was dissapeared on fullscreen
+
+version 1.4.2
+
+-feature: added option gallery_shuffle
+-bug fix: bullets miss position after back from full screen
+
+version 1.4.1
+
+-bug fix: fixed some bug in justified tiles view in mobile width
+-bug fix: fixed issue with video size at tabs
 
 version 1.4
 

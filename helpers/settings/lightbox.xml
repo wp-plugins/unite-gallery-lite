@@ -28,6 +28,15 @@
 				description="Enable mouse wheel and pinch zooming of the lightbox slider">	
 			</field>
 						
+			<field name="gallery_mousewheel_role" 
+				type="list"
+				default="zoom" 
+				label="Mouse Wheel Role"
+				description="The role of mouse wheel. Zoom image, advance items, or none">  
+					<option value="none" text="None"></option>
+					<option value="zoom" text="Zoom Image"></option>
+					<option value="advance" text="Advance Items"></option>
+			</field>				
 			<field type="hr"></field>
 			
 						

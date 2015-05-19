@@ -1,3 +1,25 @@
+version 1.4.4 b1
+
+-bug fix: fixed widget output
+
+version 1.4.4
+
+-feature: enable slider area links
+-feature: added "compress output" option in the troubleshooting section
+
+-bug fix: on playing mode slides was advanced even when images was not loaded
+-bug fix: fixed mousewheel advance item on lightbox
+
+
+version 1.4.3
+
+-bug fix: gallery on hidden tab was dissapeared on fullscreen
+
+version 1.4.2
+
+-feature: added option - shuffle items at start
+-bug fix: bullets miss position after back from full screen
+
 version 1.4.1 b1
 
 - fixed youtube backend select

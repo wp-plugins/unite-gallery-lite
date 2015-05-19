@@ -102,7 +102,8 @@ class UniteGallery_Widget extends WP_Widget {
     	if(!empty($title))
     		echo $beforeTitle.$title.$afterTitle;
     	
-    	HelperUG::outputGallery($galleryID, $categoryID, "id");
+    	$content = HelperUG::outputGallery($galleryID, $categoryID, "id");
+    	echo $content;
     	
     	echo $afterWidget;
     	

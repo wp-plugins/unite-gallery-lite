@@ -86,6 +86,12 @@
 					description="Preserve width and height ratio on gallery resize">	
 				</field>
 				
+				<field name="gallery_shuffle" 
+					type="boolean"
+					default="false" 
+					label="Shuffle Items At Start"
+					description="Shuffle (randomize) items at gallery start">	
+				</field>
 				<field type="hr"></field>
 				
 				<field name="slider_background_color" 
