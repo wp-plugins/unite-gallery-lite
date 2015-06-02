@@ -1,3 +1,7 @@
+version 1.4.4 b3
+
+-bug fix: fixed dissapearing items with unicode text in admin
+
 version 1.4.4 b1
 
 -bug fix: fixed widget output

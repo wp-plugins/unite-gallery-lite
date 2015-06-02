@@ -243,16 +243,19 @@ defined('_JEXEC') or die('Restricted access');
 		 */
 		public static function limitStringSize($str, $numChars, $addDots = true){
 			
+			$encoding = "UTF-8";
+			
 			if(function_exists("mb_strlen") == false)
 				return($str);
 				
-			if(mb_strlen($str) <= $numChars)
+			if(mb_strlen($str, $encoding) <= $numChars)
 				return($str);
 			
 			if($addDots)
-				$str = mb_substr($str, 0, $numChars-3)."...";				
+				$str = mb_substr($str, 0, $numChars-3, $encoding)."...";				
 			else
-				$str = mb_substr($str, 0, $numChars);
+				$str = mb_substr($str, 0, $numChars, $encoding);
+			
 			
 			return($str);
 		}
