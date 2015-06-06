@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.4.4, released 17 May 2015 
+// Unite Gallery, Version: 1.4.6, released 03 Jun 2015 
 
 
 /**
@@ -2154,12 +2154,12 @@ function UGFunctions(){
 	 * get size and position of some object
 	 */
 	this.getElementSize = function(element){
-				
-		var obj = element.position();
-		
-		if(obj == undefined){
+
+		if(element === undefined){
 			throw new Error("Can't get size, empty element");
 		}
+				
+		var obj = element.position();
 				
 		obj.height = element.outerHeight();
 		obj.width = element.outerWidth();
@@ -3286,6 +3286,7 @@ function UGFunctions(){
 	 * register gallery theme
 	 */
 	this.registerTheme = function(themeName){
+		
 		g_temp.arrThemes.push(themeName);
 	}
 	
@@ -3675,7 +3676,7 @@ function UniteGalleryMain(){
 	var t = this;
 	var g_galleryID;
 	var g_objGallery = jQuery(t), g_objWrapper;
-	var g_objThumbs, g_objSlider, g_functions = new UGFunctions();
+	var g_objThumbs, g_objSlider, g_functions = new UGFunctions(), g_objTabs;
 	var g_arrItems = [], g_numItems, g_selectedItem = null, g_selectedItemIndex = -1;
 	var g_objTheme;
 	
@@ -3722,7 +3723,9 @@ function UniteGalleryMain(){
 			gallery_preserve_ratio: true,				//true, false - preserver ratio when on window resize
 			gallery_background_color: "",				//set custom background color. If not set it will be taken from css.
 			gallery_debug_errors:false,					//show error message when there is some error on the gallery area.
-			gallery_shuffle:false						//randomise position of items at start.
+			gallery_shuffle:false,						//randomise position of items at start.
+			gallery_urlajax:null,						//ajax url for requesting new items etc.
+			gallery_enable_tabs: false					//enable/disable category tabs
 	};
 	
 	//gallery_control_thumbs_mousewheel
@@ -3828,8 +3831,11 @@ function UniteGalleryMain(){
 	/**
 	 *  the gallery
 	 */
-	function runGallery(galleryID, objCustomOptions){
+	function runGallery(galleryID, objCustomOptions, htmlItems){
 			 
+			var isCustomOptions = (typeof objCustomOptions == "object");
+			
+			if(isCustomOptions)
 		     g_temp.objCustomOptions = objCustomOptions;
 			 
 		     if(g_temp.isRunFirstTime == true){
@@ -3844,28 +3850,50 @@ function UniteGalleryMain(){
 				 g_temp.originalOptions = jQuery.extend({}, g_options);
 				 
 				 //fill arrItems
-				 var arrItems = g_objWrapper.children();
-				 
-				 fillItemsArray(arrItems);
-				 
+				 var objItems = g_objWrapper.children();
+					 
+				 fillItemsArray(objItems);
 				 loadAPIs();
 				 
 				 //hide images:
-				 g_objWrapper.children("img").fadeTo(0,0).hide();
+				 g_objWrapper.find("img").fadeTo(0,0).hide();
 				 g_objWrapper.show();
 		
 				 clearInitData();
 		    	 
-		     }else{		//reset options
+		     }else{		//reset options - not first time run
 		    	 destroy();
 		    	 resetOptions();
+		    	 
+		    	 if(htmlItems){
+		    		 
+		    		 g_objWrapper.html(htmlItems);
+		    		 var objItems = g_objWrapper.children();
+		    		 fillItemsArray(objItems);
+					 
+		    		 loadAPIs();
+					 
+					 g_objWrapper.children().fadeTo(0,0).hide();
+					 
+					 g_objWrapper.show();
+					 clearInitData();
+		    	 }
+		     
 		     }
 			 
 		     //extend params with defaults from user
-			 g_options = jQuery.extend(g_options, objCustomOptions);
+		     g_options = jQuery.extend(g_options, g_temp.objCustomOptions);
+			 
+			 //init tabs
+			 if(g_temp.isRunFirstTime == true && g_options.gallery_enable_tabs == true){
+				 g_objTabs = new UGTabs();
+				 g_objTabs.init(t, g_options);
+			 }
 			 
 			 //modify and verify the params
-			 modifyInitParams(objCustomOptions);
+			 if(isCustomOptions)
+				 modifyInitParams(g_temp.objCustomOptions);
+			 
 			 validateParams();
 			 
 			 //shuffle items
@@ -3877,7 +3905,7 @@ function UniteGalleryMain(){
 			 }
 			 
 			 //init the theme
-			 initTheme(objCustomOptions);
+			 initTheme(g_temp.objCustomOptions);
 			 			 				 
 			 //set gallery html elements
 			 setGalleryHtml();
@@ -3909,7 +3937,10 @@ function UniteGalleryMain(){
 		 }
 		 
 		 g_objTheme.run();
-		 	 
+		 
+		 if(g_objTabs)
+			 g_objTabs.run();
+		 
 		 preloadBigImages();
 		 
 		 initEvents();
@@ -4083,7 +4114,9 @@ function UniteGalleryMain(){
 	 * fill items array from images object
 	 */
 	function fillItemsArray(arrChildren){
-		 
+		
+		g_arrItems = [];
+		
 		 var numIndex = 0;
 		 
 		 for(var i=0;i<arrChildren.length;i++){
@@ -4195,6 +4228,7 @@ function UniteGalleryMain(){
 			 if(objItem.objThumbImage){
 				 objItem.objThumbImage.removeAttr("data-description", "");
 				 objItem.objThumbImage.removeAttr("data-image", "");				 
+				 objItem.objThumbImage.removeAttr("title", "");				 
 			 }
 			 
 			 objItem.index = numIndex;
@@ -5531,6 +5565,59 @@ function UniteGalleryMain(){
 			return(true);
 		
 		return(false);
+	}
+	
+	
+	/**
+	 * change gallery items
+	 * items type: ajax, html
+	 */
+	this.changeItems = function(itemsContent){
+		
+		runGallery(g_galleryID, "nochange", itemsContent);
+	}
+	
+	
+	/**
+	 * ajax request
+	 */
+	this.ajaxRequest = function(action, data, isJSON, successFunction){
+		
+		var dataType = "html";
+		if(isJSON == true)
+			dataType = "json";
+		
+				
+		if(!successFunction || typeof successFunction != "function")
+			throw new Error("ajaxRequest error: success function should be passed");
+
+		var urlAjax = g_options.gallery_urlajax;
+		if(urlAjax == "")
+			throw new Error("ajaxRequest error: Ajax url don't passed");
+		
+		if(typeof data == "undefined")
+			var data = {};
+
+		//add galleryID to data
+		var objData = {
+				action:"unitegallery_ajax_action",
+				client_action:action,
+				galleryID: g_galleryID,
+				data:data
+		};
+		
+		jQuery.ajax({
+			type:"post",
+			url:g_options.gallery_urlajax,
+			dataType: 'json',
+			data:objData,
+			success:successFunction,		 	
+			error:function(jqXHR, textStatus, errorThrown){
+				console.log("Ajax Error!!! " + textStatus);
+			}
+		});
+		
+		
 	}
 	
 	
@@ -12931,6 +13018,112 @@ function UGStripPanel() {
 	
 }
 
+
+/**
+ tabs panel class addon to unite gallery
+ */
+function UGTabs(){
+	
+	var t = this, g_objThis = jQuery(this);
+	var g_gallery = new UniteGalleryMain(), g_functions = new UGFunctions();
+	var g_objTabs;
+	
+
+	var g_options = {
+		tabs_container: "#ug_tabs",
+		tabs_class_selected: "ug-tab-selected"
+	};
+	
+	this.events = {
+		
+	};
+	
+	
+	/**
+	 * init tabs function
+	 */
+	function initTabs(gallery, customOptions){
+		g_gallery = gallery;
+
+		g_options = jQuery.extend(g_options, customOptions);
+		
+		g_objTabs = jQuery(g_options.tabs_container + " .ug-tab");
+	}
+	
+	
+	/**
+	 * run the tabs
+	 */
+	function runTabs(){
+		
+		initEvents();
+	}
+	
+	
+	/**
+	 * request new gallery items
+	 */
+	function requestGalleryItems(catid){
+		
+		g_gallery.ajaxRequest("get_cat_items",{catid:catid}, true, function(response){
+			
+			var htmlItems = response.html;
+			g_gallery.changeItems(htmlItems);
+			
+		});
+		
+	}
+	
+	
+	/**
+	 * on tab click
+	 */
+	function onTabClick(){
+		
+		var classSelected = g_options.tabs_class_selected;
+		
+		var objTab = jQuery(this);
+		if(objTab.hasClass(classSelected))
+			return(true);
+		
+		g_objTabs.not(objTab).removeClass(classSelected);
+		objTab.addClass(classSelected);
+		
+		var catID = objTab.data("catid");
+		if(!catID)
+			return(true);
+		
+		requestGalleryItems(catID);
+		
+	}
+	
+	
+	/**
+	 * init tabs events
+	 */
+	function initEvents(){
+		
+		g_objTabs.click(onTabClick);
+	}
+	
+	
+	/**
+	 * outer init function, move to inner init
+	 */
+	this.init = function(gallery, customOptions){
+		initTabs(gallery, customOptions);
+	}
+	
+	
+	/**
+	 * run the tabs
+	 */
+	this.run = function(){
+		runTabs();
+	}
+	
+	
+}
 
 
 function UGThumbsGeneral(){

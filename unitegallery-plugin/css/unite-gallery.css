@@ -612,8 +612,8 @@ img.ug-sepia-effect{
 
 	display:block;	
 	border:none;
-	padding:0px;
-	margin:0px;
+	padding:0px !important;
+	margin:0px !important;
 	width:100%;
 }
 

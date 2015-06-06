@@ -1,3 +1,11 @@
+version 1.4.6
+
+-bug fix: fixed js error on carousel without navigation
+
+version 1.4.5
+
+- change: added support for "title" attribute as item description
+
 version 1.4.4
 
 -feature: enable slider area links

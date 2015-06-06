@@ -184,20 +184,30 @@ function UGTheme_carousel(){
 		
 		var carouselElement = g_carousel.getElement();
 		var sizeCar = g_functions.getElementSize(carouselElement);
-		var sizeNav = g_functions.getElementSize(g_objNavWrapper);
+
+		var navHeight = 0;
 		
-		var galleryHeight = sizeCar.height + g_options.theme_navigation_margin + sizeNav.height;
+		if(g_objNavWrapper){
+			var sizeNav = g_functions.getElementSize(g_objNavWrapper);
+			navHeight = sizeNav.height;
+		}
+				
+		var galleryHeight = sizeCar.height + g_options.theme_navigation_margin + navHeight;
 		
 		//vars for bottom nav position
 		var carouselTop = 0;
-		var navTop = sizeCar.height + g_options.theme_navigation_margin;
 		
-		//change vars for top nav position
-		if(g_options.theme_navigation_position == "top"){
+		if(g_objNavWrapper){
 			
-			carouselTop = sizeNav.height + g_options.theme_navigation_margin;
-			navTop = 0;
-		}	
+			var navTop = sizeCar.height + g_options.theme_navigation_margin;
+			
+			//change vars for top nav position
+			if(g_options.theme_navigation_position == "top"){
+				
+				carouselTop = sizeNav.height + g_options.theme_navigation_margin;
+				navTop = 0;
+			}
+		}
 		
 		//align the carousel
 		g_functions.placeElement(carouselElement, g_options.theme_carousel_align, carouselTop, g_options.theme_carousel_offset, 0);
