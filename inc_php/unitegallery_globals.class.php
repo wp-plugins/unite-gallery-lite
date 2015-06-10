@@ -30,9 +30,9 @@ defined('_JEXEC') or die('Restricted access');
 		const VIEW_ITEMS = "items";
 		const VIEW_GALLERIES = "galleries";
 		const VIEW_GALLERY = "gallery";
+        const VIEW_CATEGORY_TABS = "categorytabs";
 		const VIEW_PREVIEW = "preview";
 		const VIEW_MEDIA_SELECT = "mediaselect";
-
 		
 		const FIELDS_ITEMS = "published,title,alias,type,ordering,catid,imageid,url_image,url_thumb,contentid,content,params";
 		const FIELDS_GALLERY = "type,title,alias,ordering,params";
@@ -63,6 +63,7 @@ defined('_JEXEC') or die('Restricted access');
 		public static $url_component_client;
 		public static $url_component_admin;
 		public static $url_ajax;
+		public static $url_ajax_front;
 		public static $urlPlugin;
 		public static $urlGalleries;
 		public static $url_elfinder;

@@ -132,9 +132,30 @@ defined('_JEXEC') or die('Restricted access');
 		 * get view gallery settings
 		 */
 		public static function getUrlViewCurrentGallery(){
+			
 			$galleryID = GlobalsUGGallery::$galleryID;
 			$url = HelperUG::getViewUrl(GlobalsUG::VIEW_GALLERY,"id={$galleryID}");
 			return($url);
+		}
+		
+		
+		/**
+		 * get view category settings of the current gallery
+		 * @return string
+		 */
+		public static function getUrlViewCategoryTabs($galleryID = "", $params = ""){
+
+			if(empty($galleryID))
+				$galleryID = GlobalsUGGallery::$galleryID;
+			
+			$strParams = "id={$galleryID}";
+			
+			if(!empty($params))
+				$strParams .= "&".$params;
+				
+			$url = HelperUG::getViewUrl(GlobalsUG::VIEW_CATEGORY_TABS, $strParams);
+			return($url);
+		
 		}
 		
 		
@@ -201,6 +222,24 @@ defined('_JEXEC') or die('Restricted access');
 			
 			GlobalsUG::$arrClientSideText[$name] = $text;
 			
+		}
+		
+		
+		/**
+		 * get gallery id from html id
+		 */
+		public static function getGalleryIDFromHtmlID($galleryHtmlID){
+			
+			if(empty($galleryHtmlID))
+				return("");
+			
+			$arr = explode("_", $galleryHtmlID);
+			if(count($arr) < 3)
+				return("");
+			
+			$galleryID = $arr[count($arr)-2];	//one before the last
+			
+			return($galleryID);
 		}
 		
 		

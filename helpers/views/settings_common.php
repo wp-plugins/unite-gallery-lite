@@ -34,7 +34,7 @@ defined('_JEXEC') or die('Restricted access');
 		
 		$arrValues = GlobalsUGGallery::$gallery->getParamsForSettings();
 
-		//get categories select
+		//get categories select dialog
 		$objCategories = new UniteGalleryCategories();		
 		$arrCats = $objCategories->getCatsShort("component");
 		$htmlSelectCats = UniteFunctionsUG::getHTMLSelect($arrCats, "", "id='ds_select_cats'", true);

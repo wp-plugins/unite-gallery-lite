@@ -86,8 +86,19 @@ Carousel displaying solution that allows you to show image thumbnails and open i
 
 == Changelog ==
 
+
+= 1.5 =
+
+-important Change: fixed important secirity issues. Please update to this version.
+-feature: added category tabs functionality.
+
 = 1.3.2 =
 initial release
+
+For more detailed log please visit here: 
+
+<a href="http://plugins.svn.wordpress.org/unite-gallery-lite/trunk/release_log.txt" target="_blank">Full Release Log</a>
+
 
 == Upgrade Notice ==
 The plugin don't have upgrades yet

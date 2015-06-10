@@ -24,6 +24,7 @@
 					label="Compress Output"
 					description="Sometimes some output filters adds html tags at the html / javascript output. It breaks the gallery from appear. Try this option when you see weird code like output.">	
 				</field>
+
 				<field name="gallery_debug_errors" 
 					type="boolean"
 					default="false" 

@@ -4,6 +4,7 @@ class UniteProviderFrontUG{
 	
 	private static $t;
 	const ACTION_ADD_SCRIPTS = "wp_enqueue_scripts";
+
 	
 	/**
 	 *
@@ -21,16 +22,10 @@ class UniteProviderFrontUG{
 	public function __construct(){
 		self::$t = $this;
 		
-		self::addAction(self::ACTION_ADD_SCRIPTS, "onAddScripts");
+		//self::addAction(self::ACTION_WP_HEAD, "onWpHead");
 	}
 	
 	
-	/**
-	 * on add scripts
-	 */
-	public static function onAddScripts(){
-		//HelperUG::addScript("unitegallery_admin");
-	}
 		
 }
 

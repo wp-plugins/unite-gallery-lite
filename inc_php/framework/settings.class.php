@@ -40,7 +40,7 @@ defined('_JEXEC') or die('Restricted access');
 		const TYPE_IMAGE = "image";
 		const TYPE_CHECKLIST = "checklist";
 		const TYPE_BOOLEAN = "boolean";
-		
+		const TYPE_HIDDEN   = "hidden";
 		
 		//------------------------------------------------------------
 		//set data types  

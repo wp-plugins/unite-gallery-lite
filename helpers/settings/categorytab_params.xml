@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+
+			<fieldset name="general" label="Tabs Position" icon="eg-icon-cog-alt">
+               
+                <field name="tabs_space_between"
+                       type="text"
+                       default="5"
+                       label="Space Between Tabs"
+                       unit="px"
+                       description="Space between tabs">
+                </field>
+                
+                <field type="hr"></field>
+                
+                <field name="tabs_position"
+                       type="list"
+                       default="center"
+                       label="Tabs Panel Position"
+                       description="The position of the tab panel">
+                </field>
+                
+                <field name="tabs_offset"
+                       type="text"
+                       default="0"
+                       label="Tabs Panel Offset"
+                       unit="px"
+                       description="Space from the side(left or right) of the tabs panel">
+                </field>
+                
+                <field type="control" 
+                	parent="tabs_position"
+                	ctype="disable" 
+                	child="tabs_offset"
+                	value="center"
+                	/>
+                
+                <field type="hr"></field>
+
+                <field name="tabs_margin_top"
+                       type="text"
+                       default="0"
+                       label="Tabs Panel Margin Top"
+                       unit="px"
+                       description="Margin top of the tabs panel, space from the top to the panel">
+                </field>
+                
+                <field name="tabs_margin_bottom"
+                       type="text"
+                       default="0"
+                       label="Tabs Panel Margin Bottom"
+                       unit="px"
+                       description="Space between the tabs panel and the gallery">
+                </field>
+          
+          </fieldset>
+		  
+		  <fieldset name="tab_style" label="Tab Style" icon="eg-icon-cog-alt">
+          		
+          		<field name="tab_padding_vert" 
+          			type="text"
+          			default="6" 
+          			label="Tab Padding Top / Bottom"
+          			unit="px"
+          			description="Top and bottom padding of the tab">
+          		</field>
+
+          		<field name="tab_padding_hor" 
+          			type="text"
+          			default="8" 
+          			label="Tab Padding Left / Right"
+          			unit="px"
+          			description="Left and right padding of the tab">
+          		</field>
+          				
+          		<field type="hr"></field>
+
+                <field name="tab_background_color"
+                       type="color"
+                       default="#333333"
+                       label="Tab Background Color"
+                       description="Backgroud color of the tab">
+                </field>
+
+                <field name="tab_text_color"
+                       type="color"
+                       default="#ffffff"
+                       label="Tab Text Color"
+                       description="The font color of the tab">
+                </field>
+          		
+          		<field name="tab_text_size"
+          			type="text"
+          			default="12" 
+          			label="Tab Text Size"
+          			unit="px"
+          			description="The text size of the tab">
+          		</field>
+          		
+          		<field name="tab_font_family" 
+          			type="text"
+          			default="" 
+          			label="Tab Font Family"
+          			description="Enter custom font family. If not set, will take the font family from your website css">  
+          		</field>
+          		
+          		<field name="tab_font_weight" 
+          			type="radio"
+          			default="normal" 
+          			label="Tab Font Weight"
+          			description="The font style of the tab">  
+          				<option value="normal" text="Normal"></option>
+          				<option value="bold" text="Bold"></option>
+          		</field>
+          		
+                <field name="tab_border_radius"
+                       type="text"
+                       default="3"
+                       label="Tab Border Radius"
+                       unit="px"
+                       description="Tab border radius">
+                </field>
+          		
+          		<field type="hr"></field>
+          		
+                <field name="tab_enable_border"
+                       type="boolean"
+                       default="false"
+                       label="&lt;b&gt;Enable Border&lt;/b&gt;"
+                       description="Enable border of the tab">
+                </field>
+                
+                <field type="bulk_control_start" 
+                	parent="tab_enable_border"
+                	ctype="show" 
+                	value="true"
+                />
+                
+                <field name="tab_border_width"
+                       type="text"
+                       default="1"
+                       unit="px"
+                       label="&amp;nbsp; Tab Border Width"
+                       description="Tab border width">
+                </field>
+                
+                <field name="tab_border_color"
+                       type="color"
+                       default="#969696"
+                       label="&amp;nbsp; Tab Border Color"
+                       description="">
+                </field>
+				
+				<field type="bulk_control_end"/>
+				
+				<field type="hr"></field>
+				
+				<field name="tab_additional_css" 
+					type="textarea"
+					default=""
+					label="Tab Additional CSS"
+					description="Type the additional css for normal styling, like shadow or glow for example.">  
+				</field>
+
+				
+			</fieldset>
+			
+		  <fieldset name="tab_mouseover" label="Tab Mouseover Style" icon="eg-icon-cog-alt">
+
+				<field name="tab_hover_background_change" 
+					type="boolean"
+					default="true" 
+					label="Change Background Color"
+					description="To change the background color on mouse over or not">	
+				</field>
+		  		
+                <field name="tab_hover_background_color"
+                       type="color"
+                       default="#707070"
+                       label="&amp;nbsp; Tab Mouseover Background Color"
+                       description="Tab background color on mouseover">
+                </field>
+				
+				<field type="control" 
+					parent="tab_hover_background_change"
+					ctype="enable" 
+					child="tab_hover_background_color"
+					value="true"
+				/>
+				
+		  		<field type="hr"></field>
+				
+				<field name="tab_hover_color_change" 
+					type="boolean"
+					default="false" 
+					label="Change Text Color"
+					description="To change the text color on mouse over or not">	
+				</field>
+				
+                <field name="tab_hover_text_color"
+                       type="color"
+                       default="#ffffff"
+                       label="&amp;nbsp; Tab Mouseover Text Color"
+                       description="The font color of the tab">
+                </field>
+		  		
+		  		<field type="control" 
+		  			parent="tab_hover_color_change"
+		  			ctype="enable" 
+		  			child="tab_hover_text_color"
+		  			value="true"
+		  		/>
+		  		
+		  		<field type="hr"></field>
+		  		
+				<field name="tab_hover_bordercolor_change" 
+					type="boolean"
+					default="false" 
+					label="Change Border Color"
+					description="To change the border color on mouse over or not">	
+				</field>
+		  		
+                <field name="tab_hover_border_color"
+                       type="color"
+                       default="#969696"
+                       label="&amp;nbsp; Tab Mouseover Border Color"
+                       description="">
+                </field>
+		  		
+		  		<field type="control" 
+		  			parent="tab_hover_bordercolor_change"
+		  			ctype="enable" 
+		  			child="tab_hover_border_color"
+		  			value="true"
+		  		/>
+				
+				<field type="hr"></field>
+				
+				<field name="tab_hover_additional_css" 
+					type="textarea"
+					default=""
+					label="Tab Mouseover Additional CSS"
+					description="Type the additional css for mouseover tab styling.">  
+				</field>
+		  		
+		  </fieldset>		
+		  
+		  <fieldset name="tab_selected" label="Selected Tab Style" icon="eg-icon-cog-alt">
+		  		
+                <field name="tab_selected_background_color"
+                       type="color"
+                       default="#2077a2"
+                       label="Selected Tab Background Color"
+                       description="Selected tab background color">
+                </field>
+		  		
+		  		<field type="hr"></field>
+				
+				<field name="tab_selected_color_change" 
+					type="boolean"
+					default="false" 
+					label="Change Text Color"
+					description="To change the text color on mouse over or not">	
+				</field>
+				
+                <field name="tab_selected_text_color"
+                       type="color"
+                       default="#ffffff"
+                       label="&amp;nbsp; Selected Tab Text Color"
+                       description="The font color of the tab">
+                </field>
+		  		
+		  		<field type="control" 
+		  			parent="tab_selected_color_change"
+		  			ctype="enable" 
+		  			child="tab_selected_text_color"
+		  			value="true"
+		  		/>
+	
+		  		<field type="hr"></field>
+		  		
+				<field name="tab_selected_bordercolor_change" 
+					type="boolean"
+					default="false" 
+					label="Change Border Color"
+					description="To change the border color on mouse over or not">	
+				</field>
+		  		
+                <field name="tab_selected_border_color"
+                       type="color"
+                       default="#969696"
+                       label="&amp;nbsp; Selected Tab Border Color"
+                       description="">
+                </field>
+		  		
+		  		<field type="control" 
+		  			parent="tab_selected_bordercolor_change"
+		  			ctype="enable" 
+		  			child="tab_selected_border_color"
+		  			value="true"
+		  		/>
+	
+				<field type="hr"></field>
+				
+				<field name="tab_selected_additional_css" 
+					type="textarea"
+					default=""
+					label="Selected Tab Additional CSS"
+					description="Type the additional css for selected tab styling.">  
+				</field>
+	
+		  </fieldset>
+		  		  
+		  <fieldset name="tab_troubleshooting" label="Troubleshooting" icon="eg-icon-cog-alt">
+		  		
+		  		<field name="tab_put_styles_in_body" 
+		  			type="boolean"
+		  			default="false" 
+		  			label="Put Styles In Body"
+		  			description="If you made some changes, but don't see it in the gallery, you can turn this option. It will put the styles right into the body before gallery html">	
+		  		</field>
+		  		
+		  </fieldset>
+		  		  		
+</fields>

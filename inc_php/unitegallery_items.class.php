@@ -83,6 +83,175 @@ class UniteGalleryItems extends UniteElementsBaseUG{
 	
 	
 	/**
+	 * get video add html
+	 */
+	public function getVideoAddHtml($type, $objItem){
+	
+		$addHtml = "";
+		switch($type){
+			case UniteGalleryItem::TYPE_YOUTUBE:
+			case UniteGalleryItem::TYPE_VIMEO:
+			case UniteGalleryItem::TYPE_WISTIA:
+				$videoID = $objItem->getParam("videoid");
+				$addHtml .= "data-videoid=\"{$videoID}\" ";
+				break;
+			case UniteGalleryItem::TYPE_HTML5VIDEO:
+				$urlMp4 = $objItem->getParam("video_mp4");
+				$urlWebm = $objItem->getParam("video_webm");
+				$urlOgv = $objItem->getParam("video_ogv");
+	
+				$addHtml .= "data-videomp4=\"{$urlMp4}\" ";
+				$addHtml .= "data-videowebm=\"{$urlWebm}\" ";
+				$addHtml .= "data-videoogv=\"{$urlOgv}\" ";
+	
+				break;
+		}
+	
+		return($addHtml);
+	}
+	
+	
+	/**
+	 * get front html of items array
+	 */
+	public function getItemsHtmlFront($arrItems, $thumbSize = "", $isTilesType = false){
+		
+		$tab = "						";
+		$nl = "\n".$tab;
+		
+		$totalHTML = "";
+		
+		$counter = 0;
+		
+		// Dear friend. Yes, you have found a place where you can
+		// programmically remove the limitations.
+		// Though you should know that it's Illigal, and not moral!
+		// If you like the gallery and has respect to it's developers hard work, you should purchase a full version copy!.
+		// Please buy it from here: http://codecanyon.net/item/unite-gallery-wordpress-plugin/10458750?ref=valiano
+		// You'll get lifetime support and updates, so why not, it's not so expensive!
+		
+		foreach($arrItems as $objItem):
+		
+			if($isTilesType && $counter >= 20)
+				break;
+			else
+				if($isTilesType == false && $counter >= 12)
+				break;
+			
+			$counter++;
+				
+			$urlImage = $objItem->getUrlImage();
+			$urlThumb = $objItem->getUrlThumb($thumbSize);
+			
+			$title = $objItem->getTitle();
+			$type = $objItem->getType();
+			$alt = $objItem->getAlt();
+			
+			$description = $objItem->getParam("ug_item_description");
+			
+			$enableLink = $objItem->getParam("ug_item_enable_link");
+			$enableLink = UniteFunctionsUG::strToBool($enableLink);
+			
+			//combine description
+			if($enableLink == true){
+				$link = $objItem->getParam("ug_item_link");
+			
+				/*
+				 if(!empty($link) && $this->isTilesType == false){
+				$isBlank = ($objItem->getParam("ug_item_link_open_in") == "new");
+				$htmlLink = UniteFunctionsUG::getHtmlLink($link, $link, "", "", $isBlank);
+				$description .= " ".$htmlLink;
+				}
+				*/
+			}
+			
+			$title = htmlspecialchars($title);
+			$description = htmlspecialchars($description);
+			$alt = htmlspecialchars($alt);
+			
+			$strType = "";
+			if($type != UniteGalleryItem::TYPE_IMAGE){
+				$strType = "data-type=\"{$type}\" ";
+			}
+			
+			$addHtml = $this->getVideoAddHtml($type, $objItem);
+			
+			//set link (on tiles mode)
+			$linkStart = "";
+			$linkEnd = "";
+			if($enableLink == true){
+				$linkStart = "<a href=\"{$link}\">";
+				$linkEnd = "</a>";
+			}
+			
+			$html = "\n";
+			
+			if($linkStart)
+				$html .= $nl.$linkStart;
+			
+			$html .= $nl."<img alt=\"{$alt}\"";
+			$html .= $nl."    {$strType} src=\"{$urlThumb}\"";
+			$html .= $nl."     data-image=\"{$urlImage}\"";
+			$html .= $nl."     title=\"{$description}\"";
+			$html .= $nl."     {$addHtml}style=\"display:none\">";
+			
+			if($linkEnd)
+				$html .= $nl.$linkEnd;
+			
+			$totalHTML .= $html;
+		
+		endforeach;
+		
+		return($totalHTML);
+		
+	}
+	
+	
+	/**
+	 * get front html from data
+	 */
+	public function getHtmlFrontFromData($data){
+		
+		$catID = UniteFunctionsUG::getVal($data, "catid");
+		$galleryID = UniteFunctionsUG::getVal($data, "galleryID");
+		
+		UniteFunctionsUG::validateNumeric($catID, "category id");
+		
+		if(empty($galleryID))
+			UniteFunctionsUG::throwError("The gallery ID not given");
+		
+		//get thumb resolution param from the gallery
+		$gallery = new UniteGalleryGallery();
+		$gallery->initByID($galleryID);
+		
+		//validate if enable categories
+		$enableCatTabs = $gallery->getParam('enable_category_tabs');
+		$enableCatTabs = UniteFunctionsUG::strToBool($enableCatTabs);
+		
+		if($enableCatTabs == false)
+			UniteFunctionsUG::throwError("The tabs functionality disabled");
+		
+		//check that the category id inside the params
+		$params = $gallery->getParams();
+		$tabCatIDs = $gallery->getParam("categorytabs_ids");
+		$arrTabIDs = explode(",", $tabCatIDs);
+		if(in_array($catID, $arrTabIDs) == false)
+			UniteFunctionsUG::throwError("Get items not alowed for this category");
+		
+		//get thumb size
+		$thumbSize = $gallery->getParam("tile_image_resolution");
+		
+		//get arrItems
+		$arrItems = $this->getCatItems($catID);
+		
+		//get items html
+		$htmlItems = $this->getItemsHtmlFront($arrItems, $thumbSize);
+		
+		return($htmlItems);
+	}
+	
+	
+	/**
 	 * 
 	 * delete items
 	 */

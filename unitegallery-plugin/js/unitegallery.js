@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.4.6, released 03 Jun 2015 
+// Unite Gallery, Version: 1.5, released 07 Jun 2015 
 
 
 /**
@@ -725,16 +725,16 @@ function UGCarousel(){
 			positionTiles(true);		//set heights at first time
 			
 			if(g_options.carousel_autoplay == true)
-				startAutoplay();
+				t.startAutoplay();
 		}else{
 			
 			if(g_options.carousel_autoplay == true)
-				pauseAutoplay();
+				t.pauseAutoplay();
 			
 			scrollToTile(0, false);
 			
 			if(g_options.carousel_autoplay == true)
-				startAutoplay();
+				t.startAutoplay();
 		}
 		
 		positionElements();
@@ -1180,7 +1180,7 @@ function UGCarousel(){
 	/**
 	 * start autoplay
 	 */
-	function startAutoplay(){
+	this.startAutoplay = function(){
 		
 		g_temp.isPlayMode = true;
 		g_temp.isPaused = false;
@@ -1194,10 +1194,11 @@ function UGCarousel(){
 		
 	}
 	
+	
 	/**
 	 * unpause autoplay after pause
 	 */
-	function unpauseAutoplay(){
+	this.unpauseAutoplay = function(){
 		
 		if(g_temp.isPlayMode == false)
 			return(true);
@@ -1205,13 +1206,14 @@ function UGCarousel(){
 		if(g_temp.isPaused == false)
 			return(true);
 		
-		startAutoplay();
+		t.startAutoplay();
 	}
+	
 	
 	/**
 	 * pause the autoplay
 	 */
-	function pauseAutoplay(){
+	this.pauseAutoplay = function(){
 
 		if(g_temp.isPlayMode == false)
 			return(true);
@@ -1229,7 +1231,8 @@ function UGCarousel(){
 	/**
 	 * stop autoplay
 	 */
-	function stopAutoplay(){
+	this.stopAutoplay = function(){
+		
 		if(g_temp.isPlayMode == false)
 			return(true);
 		
@@ -1269,7 +1272,7 @@ function UGCarousel(){
 		
 		g_temp.touchActive = true;
 		
-		pauseAutoplay();
+		t.pauseAutoplay();
 		
 		g_temp.startTime = jQuery.now();	
 		g_temp.startMousePos = getMousePos(event);
@@ -1335,7 +1338,7 @@ function UGCarousel(){
 		
 		scrollToNeerestTile();
 		
-		unpauseAutoplay();
+		t.unpauseAutoplay();
 	}
 	
 	/**
@@ -1347,7 +1350,7 @@ function UGCarousel(){
 			return(true);
 		
 		if(g_temp.isPlayMode == true && g_temp.isPaused == false)
-			pauseAutoplay();
+			t.pauseAutoplay();
 	}
 	
 	/**
@@ -1358,7 +1361,7 @@ function UGCarousel(){
 		if(g_options.carousel_autoplay_pause_onhover == false)
 			return(true);
 		
-		unpauseAutoplay();
+		t.unpauseAutoplay();
 	}
 	
 	
@@ -1366,11 +1369,10 @@ function UGCarousel(){
 	 * init panel events
 	 */
 	function initEvents(){
-			
+				
 		g_objTileDesign.initEvents();
 		
 		//touch drag events
-		
 		//slider mouse down - drag start
 		g_objCarouselWrapper.bind("mousedown touchstart",onTouchStart);
 		
@@ -1553,9 +1555,9 @@ function UGCarousel(){
 		g_functions.setButtonOnClick(objButton, function(){
 				
 				if(g_temp.isPlayMode == false || g_temp.isPaused == true)					
-					startAutoplay();
+					t.startAutoplay();
 				else
-					stopAutoplay();
+					t.stopAutoplay();
 				
 		});
 	}
@@ -3678,7 +3680,7 @@ function UniteGalleryMain(){
 	var g_objGallery = jQuery(t), g_objWrapper;
 	var g_objThumbs, g_objSlider, g_functions = new UGFunctions(), g_objTabs;
 	var g_arrItems = [], g_numItems, g_selectedItem = null, g_selectedItemIndex = -1;
-	var g_objTheme;
+	var g_objTheme, g_objCache = {};
 	
 	this.events = {
 			ITEM_CHANGE: "item_change",
@@ -3692,7 +3694,8 @@ function UniteGalleryMain(){
 			SLIDER_ACTION_START: "slider_action_start",
 			SLIDER_ACTION_END: "slider_action_end",
 			ITEM_IMAGE_UPDATED: "item_image_updated",
-			GALLERY_KEYPRESS: "gallery_keypress"
+			GALLERY_KEYPRESS: "gallery_keypress",
+			GALLERY_BEFORE_REQUEST_ITEMS: "gallery_before_request_items"	//before ajax load items
 	};
 	
 	
@@ -3725,7 +3728,9 @@ function UniteGalleryMain(){
 			gallery_debug_errors:false,					//show error message when there is some error on the gallery area.
 			gallery_shuffle:false,						//randomise position of items at start.
 			gallery_urlajax:null,						//ajax url for requesting new items etc.
-			gallery_enable_tabs: false					//enable/disable category tabs
+			gallery_enable_tabs: false,					//enable/disable category tabs
+			gallery_enable_cache: true,					//enable caching items
+			gallery_initial_catid: ""					//initial category id (for caching)
 	};
 	
 	//gallery_control_thumbs_mousewheel
@@ -3776,7 +3781,7 @@ function UniteGalleryMain(){
 	 * init the theme
 	 */
 	function initTheme(objParams){
-		 		
+		 
 		//set theme function:
 		 if(objParams.hasOwnProperty("gallery_theme"))
 			 g_options.gallery_theme = objParams.gallery_theme;
@@ -3808,7 +3813,7 @@ function UniteGalleryMain(){
 		// trace(g_options.tile_enable_textpanel);
 		 
 		 g_objTheme = new g_options.gallery_theme();
-		 g_objTheme.init(t, g_temp.objCustomOptions);
+		 g_objTheme.init(t, g_options);
 		 
 	}
 	
@@ -3831,12 +3836,12 @@ function UniteGalleryMain(){
 	/**
 	 *  the gallery
 	 */
-	function runGallery(galleryID, objCustomOptions, htmlItems){
+	function runGallery(galleryID, objCustomOptions, htmlItems, cacheID){
 			 
 			var isCustomOptions = (typeof objCustomOptions == "object");
 			
 			if(isCustomOptions)
-		     g_temp.objCustomOptions = objCustomOptions;
+		      g_temp.objCustomOptions = objCustomOptions;
 			 
 		     if(g_temp.isRunFirstTime == true){
 		    	 
@@ -3849,9 +3854,17 @@ function UniteGalleryMain(){
 				 
 				 g_temp.originalOptions = jQuery.extend({}, g_options);
 				 
+				 //merge options
+				 if(isCustomOptions)
+					 g_options = jQuery.extend(g_options, objCustomOptions);
+				 
+				 //cache items
+				 if(g_options.gallery_enable_cache == true && g_options.gallery_initial_catid)
+					 cacheItems(g_options.gallery_initial_catid);
+				 
 				 //fill arrItems
 				 var objItems = g_objWrapper.children();
-					 
+				 
 				 fillItemsArray(objItems);
 				 loadAPIs();
 				 
@@ -3864,10 +3877,22 @@ function UniteGalleryMain(){
 		     }else{		//reset options - not first time run
 		    	 destroy();
 		    	 resetOptions();
-		    	 
+
+		    	 g_options = jQuery.extend(g_options, g_temp.objCustomOptions);
+	    		 
 		    	 if(htmlItems){
 		    		 
+		    		 //cache items
+		    		 if(cacheID && g_options.gallery_enable_cache == true)
+		    			 cacheItems(cacheID, htmlItems);
+		    		 
+		    		 if(htmlItems == "noitems"){
+		    			 showErrorMessage("No items in this category","");
+		    			 return(false);
+			    	 }
+		    		 
 		    		 g_objWrapper.html(htmlItems);
+		    		 
 		    		 var objItems = g_objWrapper.children();
 		    		 fillItemsArray(objItems);
 					 
@@ -3881,8 +3906,6 @@ function UniteGalleryMain(){
 		     
 		     }
 			 
-		     //extend params with defaults from user
-		     g_options = jQuery.extend(g_options, g_temp.objCustomOptions);
 			 
 			 //init tabs
 			 if(g_temp.isRunFirstTime == true && g_options.gallery_enable_tabs == true){
@@ -3962,18 +3985,16 @@ function UniteGalleryMain(){
 	 * 
 	 * show error message
 	 */
-	function showErrorMessage(message){
+	function showErrorMessage(message, prefix){
+
+		if(typeof prefix == "undefined")
+			var prefix = "<b>Gallery Error: </b>";
+				
+		message = prefix + message;
 		
-		message = "<b>Gallery Error: </b>" + message;
-		
-		var html = "<div class='ug-error-message'>" + message + "</div>";
+		var html = "<div class='ug-error-message-wrapper'><div class='ug-error-message'>" + message + "</div></div>";
 		
 		g_objWrapper.children().remove();
-		
-		g_objWrapper.width(g_options.gallery_width);
-		g_objWrapper.height(g_options.gallery_height);
-		
-		g_objWrapper.css("border","1px solid black");
 		
 		g_objWrapper.html(html);
 		g_objWrapper.show();		
@@ -3984,22 +4005,21 @@ function UniteGalleryMain(){
 	 * 
 	 * @param objParams
 	 */
-	 function modifyInitParams(inputParams){
+	 function modifyInitParams(){
 		 
 		 //set default for preloading
 		 if(!g_options.gallery_images_preload_type)
 			 g_options.gallery_images_preload_type = "minimal";
 		 
 		 //normalize gallery min height and width
-		 if(inputParams.gallery_min_height == undefined && g_options.gallery_height < g_options.gallery_min_height){
+		 if(g_options.gallery_min_height == undefined || g_options.gallery_height < g_options.gallery_min_height){
 			 g_options.gallery_min_height = 0;
 		 }
 		 
-		 if(inputParams.gallery_min_width == undefined && g_options.gallery_width < g_options.gallery_min_width){
+		 if(g_options.gallery_min_width == undefined || g_options.gallery_width < g_options.gallery_min_width){
 			 g_options.gallery_min_width = 0;
 		 }
 		 
-			 
 	 }
 
 	
@@ -4034,8 +4054,11 @@ function UniteGalleryMain(){
 		 //add classes and divs
 		 g_objWrapper.addClass("ug-gallery-wrapper");
 		 
+		 g_objWrapper.append("<div class='ug-overlay-disabled' style='display:none'></div>");
+		 
 		 t.setSizeClass();
 	}
+	
 	
 	/**
 	 * if the thumbs panel don't exists, delete initial images from dom
@@ -5126,8 +5149,39 @@ function UniteGalleryMain(){
 		
 	}
 	
+	/**
+	 * show overlay disabled
+	 */
+	this.showDisabledOverlay = function(){
+		g_objWrapper.children(".ug-overlay-disabled").show();
+	}
+
+	/**
+	 * show overlay disabled
+	 */
+	this.hideDisabledOverlay = function(){
+		g_objWrapper.children(".ug-overlay-disabled").hide();
+	}
 	
 	this.___________END_SET_CONTROLS___________ = function(){}
+
+	
+	/**
+	 * cache items, put to cache array by id
+	 * the items must be unprocessed yet
+	 */
+	function cacheItems(cacheID, htmlItemsArg){
+			
+		if(htmlItemsArg){
+			var htmlItems = htmlItemsArg;
+			if(htmlItems != "noitems")
+				htmlItems = jQuery(htmlItemsArg).clone();
+		}else{
+			var htmlItems = g_objWrapper.children().clone();
+		}
+		
+		g_objCache[cacheID] = htmlItems;
+	}
 	
 	
 	/**
@@ -5300,7 +5354,7 @@ function UniteGalleryMain(){
 			t.stopPlayMode();
 	}
 	
-	this.___________END_PLAY_MODE___________ = function(){}
+	this.___________GENERAL_EXTERNAL___________ = function(){}
 	
 	
 	/**
@@ -5570,12 +5624,17 @@ function UniteGalleryMain(){
 	
 	/**
 	 * change gallery items
-	 * items type: ajax, html
 	 */
-	this.changeItems = function(itemsContent){
+	this.changeItems = function(itemsContent, cacheID){
 		
-		runGallery(g_galleryID, "nochange", itemsContent);
+		if(!itemsContent)
+			var itemsContent = "noitems";
+		
+		runGallery(g_galleryID, "nochange", itemsContent, cacheID);
 	}
+	
+	
+	this.__________AJAX_REQUEST_______ = function(){};
 	
 	
 	/**
@@ -5586,7 +5645,6 @@ function UniteGalleryMain(){
 		var dataType = "html";
 		if(isJSON == true)
 			dataType = "json";
-		
 				
 		if(!successFunction || typeof successFunction != "function")
 			throw new Error("ajaxRequest error: success function should be passed");
@@ -5611,18 +5669,75 @@ function UniteGalleryMain(){
 			url:g_options.gallery_urlajax,
 			dataType: 'json',
 			data:objData,
-			success:successFunction,		 	
+			success:function(response){
+				
+				if(!response){
+					showErrorMessage("Empty ajax response!", "Ajax Error");
+					return(false);					
+				}
+
+				if(response == -1 || response === 0){
+					showErrorMessage("ajax error!!!");
+					return(false);
+				}
+
+				if(typeof response.success == "undefined"){
+					showErrorMessage("The 'success' param is a must!");
+					return(false);
+				}
+				
+				if(response.success == false){
+					showErrorMessage(response.message);
+					return(false);
+				}
+				
+				successFunction(response);
+			},		 	
 			error:function(jqXHR, textStatus, errorThrown){
 				console.log("Ajax Error!!! " + textStatus);
 			}
 		});
 		
-		
 	}
 	
 	
-	function __________END_GENERAL_______(){};
+	/**
+	 * request new items
+	 * isForce - don't take from cache
+	 */
+	this.requestNewItems = function(catID, isForce, cacheID){
 		
+		var checkCache = g_options.gallery_enable_cache;
+		
+		if(!cacheID)
+			cacheID = catID;
+		
+		if(isForce == true)
+			checkCache = false;
+		
+		//get items from cache
+		if(checkCache == true && g_objCache.hasOwnProperty(cacheID)){
+			
+			var htmlItems = g_objCache[cacheID];
+			
+			t.changeItems(htmlItems, cacheID);
+			
+		}else{
+			
+			g_objGallery.trigger(t.events.GALLERY_BEFORE_REQUEST_ITEMS);
+			
+			t.ajaxRequest("front_get_cat_items",{catid:catID}, true, function(response){
+				
+				var htmlItems = response.html;
+								
+				t.changeItems(htmlItems, cacheID);
+				
+			});
+			
+		}
+		
+	}
+	
 	
 	/**
 	 * run the gallery
@@ -8130,11 +8245,11 @@ function UGPanelsBase(){
 		
 		//set disabled at start if exists
 		if(g_temp.isDisabledAtStart === true){
-			var html = "<div class='ug-panel-disabled-overlay'></div>";
+			var html = "<div class='ug-overlay-disabled'></div>";
 			g_objPanel.append(html);
 			
 			setTimeout(function(){
-				g_objPanel.children(".ug-panel-disabled-overlay").hide();
+				g_objPanel.children(".ug-overlay-disabled").hide();
 			}, g_temp.disabledAtStartTimeout);
 		
 		}
@@ -13024,7 +13139,7 @@ function UGStripPanel() {
  */
 function UGTabs(){
 	
-	var t = this, g_objThis = jQuery(this);
+	var t = this, g_objThis = jQuery(this),g_objGallery;
 	var g_gallery = new UniteGalleryMain(), g_functions = new UGFunctions();
 	var g_objTabs;
 	
@@ -13044,7 +13159,9 @@ function UGTabs(){
 	 */
 	function initTabs(gallery, customOptions){
 		g_gallery = gallery;
-
+		
+		g_objGallery = jQuery(g_gallery);
+		
 		g_options = jQuery.extend(g_options, customOptions);
 		
 		g_objTabs = jQuery(g_options.tabs_container + " .ug-tab");
@@ -13065,12 +13182,7 @@ function UGTabs(){
 	 */
 	function requestGalleryItems(catid){
 		
-		g_gallery.ajaxRequest("get_cat_items",{catid:catid}, true, function(response){
-			
-			var htmlItems = response.html;
-			g_gallery.changeItems(htmlItems);
-			
-		});
+		g_gallery.requestNewItems(catid);
 		
 	}
 	

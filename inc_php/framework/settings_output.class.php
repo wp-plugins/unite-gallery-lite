@@ -146,6 +146,18 @@ defined('_JEXEC') or die('Restricted access');
 			<?php 			
 		}
 
+		
+		/**
+		 * draw hidden setting
+		 * @param $setting
+		 */
+		protected function drawHiddenInput($setting) {
+			?>
+			<input type="hidden" id="<?php echo $setting["id"]?>" name="<?php echo $setting["name"]?>" value="<?php echo $setting["value"]?>" />
+			<?php
+		}
+		
+		
 		/**
 		 * 
 		 * draw includes of the settings.
@@ -174,7 +186,6 @@ defined('_JEXEC') or die('Restricted access');
 			*/			
 			
 			//put the settings into form id
-			
 			$arrJs[] = "if(typeof(g_settingsObj) == 'undefined') var g_settingsObj={};";
 			$arrJs[] = "g_settingsObj['$formID'] = {}";
 						
@@ -182,7 +193,7 @@ defined('_JEXEC') or die('Restricted access');
 			if(!empty($arrControls)){
 				
 				//dmp($arrControls); exit();
-				
+					
 				$strControls = json_encode($arrControls);
 				$arrJs[] = "g_settingsObj['$formID'].jsonControls = '".$strControls."'";
 				$arrJs[] = "g_settingsObj['$formID'].controls = JSON.parse(g_settingsObj['$formID'].jsonControls);";
@@ -206,7 +217,7 @@ defined('_JEXEC') or die('Restricted access');
 			
 			
 			UniteProviderFunctionsUG::printCustomScript($strJs, true);
-
+						
 		}
 		
 		

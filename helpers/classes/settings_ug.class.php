@@ -48,7 +48,6 @@ class UniteGallerySettingsUG extends UniteSettingsAdvancedUG{
 		return($arrSkins);
 	}
 	
-	
 	/**
 	 * add transitions array item to some select
 	 */
@@ -58,6 +57,15 @@ class UniteGallerySettingsUG extends UniteSettingsAdvancedUG{
 		$this->updateSettingItems($name, $arrSkins, $default);
 	
 	}	
+
+	
+	/**
+	 * add hidden type option
+	 * @param $name
+	 */
+	public function addHidden( $name ){
+		$this->add($name, "", " ", self::TYPE_HIDDEN);
+	}
 	
 }
 

@@ -1256,6 +1256,54 @@ defined('_JEXEC') or die('Restricted access');
 			return($arrSizes);
 		}
 	
+		/**
+		 *
+		 * check the put in string
+		 * return true / false if the put in string match the current page.
+		 */
+		public static function isPutInStringMatch($putIn, $emptyIsFalse = false){
+		
+			$putIn = strtolower($putIn);
+			$putIn = trim($putIn);
+		
+			if($emptyIsFalse && empty($putIn))
+				return(false);
+		
+			if($putIn == "homepage"){		//filter by homepage
+				if(is_front_page() == false)
+					return(false);
+			}
+			else		//case filter by pages
+				if(!empty($putIn)){
+				$arrPutInPages = array();
+				$arrPagesTemp = explode(",", $putIn);
+				foreach($arrPagesTemp as $page){
+					$page = trim($page);
+					if(is_numeric($page) || $page == "homepage")
+						$arrPutInPages[] = $page;
+				}
+				if(!empty($arrPutInPages)){
+		
+					//get current page id
+					$currentPageID = "";
+					if(is_front_page() == true)
+						$currentPageID = "homepage";
+					else{
+						global $post;
+						if(isset($post->ID))
+							$currentPageID = $post->ID;
+					}
+		
+					//do the filter by pages
+					if(array_search($currentPageID, $arrPutInPages) === false)
+						return(false);
+				}
+			}
+		
+			return(true);
+		}
+		
+		
 		
 	}	//end of the class
 	

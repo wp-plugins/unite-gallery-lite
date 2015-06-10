@@ -65,7 +65,10 @@ defined('_JEXEC') or die('Restricted access');
 						<a href='<?php echo $previewLink?>' class="unite-button-secondary float_left"><?php _e("Preview",UNITEGALLERY_TEXTDOMAIN); ?></a>					
 					</td>
 					<?php else:?>
-					<td colspan="3" class="unite-color-red"><?php echo $typeTitle?></td>
+					<td class="unite-color-red"><?php echo $typeTitle?></td>
+					<td colspan="2">
+						<a href='javascript:void(0)' data-galleryid="<?php echo $id?>" class="button_delete unite-button-secondary float_left mleft_15"><?php _e("Delete",UNITEGALLERY_TEXTDOMAIN); ?></a>
+					</td>
 					<?php endif?>
 				</tr>							
 			<?php endforeach;?>

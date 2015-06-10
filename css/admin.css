@@ -218,6 +218,10 @@ html{
 	display:block;
 }
 
+.unite-admin ul li{
+	list-style:none;
+}
+	
 .unite-admin p{
 	margin:0px;
 	padding:0px;
@@ -598,6 +602,10 @@ ul.context_menu li a:focus{
 	font-size:14px;		
 }
 
+.unite_settings_wide label{
+	cursor:pointer;
+}
+
 ul.list-tabs-settings{
 	margin:0px;
 	padding:0px;
@@ -609,6 +617,11 @@ ul.list-tabs-settings li{
 	float:left;
 	margin-bottom:0px !important;
 }
+
+ul.list-tabs-settings li.unite-tab-hidden{
+	display: none;
+}
+
 
 ul.list-tabs-settings li a{
 	padding-left:20px;
@@ -626,6 +639,7 @@ ul.list-tabs-settings li a{
 	background-color:#eee;
 	text-decoration:none !important;	
 }
+
 
 ul.list-tabs-settings li a:hover{
 	background-color:#ddd;
@@ -883,6 +897,7 @@ table.unite_table_settings{
 
 .list_settings li textarea{
 	width:100%;
+	font-size:1em;
 }
 
 .list_settings li .setting_unit{
@@ -963,6 +978,72 @@ ul.list_settings select {
     font-size: 14px;
 	border:1px solid #949494;
 }
+
+
+#---------------DROP_DOWN_SELECTOR---------------------{}
+
+/****************************
+* DROP DOWN SELECTOR PLUGIN
+****************************/
+
+.unite-drop-down-wrapper select{
+	width:250px;
+	height:100px;
+}
+
+div.unite-drop-down-wrapper a.remove{
+    position: absolute;
+    right: 3px;
+    top: 5px;
+    display: block;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    background: url(../images/close.png) no-repeat;
+}
+
+.unite-selected-items{
+    position: relative;
+}
+
+.unite-selected-items .label{
+
+    position: absolute;
+    left: -171px;
+    top: 25px;
+}
+
+.unite-selected-items ul{
+    list-style: none;
+    display: inline-block;
+    padding: 15px 0px 0px 0px;
+}
+
+.unite-selected-items ul>li {
+    float: left;
+    margin-top: 3px;
+}
+
+.unite-selected-items ul>li>div{
+    height: 29px;
+    line-height: 29px;
+    background: #333;
+    border-radius: 3px;
+    display: block;
+    margin-left: 6px;
+    padding: 0 20px 0 10px;
+    font-family: arial;
+    font-size: 12px;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.unite-selected-items ul>li>div:hover {
+    background: #89bf43;
+}
+
 
 
 #------------------ICONS--------------------{}

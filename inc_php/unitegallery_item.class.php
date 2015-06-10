@@ -44,10 +44,14 @@ defined('_JEXEC') or die('Restricted access');
 				UniteFunctionsUG::throwError("The item is not inited!");
 		}
 		
+		
 		/**
 		 * init item by ID
 		 */
 		public function initByID($id){
+			
+			UniteFunctionsUG::validateNumeric($id, "item id");
+			
 			$record = $this->db->fetchSingle(GlobalsUG::$table_items,"id={$id}");
 			$this->initByDBRecord($record);
 		}
@@ -83,7 +87,7 @@ defined('_JEXEC') or die('Restricted access');
 		 * init item by db record
 		 */
 		public function initByDBRecord($record){
-			
+						
 			$this->isInited = true;
 			
 			$this->data = $record;
@@ -92,6 +96,7 @@ defined('_JEXEC') or die('Restricted access');
 			$this->id = UniteFunctionsUG::getVal($record, "id");
 			
 			$this->params = array();
+			
 			if(!empty($jsonParams))
 				$this->params = (array)json_decode($jsonParams);
 							
@@ -209,6 +214,7 @@ defined('_JEXEC') or die('Restricted access');
 		private function getArrValues(){
 			$this->validateInited();
 			$arrValues = $this->params;
+			
 			$arrValues["ug_item_title"] = $this->title;
 			$arrValues["ug_item_alias"] = $this->getAlias();
 			
@@ -229,7 +235,7 @@ defined('_JEXEC') or die('Restricted access');
 		public function getObjSettings(){
 			$this->validateInited();
 			$arrValues = $this->getArrValues();
-					
+						
 			//get settingItem object		
 			require GlobalsUG::$filepathItemSettings;
 			
@@ -448,8 +454,11 @@ defined('_JEXEC') or die('Restricted access');
 					
 					//set params					
 					$title = HelperUG::getTitleFromUrl($urlImage, $this->itemTitleBase);
-					$arrInsert["imageid"] = UniteFunctionsUG::getVal($data, "imageID");
-
+					$arrInsert["imageid"] = UniteFunctionsUG::getVal($data, "imageID" , 0);
+          
+				          if(empty($arrInsert["imageid"]))
+				            $arrInsert["imageid"] = 0;
+        
 				break;
 				default:			//add media item
 					$title = UniteFunctionsUG::getVal($data, "title");
@@ -461,7 +470,7 @@ defined('_JEXEC') or die('Restricted access');
 			UniteFunctionsUG::validateNotEmpty($title, "title");
 			
 			$arrInsert["title"] = $title;
-						
+  
 			//insert the category
 			$itemID = $this->db->insert(GlobalsUG::$table_items,$arrInsert);
 			
@@ -555,7 +564,7 @@ defined('_JEXEC') or die('Restricted access');
 			
 			$arrUpdate["title"] = $title;
 			$arrUpdate["params"] = $jsonUpdateParams;
-			
+						
 			$this->data = array_merge($arrUpdate, $this->data);
 			
 			$this->db->update(GlobalsUG::$table_items,$arrUpdate,array("id"=>$this->id));

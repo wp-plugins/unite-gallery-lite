@@ -10,6 +10,13 @@ defined('_JEXEC') or die('Restricted access');
 
 	class UniteFunctionsUG{
 		
+		const VALIDATE_NUMERIC = "numeric";
+		const VALIDATE_NUMERIC_OR_EMPTY = "numeric_orempty";
+		const VALIDATE_NOT_EMPTY = "notempty";
+		const VALIDATE_ALPHANUMERIC = "alphanumeric";
+		const FORCE_NUMERIC = "force_numeric";
+		
+		
 		public static function throwError($message,$code=null){
 			if(!empty($code))
 				throw new Exception($message);
@@ -17,30 +24,49 @@ defined('_JEXEC') or die('Restricted access');
 				throw new Exception($message);
 		}
 
-		//------------------------------------------------------------
-		// get variable from post or from get. get wins.
-		public static function getPostGetVariable($name,$initVar = ""){
+		
+		
+		/**
+		 * get variable from post or from get. get wins
+		 */
+		public static function getPostGetVariable($name, $initVar = "", $validateType = null){
 			$var = $initVar;
 			if(isset($_POST[$name])) $var = $_POST[$name];
 			else if(isset($_GET[$name])) $var = $_GET[$name];
+			
+			if(!empty($validateType))
+				$var = self::validateVar($var, $name, $validateType);
+			
 			return($var);
 		}
 		
 		
-		//------------------------------------------------------------
-		
-		public static function getPostVariable($name,$initVar = ""){
+		/**
+		 * get post variable
+		 */
+		public static function getPostVariable($name, $initVar = "", $validateType = null){
 			$var = $initVar;
-			if(isset($_POST[$name])) $var = $_POST[$name];
+			if(isset($_POST[$name])) 
+				$var = $_POST[$name];
+			
+			if(!empty($validateType))
+				$var = self::validateVar($var, $name, $validateType);
+			
 			return($var);
 		}
 		
-		//------------------------------------------------------------
 		
-		
-		public static function getGetVar($name,$initVar = ""){
+		/**
+		 * get get variable
+		 */
+		public static function getGetVar($name, $initVar = "", $validateType = null){
 			$var = $initVar;
-			if(isset($_GET[$name])) $var = $_GET[$name];
+			if(isset($_GET[$name])) 
+				$var = $_GET[$name];
+			
+			if(!empty($validateType))
+				$var = self::validateVar($var, $name, $validateType);
+			
 			return($var);
 		}
 		
@@ -51,10 +77,19 @@ defined('_JEXEC') or die('Restricted access');
 		/**
 		 * get value from array. if not - return alternative
 		 */
-		public static function getVal($arr,$key,$altVal=""){
-						
-			if(isset($arr[$key]))
-			  return($arr[$key]);
+		public static function getVal($arr, $key, $altVal="", $validateType = null){
+			
+			$var = "";
+			
+			if(isset($arr[$key])){
+				
+				$var = $arr[$key];
+				
+				if(!empty($validateType))
+					$var = self::validateVar($var, $name, $validateType);
+				
+				return($var);
+			}
 			
 			return($altVal);
 		}
@@ -238,7 +273,7 @@ defined('_JEXEC') or die('Restricted access');
 			return $randomString;
 		}
 		
-		/**
+			/**
 		 * limit string chars to max size
 		 */
 		public static function limitStringSize($str, $numChars, $addDots = true){
@@ -259,7 +294,7 @@ defined('_JEXEC') or die('Restricted access');
 			
 			return($str);
 		}
-		
+				
 		public static function z______________VALIDATIONS_____________(){}
 		
 		/**
@@ -289,8 +324,11 @@ defined('_JEXEC') or die('Restricted access');
 			self::throwError($message);
 		}
 		
-		//--------------------------------------------------------------
-		//validate if some directory is writable, if not - throw a exception
+		
+		/**
+		 * 
+		 * validate if some directory is writable, if not - throw a exception
+		 */
 		private static function validateWritable($name,$path,$strList,$validateExists = true){
 		
 			if($validateExists == true){
@@ -316,6 +354,34 @@ defined('_JEXEC') or die('Restricted access');
 		
 		
 		/**
+		 * validate some variable
+		 */
+		public static function validateVar($val, $fieldName, $validateType){
+
+			switch($validateType){
+				case self::VALIDATE_NOT_EMPTY:
+					self::validateNotEmpty($val, $fieldName);
+				break;
+				case self::VALIDATE_NUMERIC:
+					self::validateNumeric($val, $fieldName);
+				break;
+				case self::VALIDATE_NUMERIC_OR_EMPTY:
+					if(!empty($val))
+						self::validateNumeric($val, $fieldName);
+				break;
+				case self::FORCE_NUMERIC:
+					$val = (float)$val;
+				break;
+				case self::VALIDATE_ALPHANUMERIC:
+					self::validateAlphaNumeric($val, $fieldName);
+				break;
+			}
+			
+			return($val);
+		}
+		
+		
+		/**
 		 * 
 		 * validate that some value is numeric
 		 */
@@ -333,7 +399,7 @@ defined('_JEXEC') or die('Restricted access');
 		 * 
 		 * validate that some variable not empty
 		 */
-		public static function validateNotEmpty($val,$fieldName=""){
+		public static function validateNotEmpty($val, $fieldName=""){
 			
 			if(empty($fieldName))
 				$fieldName = "Field";
@@ -341,7 +407,22 @@ defined('_JEXEC') or die('Restricted access');
 			if(empty($val) && is_numeric($val) == false)
 				self::throwError("Field <b>$fieldName</b> should not be empty");
 		}
-
+		
+		
+		/**
+		 * validate that the variable is alphanumeric
+		 */
+		public static function validateAlphaNumeric($val, $fieldName=""){
+			
+			if(empty($val))
+				return(true);
+			
+			if(empty($fieldName))
+				$fieldName = "Field";
+			
+			if(ctype_alnum($val) == false)
+				self::throwError("Field <b>$fieldName</b> has wrong characters");
+		}
 		
 		/**
 		 * check the php version. throw exception if the version beneath 5
@@ -388,6 +469,43 @@ defined('_JEXEC') or die('Restricted access');
 		
 			return($str);
 		}
+		
+		
+		/**
+		 * convert array with styles in each item to items string
+		 */
+		public static function arrStyleToStrStyle($arrStyle, $styleName = "", $addCss = ""){
+			
+			if(empty($arrStyle) && empty($addCss))
+				return("");
+			
+			$br = "\n";
+			$tab = "	";
+			
+			$output = $br;
+			
+			if(!empty($styleName))
+				$output .= $styleName."{".$br;
+			
+			foreach($arrStyle as $key=>$value){
+				$output .= $tab.$key.":".$value.";".$br;
+			}
+			
+			//add additional css
+			if(!empty($addCss)){
+				$arrAddCss = explode($br, $addCss);
+				$output .= $br;
+				foreach($arrAddCss as $str){
+					$output .= $tab.$str.$br;
+				}
+			}
+			
+			if(!empty($styleName))
+				$output .= "}".$br;
+			
+			return($output);
+		}
+			
 		
 		public static function z______________FILE_SYSTEM_____________(){}
 		
@@ -766,7 +884,20 @@ defined('_JEXEC') or die('Restricted access');
 			return($content);
 		}
 		
-				
+		/**
+		 * normalize link - switch first & for ?, if no ? found
+		 */
+		public static function normalizeLink($link){
+		
+			$pos = strpos($link, "?");
+			if($pos !== false)
+				return($link);
+		
+			$link = preg_replace('/\&/', '?', $link, 1);
+		
+			return($link);
+		}
+		
 		/**
 		 * Download Image
 		 */

@@ -14,7 +14,7 @@ function UGTheme_tilesgrid(){
 	var g_gallery = new UniteGalleryMain(), g_objGallery, g_objects, g_objWrapper; 
 	var g_objThumbsGrid = new UGThumbsGrid(), g_lightbox = new UGLightbox();
 	var g_functions = new UGFunctions(), g_objTileDesign = new UGTileDesign();
-	var g_objBullets, g_objNavWrapper, g_objButtonLeft, g_objButtonRight;
+	var g_objBullets, g_objNavWrapper, g_objButtonLeft, g_objButtonRight, g_objPreloader;
 	
 
 	var g_options = {
@@ -158,6 +158,12 @@ function UGTheme_tilesgrid(){
 		}
 		
 		g_lightbox.putHtml();
+		
+		//add preloader
+		g_objWrapper.append("<div class='ug-tiles-preloader ug-preloader-trans'></div>");
+		g_objPreloader = g_objWrapper.children(".ug-tiles-preloader");
+		g_objPreloader.fadeTo(0,0);
+		
 	}
 	
 	
@@ -186,6 +192,7 @@ function UGTheme_tilesgrid(){
 		return(gridHeight);
 	}
 	
+	
 	/**
 	 * actually run the theme
 	 */
@@ -196,6 +203,9 @@ function UGTheme_tilesgrid(){
 		var totalHeight = getHeightEstimation(galleryWidth);
 		g_objWrapper.height(totalHeight);
 		var galleryWidth = getGalleryWidth();
+		
+		//place preloader
+		g_functions.placeElement(g_objPreloader, "center", 50);
 		
 		g_objThumbsGrid.setWidth(galleryWidth);
 		
@@ -337,6 +347,21 @@ function UGTheme_tilesgrid(){
 		g_lightbox.open(index);
 	}
 	
+	/**
+	 * before items request: hide items, show preloader
+	 */
+	function onBeforeReqestItems(){
+		
+		if(g_objNavWrapper)
+			g_objNavWrapper.hide();
+	
+		if(g_objThumbsGrid)
+			g_objThumbsGrid.getElement().hide();
+		
+		//show preloader:
+		g_objPreloader.fadeTo(0,1);
+	}
+	
 	
 	/**
 	 * init buttons functionality and events
@@ -344,6 +369,7 @@ function UGTheme_tilesgrid(){
 	function initEvents(){
 		
 		g_objGallery.on(g_gallery.events.SIZE_CHANGE, onSizeChange);
+		g_objGallery.on(g_gallery.events.GALLERY_BEFORE_REQUEST_ITEMS, onBeforeReqestItems);
 		
 		if(g_objBullets)
 			g_objThumbsGrid.attachBullets(g_objBullets);		
@@ -363,6 +389,8 @@ function UGTheme_tilesgrid(){
 	this.destroy = function(){
 				
 		g_objGallery.off(g_gallery.events.SIZE_CHANGE);
+		g_objGallery.off(g_gallery.events.GALLERY_BEFORE_REQUEST_ITEMS);
+
 		jQuery(g_objTileDesign).off(g_objTileDesign.events.TILE_CLICK);
 		
 		if(g_objBullets)

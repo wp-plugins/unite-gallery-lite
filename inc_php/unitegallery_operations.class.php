@@ -143,6 +143,60 @@ defined('_JEXEC') or die('Restricted access');
 		}
 		
 		
+		/**
+		 * run client ajax actions
+		 */
+		function onClientAjaxActions(){
+			
+			$action = UniteFunctionsUG::getPostGetVariable("action");
+			if($action != "unitegallery_ajax_action"){
+				echo "nothing here";exit();
+			}
+			
+			$clientAction = UniteFunctionsUG::getPostGetVariable("client_action");
+			$objItems = new UniteGalleryItems();
+			$galleryHtmlID = UniteFunctionsUG::getPostVariable("galleryID");
+			$data = UniteFunctionsUG::getPostVariable("data");
+			
+			if(empty($data))
+				$data = array();
+			
+			$data["galleryID"] = HelperGalleryUG::getGalleryIDFromHtmlID($galleryHtmlID);
+			
+			try{
+				
+				switch($clientAction){
+					case "front_get_cat_items":
+												
+						$html = $objItems->getHtmlFrontFromData($data);
+						
+						$output = array("html"=>$html);
+						
+						HelperUG::ajaxResponseData($output);
+					break;
+					default:
+						HelperUG::ajaxResponseError("wrong ajax action: <b>$action</b> ");
+					break;
+				}
+			
+			}catch(Exception $e){
+				$message = $e->getMessage();
+			
+				$errorMessage = $message;
+				if(GlobalsUG::SHOW_TRACE == true){
+					$trace = $e->getTraceAsString();
+					$errorMessage = $message."<pre>".$trace."</pre>";
+				}
+			
+				HelperUG::ajaxResponseError($errorMessage);
+			}
+			
+			
+			//it's an ajax action, so exit
+			HelperUG::ajaxResponseError("No response output on <b> $action </b> action. please check with the developer.");
+			exit();
+			
+		}
 		
 	}
 

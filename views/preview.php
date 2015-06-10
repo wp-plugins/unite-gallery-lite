@@ -11,7 +11,6 @@ defined('_JEXEC') or die('Restricted access');
 	$galleryTitle = GlobalsUGGallery::$gallery->getTitle();
 	$headerTitle = $galleryTitle ." - ". __("[preview]", UNITEGALLERY_TEXTDOMAIN);
 	
-	
 	require HelperUG::getPathTemplate("preview");
 		
 ?>

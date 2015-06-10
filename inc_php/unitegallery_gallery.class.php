@@ -43,8 +43,10 @@ class UniteGalleryGallery extends UniteElementsBaseUG{
 	 */
 	public function initByID($id){
 		
-		$id = $this->db->escape($id);
+		UniteFunctionsUG::validateNumeric($id, "galleryID");
 		
+		$id = $this->db->escape($id);
+				
 		$response = $this->db->fetch(GlobalsUG::$table_galleries,"id={$id}");
 			
 		if(empty($response))
@@ -302,17 +304,17 @@ class UniteGalleryGallery extends UniteElementsBaseUG{
 		$alias = UniteFunctionsUG::getVal($params, "alias");
 		
 		$this->validateInputSettings($params);
-		
-		$jsonParams = json_encode($params);
-		
+				
 		$arrData = array();
 		$arrData["title"] = $title;
 		$arrData["alias"] = $alias;
-		$arrData["params"] = $jsonParams;
 		
-		$this->db->update(GlobalsUG::$table_galleries,$arrData,array("id"=>$this->id));		
+		$this->db->update(GlobalsUG::$table_galleries,$arrData,array("id"=>$this->id));
+		
+		$this->updateParams($params);
 	}
 	
+		
 	
 	/**
 	 * udate gallery params, merge with existing
@@ -321,9 +323,9 @@ class UniteGalleryGallery extends UniteElementsBaseUG{
 	public function updateParams($arrParams){
 		
 		$this->validateInited();
-		$arrParams = array_merge($this->arrParams, $arrParams);
+		$this->arrParams = array_merge($this->arrParams, $arrParams);
 		
-		$jsonParams = json_encode($arrParams);
+		$jsonParams = json_encode($this->arrParams);
 		$arrData = array();
 		$arrData["params"] = $jsonParams;
 		

@@ -14,8 +14,8 @@
 	   	const ACTION_ADMIN_INIT = "admin_init";
 	   	const ACTION_ADD_SCRIPTS = "admin_enqueue_scripts";
    		const ACTION_PRINT_SCRIPT = "admin_print_footer_scripts";
-	   	
 
+   		
 		/**
 		 *
 		 * the constructor
@@ -240,10 +240,11 @@
 		}
 		
 		
+		
 		/**
 		 * print custom scripts
 		 */
-		public static function onPrintScripts(){
+		public static function onPrintFooterScripts(){
 			
 			$arrScrips = UniteProviderFunctionsUG::getCustomScripts();
 			echo "<script type='text/javascript'>\n";
@@ -252,6 +253,41 @@
 			}
 			echo "</script>";
 			
+			UniteProviderFunctionsUG::printInlineStyles();
+			
+		}
+		
+		
+		/**
+		 * on ajax actions
+		 */
+		public static function onAjaxAction(){
+			
+				$arrFrontActions = array("front_get_cat_items");
+				
+				$clientAction = UniteFunctionsUG::getPostVariable("client_action");
+				
+				$isFrontAction = in_array($clientAction, $arrFrontActions);
+				
+				if($isFrontAction == true){		//front end action
+					
+					$operations = new UGOperations();
+					$operations->onClientAjaxActions();
+					
+				}else{		//backend actions
+					
+					//verify nonce
+					$nonce = UniteFunctionsUG::getPostVariable("nonce");
+					$verified = wp_verify_nonce($nonce, "unitegallery_actions");
+					if($verified == false){
+						echo("Unauthorised access!");
+						exit();
+					}
+					
+					parent::onAjaxAction();
+				}
+				
+			
 		}
 		
 		
@@ -259,7 +295,7 @@
 		 * 
 		 * init function
 		 */
-		protected function init(){
+		public function init(){
 			
 			parent::init();
 
@@ -273,13 +309,12 @@
 			//if not inside plugin don't continue
 			if($this->isInsidePlugin() == true){
 				self::addAction(self::ACTION_ADD_SCRIPTS, "onAddScripts");
-				self::addAction(self::ACTION_PRINT_SCRIPT, "onPrintScripts");
+				self::addAction(self::ACTION_PRINT_SCRIPT, "onPrintFooterScripts");
 			}
 
 			$this->addEvent_onActivate();
 			
 			self::addActionAjax("ajax_action", "onAjaxAction");
-			
 		}
 
 		

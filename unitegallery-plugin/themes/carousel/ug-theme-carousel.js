@@ -14,7 +14,7 @@ function UGTheme_carousel(){
 	var g_gallery = new UniteGalleryMain(), g_objGallery, g_objects, g_objWrapper;
 	var g_lightbox = new UGLightbox(), g_carousel = new UGCarousel();
 	var g_functions = new UGFunctions(), g_objTileDesign = new UGTileDesign();;
-	var g_objNavWrapper, g_objButtonLeft, g_objButtonRight, g_objButtonPlay;
+	var g_objNavWrapper, g_objButtonLeft, g_objButtonRight, g_objButtonPlay, g_objPreloader;
 	
 	var g_options = {
 			theme_gallery_padding: 0,				//the padding of the gallery wrapper
@@ -117,8 +117,13 @@ function UGTheme_carousel(){
 			
 		}
 		
-		
 		g_lightbox.putHtml();
+
+		//add preloader
+		g_objWrapper.append("<div class='ug-tiles-preloader ug-preloader-trans'></div>");
+		g_objPreloader = g_objWrapper.children(".ug-tiles-preloader");
+		g_objPreloader.fadeTo(0,0);
+		
 	}
 
 	/**
@@ -221,6 +226,10 @@ function UGTheme_carousel(){
 		}
 		
 		g_objWrapper.height(galleryHeight);		//temp height
+
+		//place preloader
+		g_functions.placeElement(g_objPreloader, "center", 50);
+	
 	}
 		
 	
@@ -249,8 +258,24 @@ function UGTheme_carousel(){
 			
 		positionElements();
 	}
+
+	/**
+	 * before items request: hide items, show preloader
+	 */
+	function onBeforeReqestItems(){
+		
+		g_carousel.stopAutoplay();
+		
+		g_carousel.getElement().hide();
+		
+		if(g_objNavWrapper)
+			g_objNavWrapper.hide();
+		
+		//show preloader:
+		g_objPreloader.fadeTo(0,1);
+	}
 	
-	
+
 	/**
 	 * init buttons functionality and events
 	 */
@@ -268,6 +293,7 @@ function UGTheme_carousel(){
 		}
 		
 		g_objGallery.on(g_gallery.events.SIZE_CHANGE, onSizeChange);
+		g_objGallery.on(g_gallery.events.GALLERY_BEFORE_REQUEST_ITEMS, onBeforeReqestItems);
 		
 		//on click events
 		jQuery(g_objTileDesign).on(g_objTileDesign.events.TILE_CLICK, onTileClick);
@@ -289,6 +315,7 @@ function UGTheme_carousel(){
 		
 		g_objGallery.off(g_gallery.events.SIZE_CHANGE);
 		jQuery(g_objTileDesign).off(g_objTileDesign.events.TILE_CLICK);
+		g_objGallery.off(g_gallery.events.GALLERY_BEFORE_REQUEST_ITEMS);
 		
 		g_carousel.destroy();
 		g_lightbox.destroy();

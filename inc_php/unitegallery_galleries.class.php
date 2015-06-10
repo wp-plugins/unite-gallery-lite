@@ -144,7 +144,7 @@ class UniteGalleryGalleries extends UniteElementsBaseUG{
 	 * get galleries array
 	 */
 	public function getArrGalleries($order = ""){
-	
+		
 		$arrGalleries = array();
 		$response = $this->db->fetch(GlobalsUG::$table_galleries, "", $order);
 	
@@ -205,6 +205,7 @@ class UniteGalleryGalleries extends UniteElementsBaseUG{
 			$response = $objCategories->add($title);
 			$newCategoryID = $response["id"];
 			$params["category"] = $newCategoryID;
+			$params["categories"] = $newCategoryID;
 		}
 		
 
@@ -218,9 +219,11 @@ class UniteGalleryGalleries extends UniteElementsBaseUG{
 	 * update gallery from data
 	 */
 	public function updateGalleryFromData($data){
+		
 		$galleryID = UniteFunctionsUG::getVal($data, "galleryID");
 		UniteFunctionsUG::validateNotEmpty($galleryID,"Gallery ID");
-		
+		$updateParamsOnly = UniteFunctionsUG::getVal($data, "updateParamsOnly");
+				
 		$objGallery = new UniteGalleryGallery();
 		$objGallery->initByID($galleryID);
 		
@@ -230,9 +233,14 @@ class UniteGalleryGalleries extends UniteElementsBaseUG{
 		if(!empty($mainParams))
 			$params = array_merge($mainParams, $params);
 		
-		$objGallery->update($params);
+		
+		if($updateParamsOnly == true)
+			$objGallery->updateParams($params);
+		else
+			$objGallery->update($params);		//update with title and alias
 		
 	}
+
 	
 	
 	/**

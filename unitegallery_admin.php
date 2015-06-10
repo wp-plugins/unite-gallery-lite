@@ -45,7 +45,6 @@ defined('_JEXEC') or die('Restricted access');
 			self::$currentGalleryType = $galleries->getGalleryTypeByName($galleryTypeName);
 			
 			GlobalsUGGallery::init(self::$currentGalleryType, $objGallery, $galleryID);
-			
 		}
 		
 		
@@ -59,10 +58,11 @@ defined('_JEXEC') or die('Restricted access');
 			switch(self::$view){
 				case GlobalsUG::VIEW_GALLERY:
 				case GlobalsUG::VIEW_PREVIEW:					
-					$galleryID = UniteFunctionsUG::getPostGetVariable("id");					
+				case GlobalsUG::VIEW_CATEGORY_TABS:
+					$galleryID = UniteFunctionsUG::getPostGetVariable("id","", UniteFunctionsUG::VALIDATE_NUMERIC_OR_EMPTY);
 				break;
 				case GlobalsUG::VIEW_ITEMS:
-					$galleryID = UniteFunctionsUG::getPostGetVariable("galleryid");
+					$galleryID = UniteFunctionsUG::getPostGetVariable("galleryid","",UniteFunctionsUG::VALIDATE_NUMERIC_OR_EMPTY);
 					if(empty($galleryID))
 						return(false);
 				break;
@@ -98,7 +98,7 @@ defined('_JEXEC') or die('Restricted access');
 		 * 
 		 * init all actions
 		 */
-		protected function init(){
+		public function init(){
 			
 			GlobalsUG::$is_admin = true;
 						
@@ -182,7 +182,7 @@ defined('_JEXEC') or die('Restricted access');
 		 * onAjax action handler
 		 */
 		public static function onAjaxAction(){
-						
+					
 			$actionType = UniteFunctionsUG::getPostVariable("action");
 			
 			if($actionType != "unitegallery_ajax_action")
@@ -332,6 +332,7 @@ defined('_JEXEC') or die('Restricted access');
 			HelperUG::ajaxResponseError("No response output on <b> $action </b> action. please check with the developer.");
 			exit();
 		}
+		
 		
 	}
 	

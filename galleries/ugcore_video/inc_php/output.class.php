@@ -70,50 +70,31 @@ defined('_JEXEC') or die('Restricted access');
 		
 		
 		/**
+		 * filter items that are image types
+		 */
+		private function filterImageItems($arrItems){
+			
+			$arrItemsNew = array();
+			
+			foreach($arrItems as $item){
+				$type = $item->getType();
+				if($type != "image")
+					$arrItemsNew[] = $item;
+			}
+			
+			return($arrItemsNew);
+		}
+		
+		
+		/**
 		 * put gallery items
 		 */
 		protected function putItems($arrItems){
 			
-			$itemsOutput = "";
+			$arrItems = $this->filterImageItems($arrItems);
 			
-			foreach($arrItems as $objItem):
-		
-				$urlThumb = $objItem->getUrlThumb();
-				$urlImage = $objItem->getUrlImage();
-			
-				$title = $objItem->getTitle();
-				$type = $objItem->getType();
-				
-				$description = $objItem->getParam("ug_item_description");
-						
-				$title = htmlspecialchars($title);
-				$description = htmlspecialchars($description);
-				
-				if($type == UniteGalleryItem::TYPE_IMAGE)
-					continue;
-
-				$addHtml = $this->getVideoAddHtml($type, $objItem);
-				
-				$br = "\n";
-				$linePrefix = "\n			";
-				$linePrefix2 = "\n				";
-				
-				$output = "";
-				$output .= $br;
-				$output .= $linePrefix."<div data-type=\"{$type}\"";
-				$output .= $linePrefix2."data-title=\"{$title}\"";
-				$output .= $linePrefix2."data-description=\"{$description}\"";
-				$output .= $linePrefix2."data-thumb=\"{$urlThumb}\"";
-				$output .= $linePrefix2."data-image=\"{$urlImage}\"";
-				$output .= $linePrefix2."{$addHtml}></div>";
-				
-				$itemsOutput .= $output;
-				
-			endforeach;
-			
-			return($itemsOutput);
+			return parent::putItems($arrItems);
 		}
-		
 		
 		
 	}

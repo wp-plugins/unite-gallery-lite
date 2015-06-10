@@ -7,6 +7,7 @@ define("UNITEGALLERY_TEXTDOMAIN","unitegallery");
 class UniteProviderFunctionsUG{
 	
 	private static $arrScripts = array();
+	private static $arrStylesInline = array();
 	
 	
 	/**
@@ -37,7 +38,7 @@ class UniteProviderFunctionsUG{
 		GlobalsUG::$path_cache = GlobalsUG::$pathPlugin."cache/";
 		
 		GlobalsUG::$urlPlugin = plugin_dir_url( $pluginFolder."/unitegallery.php" );
-		
+				
 		GlobalsUG::$url_component_client = "";
 		GlobalsUG::$url_component_admin = admin_url()."admin.php?page=$pluginName";
 		
@@ -48,7 +49,9 @@ class UniteProviderFunctionsUG{
 		GlobalsUG::$url_images = content_url()."/";
 
 		GlobalsUG::$url_ajax = admin_url()."/admin-ajax.php";
-				
+		
+		GlobalsUG::$url_ajax_front = GlobalsUG::$url_ajax;
+		
 	}
 	
 	
@@ -93,7 +96,7 @@ class UniteProviderFunctionsUG{
 	 * register script
 	 */
 	public static function addStyle($handle, $url){
-	
+		
 		if(empty($url))
 			UniteFunctionsUG::throwError("empty style url, handle: $handle");
 	
@@ -208,6 +211,7 @@ class UniteProviderFunctionsUG{
 		return($settings);
 	}
 	
+	
 	/**
 	 * print some script at some place in the page
 	 */
@@ -219,7 +223,7 @@ class UniteProviderFunctionsUG{
 			echo "<script type='text/javascript'>{$script}</script>";
 		
 	}
-		
+	
 	
 	/**
 	 * get all custom scrips
@@ -227,6 +231,49 @@ class UniteProviderFunctionsUG{
 	public static function getCustomScripts(){
 		
 		return(self::$arrScripts);
+	}
+	
+	
+	/**
+	 * get inline styles
+	 * init the styles after each get
+	 */
+	public static function getStylesInline(){
+		
+		$styles = "";
+		
+		if(!empty(self::$arrStylesInline))
+			$styles = implode("\n", self::$arrStylesInline);
+		
+		self::$arrStylesInline = array();
+		
+		return($styles);
+	}	
+	
+	
+	/**
+	 * add inline style
+	 */
+	public static function addStyleInline($style){
+
+		//for front end
+		wp_add_inline_style("unite-gallery-css", $style);
+		
+		//for backend
+		self::$arrStylesInline[] = $style;
+	}
+	
+	
+	/**
+	 * print inline styles
+	 */
+	public static function printInlineStyles(){
+		
+		$styles = self::getStylesInline();
+		
+		if(!empty($styles))
+			echo "\n<style type='text/css'>{$styles}</style>";
+	
 	}
 	
 	
@@ -245,7 +292,7 @@ class UniteProviderFunctionsUG{
 		
 		return($settings);
 	}
-	
+
 	
 	/**
 	 * put galleries view text
@@ -282,7 +329,21 @@ class UniteProviderFunctionsUG{
 				</p>	
 				
 				<p>
-				* From the <b>widgets panel</b> drag the "Unite Gallery" widget to the desired sidebar</br>
+				* From the <b>widgets panel</b> drag the "Unite Gallery" widget to the desired sidebar<br/>
+				</p>
+				
+				<p>
+				* From the <b>theme php files</b> use: <code>&lt;?php putUniteGallery("alias", catid) ?&gt;</code> 
+				example: <code>putUniteGallery("gallery1")</code> or: <code>putUniteGallery("gallery1", 2)</code>
+				
+				<a href="javascript:void(0)" onclick="jQuery('#div_phpput_moreinfo').show();jQuery(this).hide()">more info</a>
+				<br/>
+				
+				<div id="div_phpput_moreinfo" style="padding-left:50px;padding-top:10px;display:none">
+					For show only on homepage use: <code>&lt;?php putUniteGallery("alias", "", "homepage") ?&gt;</code> <br>
+					For show on certain pages use: <code>&lt;?php putUniteGallery("gallery1", "", "4,6,12") ?&gt;</code> 
+				</div>
+				
 				</p>
 				
 		</div>
@@ -316,7 +377,7 @@ class UniteProviderFunctionsUG{
 		<?php _e("The files will be overwriten", UNITEGALLERY_TEXTDOMAIN)?>
 		
 		
-		<br> <?php _e("File example: unitegallery1.3.zip",UNITEGALLERY_TEXTDOMAIN)?>	</div>	
+		<br> <?php _e("File example: unitegallery1.5.zip",UNITEGALLERY_TEXTDOMAIN)?>	</div>	
 		
 		<br>	
 		
@@ -324,7 +385,7 @@ class UniteProviderFunctionsUG{
 		
 		<input type="hidden" name="action" value="unitegallery_ajax_action">		
 		<input type="hidden" name="client_action" value="update_plugin">		
-		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce("unitegallery_actions"); ?>">		
+		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce("unitegallery_actions"); ?>">
 		<?php _e("Choose the update file:",UNITEGALLERY_TEXTDOMAIN)?>
 		<br><br>
 		
@@ -387,9 +448,18 @@ class UniteProviderFunctionsUG{
 			
 			$fileType = strtolower($fileType);
 			
-			if($fileType != "application/zip")
+			$arrMimeTypes = array();
+			$arrMimeTypes[] = "application/zip";
+			$arrMimeTypes[] = "application/x-zip";
+			$arrMimeTypes[] = "application/x-zip-compressed";
+			$arrMimeTypes[] = "application/octet-stream";
+			$arrMimeTypes[] = "application/x-compress";
+			$arrMimeTypes[] = "application/x-compressed";
+			$arrMimeTypes[] = "multipart/x-zip";
+			
+			if(in_array($fileType, $arrMimeTypes) == false)
 				UniteFunctionsUG::throwError("The file uploaded is not zip.");
-		
+					
 			$filepathTemp = UniteFunctionsUG::getVal($arrFiles, "tmp_name");
 			if(file_exists($filepathTemp) == false)
 				UniteFunctionsUG::throwError("Can't find the uploaded file.");
@@ -469,8 +539,20 @@ class UniteProviderFunctionsUG{
 			echo $htmlLinkBack;
 			exit();
 		}
-	
+		
 	}
+
+	
+	/**
+	 * get nonce (for protection)
+	 */
+	public static function getNonce(){
+		
+		$nonce = wp_create_nonce("unitegallery_actions");
+		
+		return($nonce);
+	}
+	
 	
 	
 }

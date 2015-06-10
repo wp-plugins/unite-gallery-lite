@@ -827,7 +827,10 @@ function UniteMediaDialogUG(){
 	 * init the variables
 	 */
 	this.init = function(){
+		var isDialogExists = jQuery("#dialog_video").length;
 		
+		if(isDialogExists == 0)
+			return(false);
 		initVideoDialog();
 	};
 	

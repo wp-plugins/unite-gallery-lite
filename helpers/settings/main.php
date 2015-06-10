@@ -18,6 +18,11 @@ defined('_JEXEC') or die('Restricted access');
 	
 	$settingsMain->addItemsCategorySelect("category", null, $isNewGallery);
 	
+	if($isNewGallery == false) {
+		$settingsMain->addHr();
+		$settingsMain->addRadioBoolean("enable_category_tabs", __("Enable Category Tabs", UNITEGALLERY_TEXTDOMAIN), false);
+	}
+	
 	$settingsMain->addHr();
 	
 	$params = array("class"=>"input-number","unit"=>"px");

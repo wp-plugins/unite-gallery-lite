@@ -27,7 +27,7 @@
 				label="Enable Slider Zooming"
 				description="Enable mouse wheel and pinch zooming of the lightbox slider">	
 			</field>
-						
+			
 			<field name="gallery_mousewheel_role" 
 				type="list"
 				default="zoom" 
@@ -37,8 +37,8 @@
 					<option value="zoom" text="Zoom Image"></option>
 					<option value="advance" text="Advance Items"></option>
 			</field>				
-			<field type="hr"></field>
 			
+			<field type="hr"></field>
 						
 		</fieldset>
 	

@@ -171,6 +171,22 @@ function UGTheme_tiles(){
 	}
 	
 	
+	/**
+	 * before items request: hide items, show preloader
+	 */
+	function onBeforeReqestItems(){
+		
+		g_objTilesWrapper.hide();
+		
+		if(g_objPreloader)
+			g_objPreloader.show();
+		
+		var preloaderSize = g_functions.getElementSize(g_objPreloader);
+		var galleryHeight = preloaderSize.bottom + 30;
+		
+		g_objWrapper.height(galleryHeight);
+	}
+	
 	
 	/**
 	 * init buttons functionality and events
@@ -187,7 +203,9 @@ function UGTheme_tiles(){
 		
 		jQuery(g_objTileDesign).on(g_objTileDesign.events.TILE_CLICK, onTileClick);
 		
+		g_objGallery.on(g_gallery.events.GALLERY_BEFORE_REQUEST_ITEMS, onBeforeReqestItems);
 	}
+	
 	
 	/**
 	 * destroy the theme
@@ -196,6 +214,8 @@ function UGTheme_tiles(){
 				
 		jQuery(g_objTileDesign).off(g_objTileDesign.events.TILE_CLICK);
 		jQuery(g_tiles).off(g_tiles.events.TILES_FIRST_PLACED);
+		
+		g_objGallery.off(g_gallery.events.GALLERY_BEFORE_REQUEST_ITEMS);
 		
 		g_tiles.destroy();
 		g_lightbox.destroy();

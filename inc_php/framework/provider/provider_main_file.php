@@ -3,9 +3,24 @@
 	require_once $currentFolder."/inc_php/framework/provider/unitegallery_widget.class.php";
 
 try{
-	
+
 	//register the unitegallery slider widget	
 	UniteFunctionsWPUG::registerWidget("UniteGallery_Widget");
+	
+	/**
+	 * put unite gallery function
+	 */
+	function putUniteGallery($galleryAlias, $catID = null, $putIn = null){
+		
+		if(!empty($putIn)){
+			$isPutInMatch = UniteFunctionsWPUG::isPutInStringMatch($putIn);
+			if($isPutInMatch == false)
+				return(false);
+		}
+			
+		$content = HelperUG::outputGallery($galleryAlias, $catID);
+		echo $content;
+	}
 	
 	//add shortcode
 	function unitegallery_shortcode($args){
@@ -43,7 +58,7 @@ try{
 		$arrUniteItems = $objItems->getItemsFromArray($arrItems);
 		
 		$content = HelperUG::outputGallery($alias, null, "alias", $arrUniteItems);
-				
+		
 		return $content;
 	}
 	

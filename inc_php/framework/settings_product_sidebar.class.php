@@ -67,6 +67,7 @@ defined('_JEXEC') or die('Restricted access');
 		//-----------------------------------------------------------------------------------------------
 		//draw text as input
 		protected function drawTextInput($setting) {
+			
 			$disabled = "";
 			$style="";
 			if(isset($setting["style"])) 
@@ -74,8 +75,16 @@ defined('_JEXEC') or die('Restricted access');
 			if(isset($setting["disabled"])) 
 				$disabled = 'disabled="disabled"';
 
-			$class = UniteFunctionsUG::getVal($setting, "class",$this->defaultTextClass);
-							
+			$class = UniteFunctionsUG::getVal($setting, "class");
+			
+			if(empty($class)){
+				$unit = UniteFunctionsUG::getVal($setting, "unit");
+				if(!empty($unit))
+					$class = $this->defaultTextClass;
+				else
+					$class = self::INPUT_CLASS_NORMAL;
+			}
+			
 			//modify class:
 			switch($class){
 				case "normal":
@@ -233,6 +242,9 @@ defined('_JEXEC') or die('Restricted access');
 			switch($setting["type"]){
 				case UniteSettingsUG::TYPE_TEXT:
 					$this->drawTextInput($setting);
+				break;
+				case UniteSettingsUG::TYPE_HIDDEN:
+					$this->drawHiddenInput($setting);
 				break;
 				case UniteSettingsUG::TYPE_COLOR:
 					$this->drawColorPickerInput($setting);

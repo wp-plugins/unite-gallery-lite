@@ -357,6 +357,16 @@ function UGTheme_grid(){
 	function onPanelMove(){
 		placeSlider();
 	}
+
+
+	/**
+	 * before items request: hide items, show preloader
+	 */
+	function onBeforeReqestItems(){
+	
+		g_gallery.showDisabledOverlay();
+	
+	}
 	
 	
 	/**
@@ -365,7 +375,8 @@ function UGTheme_grid(){
 	function initEvents(){
 						
 		g_objGallery.on(g_gallery.events.SIZE_CHANGE,onSizeChange);		
-		
+		g_objGallery.on(g_gallery.events.GALLERY_BEFORE_REQUEST_ITEMS, onBeforeReqestItems);
+	
 		if(g_objPanel){
 			jQuery(g_objPanel).on(g_objPanel.events.FINISH_MOVE, onPanelMove);
 		}
@@ -379,12 +390,14 @@ function UGTheme_grid(){
 	this.destroy = function(){
 		
 		g_objGallery.off(g_gallery.events.SIZE_CHANGE,onSizeChange);		
+		g_objGallery.off(g_gallery.events.GALLERY_BEFORE_REQUEST_ITEMS);
 		
 		if(g_objPanel)
 			jQuery(g_objPanel).off(g_objPanel.events.FINISH_MOVE);
 		
 		g_objPanel.destroy();
 		g_objSlider.destroy();
+	
 	}
 	
 	

@@ -1,3 +1,4 @@
+
 function UGAdmin(){
 	
 	var t = this;
@@ -22,6 +23,22 @@ function UGAdmin(){
 		return(url);
 	};
 	
+	
+	/**
+	 * get gallery view url
+	 */
+	this.getUrlGalleryView = function(galleryID, view){
+		
+		if(!galleryID)
+			var galleryID = g_galleryID;
+		
+		if(!view)
+			var view = "gallery";
+		
+		var urlView = t.getUrlView(view,"","id=" + galleryID);
+		
+		return(urlView);
+	}
 	
 	/**
 	 * get current view url
@@ -227,6 +244,20 @@ function UGAdmin(){
 		});		
 	}
 	
+
+	/**
+	 * on enable category tabs input click. show / hide category tabs page
+	 */
+	function onInputEnableCatTabsClick(){
+
+		var objTab = jQuery("#tab_categorytabs_settings");
+		var radioID = jQuery(this).attr("id");
+		if(radioID == "enable_category_tabs_1")
+			objTab.show();
+		else
+			objTab.hide();
+	}
+	
 	
 
 	/**
@@ -255,13 +286,63 @@ function UGAdmin(){
 			
 			g_ugAdmin.ajaxRequest("delete_gallery");
 		});
-		
+
+	    jQuery("#enable_category_tabs input").click(onInputEnableCatTabsClick);
+	    
 		initShortcode();
 		
 		initGenerateShortcodeDialog();
 		
 	};
 	
+	
+	
+	/**
+	 * init category tabs view
+	 */
+    this.initCategoryTabsView = function (){
+    	
+    	//start drop down selector plugin
+        jQuery("#available_cats").dropDownSelectorPluginUG({
+        	hiddenInputName: "categorytabs_ids",
+            textEmpty: "You have not selected any categories",
+            makeMultiple: true,
+            panelLabel: "Category Tabs",
+            selectFirstID: "tabs_init_catid",
+            firstItemText: "[First Tab From List]"
+        });
+    	
+        g_providerAdmin = new UniteProviderAdminUG();
+        
+        jQuery("#button_save_gallery").click(function(){
 
+            var data = {};
+
+            data.params = g_settings.getSettingsObject("form_gallery_category_settings");
+            
+            data.updateParamsOnly = true;
+            
+            if(jQuery("#form_gallery_category_settings_params").length)
+                jQuery.extend(data.params, g_settings.getSettingsObject("form_gallery_category_settings_params") );
+
+            var enableTabs = data.params["enable_category_tabs"];
+            
+            //some ajax beautifyer
+            g_ugAdmin.setAjaxLoaderID("loader_update");
+            g_ugAdmin.setAjaxHideButtonID("button_save_gallery");
+            g_ugAdmin.setSuccessMessageID("update_gallery_success");
+
+            g_ugAdmin.setErrorMessageID("error_message_settings");
+            g_ugAdmin.ajaxRequest("update_gallery" ,data, function(response){
+            	g_ugAdmin.showSuccessMessage(response.message);
+            	if(enableTabs == "false"){
+            		var urlView = t.getUrlGalleryView();
+            		location.href = urlView;
+            	}
+            });
+            
+        });
+        
+    };
+    
 };
-

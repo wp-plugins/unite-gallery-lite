@@ -32,8 +32,10 @@ defined('_JEXEC') or die('Restricted access');
 		}
 		
 		
-		//-----------------------------------------------------------------------------------------------
-		//draw text as input
+		/**
+		 * draw text as input
+		 * @param $setting
+		 */
 		protected function drawTextInput($setting) {
 			$disabled = "";
 			$style="";
@@ -53,8 +55,10 @@ defined('_JEXEC') or die('Restricted access');
 			if(!empty($class))
 				$class = "class='$class'";
 			
+			$settingValue = htmlspecialchars($setting["value"]);
+			
 			?>
-				<input type="text" <?php echo $class?> <?php echo $style?> <?php echo $disabled?><?php echo $readonly?> id="<?php echo $setting["id"]?>" name="<?php echo $setting["name"]?>" value="<?php echo $setting["value"]?>" />
+				<input type="text" <?php echo $class?> <?php echo $style?> <?php echo $disabled?><?php echo $readonly?> id="<?php echo $setting["id"]?>" name="<?php echo $setting["name"]?>" value="<?php echo $settingValue?>" />
 			<?php
 		}
 		
@@ -210,8 +214,11 @@ defined('_JEXEC') or die('Restricted access');
 			if(!empty($cols))
 				$cols = "cols='$cols'";
 			
+			$settingValue = $setting["value"];
+			$settingValue = htmlspecialchars($settingValue);
+			
 			?>
-				<textarea id="<?php echo $setting["id"]?>" name="<?php echo $setting["name"]?>" <?php echo $style?> <?php echo $disabled?> <?php echo $rows?> <?php echo $cols?>  ><?php echo $setting["value"]?></textarea>
+				<textarea id="<?php echo $setting["id"]?>" name="<?php echo $setting["name"]?>" <?php echo $style?> <?php echo $disabled?> <?php echo $rows?> <?php echo $cols?>  ><?php echo $settingValue?></textarea>
 			<?php
 			if(!empty($cols))
 				echo "<br>";	//break line on big textareas.

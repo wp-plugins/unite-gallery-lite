@@ -23,7 +23,221 @@ if(typeof window.addEvent == "undefined")
 	window.addEvent = function(){};
 
 
+/**
+ * Drop Down selector plugin
+ * ------------------------------------------------------------
+ */	
+	jQuery.fn.dropDownSelectorPluginUG = function( config ) {
 
+        var cfg = {
+            wrapperCls      : 'unite-drop-down-wrapper',
+            filterPanelCls  : "unite-selected-items",
+            selected        : [],
+            hiddenInputName : "",
+            label           : "",
+            textEmpty		: "No items chosen",
+            makeMultiple	: false,			//make the select box multiple
+            panelLabel		: "Selected Items",
+            isSortable 		: true,
+            selectFirstID	: "",			//first item select, if exists, update it together with tags add
+            firstItemText	: "[First Item From List]"
+        };
+        jQuery.extend(cfg, config);
+
+        //validation:
+        if(cfg.hiddenInputName == "")
+        	throw new Error("The dropdown selector plugin muyst have hidden input name");
+        
+        var dropDownElement = jQuery(this),
+            wrapper,
+            htmlSelect,
+            wrapperPanel,
+            filterPanel,
+            hiddenInput,
+            selectFirstItem,
+            filters = [];
+
+        wrapper         = jQuery('<div></div>');
+        wrapper.addClass( cfg.wrapperCls );
+        dropDownElement.before( wrapper );
+        htmlSelect      = dropDownElement.clone();
+        dropDownElement.remove();
+        wrapperPanel    = jQuery('<div><div class="label">' + cfg.panelLabel + ':</div><ul></ul></div>');
+        filterPanel     = wrapperPanel.find("ul");
+        filterPanel.append(cfg.textEmpty);
+        
+        wrapperPanel.addClass(cfg.filterPanelCls);
+        hiddenInput     = jQuery("input[name=" + cfg.hiddenInputName + "]");
+        if ( hiddenInput.length == 0) {
+
+            hiddenInput = jQuery('<input name="' + cfg.hiddenInputName + '" />');
+            wrapperPanel.append( hiddenInput );
+        }
+        wrapper.append( jQuery('<div></div>').append( htmlSelect ) );
+        wrapper.append( wrapperPanel );
+        dropDownElement = htmlSelect;
+
+        if(cfg.makeMultiple == true)
+        	dropDownElement.attr("multiple", "multiple");
+        
+        //And finally Initialize filters with values
+        var hiddenInputValue = hiddenInput.attr("value");
+        
+        //init first select
+        if(cfg.selectFirstID != ""){
+        	selectFirstItem = jQuery("#" + cfg.selectFirstID);
+        	selectFirstItem.append(jQuery('<option>', { value : "first" , selected: "selected"}).text(cfg.firstItemText));
+        }
+        
+        if ( hiddenInputValue ) {
+
+            var values = hiddenInputValue.split(",");
+            
+            hiddenInput.val("");
+            for ( var i=0; i < values.length; i++) {
+                addFilter( values[i] );
+            }
+
+        }
+        
+        dropDownElement.val("");
+        
+        if(cfg.isSortable == true)
+        	filterPanel.sortable({
+        		create: function(){
+        			filterPanel.data("is_sortable", true);
+        		},
+        		update:updateHiddenInput
+        	});
+        
+        /**
+         * on select choose 
+         */
+        function selected ( event ) {
+            var val;
+            if ( (val = dropDownElement.val() ) != "" ) {
+                addFilter(val);
+            }
+        }
+        
+        /**
+         * add filter
+         */
+        function addFilter( valueId ){
+        	
+            if(!valueId) {
+                return false;
+            }
+            
+            if ( filters.length == 0 ) {
+                filterPanel.html("");
+            }
+            
+            var option = dropDownElement.find('option[value='+valueId+']');
+            if(option.length == 0)
+            	return(false);
+            
+            var optionText = option.text();
+            
+            var object  = {
+                    id      : valueId,
+                    text    : optionText
+                };
+            
+            filters.push( object );
+            
+            if(selectFirstItem){
+            	selectFirstItem.append(jQuery('<option>', { value : valueId }).text(optionText));
+            }
+            
+            option.remove();
+            filterPanel.append(filterItemFactory(object));
+            
+            updateHiddenInput();
+        }
+
+        
+        /**
+         * remove filter
+         */
+        function removeFilter( config ){
+
+            var li = filterPanel.find("li[_id="+config.id+"]"),
+                option = jQuery('<option></option>');
+            li.remove();
+            
+            if(selectFirstItem){
+                var option = selectFirstItem.find('option[value='+config.id+']');
+            	if(option.length)
+            		option.remove();
+            }
+            
+            option.html( config.text );
+            option.attr("value", config.id);
+            dropDownElement.append(option);
+            
+            updateHiddenInput();
+        }
+        
+        
+        /**
+         * update hidden input
+         */
+        function updateHiddenInput(){
+            
+        	var arrValues = [];
+        	
+        	var isSortable = filterPanel.data("is_sortable");
+        	if(isSortable === true){
+            
+        		arrValues = filterPanel.sortable( "toArray" ,{attribute: "_id"});
+        	
+        	}else{	//get the array from the dome
+
+        		var objLI = filterPanel.find("li");
+            	jQuery.each(objLI, function(index, item){
+            		var id = jQuery(item).attr("_id");
+            		
+            		if(jQuery(item).hasClass("ui-sortable-placeholder") == false)
+            			arrValues.push(id);
+            	});
+        		
+        	}
+        	
+        	//make string from the array
+        	var strValues = "";
+        	
+        	if(arrValues.length != 0)
+        		strValues = arrValues.join(",");
+        	
+        	hiddenInput.val(strValues);
+        }
+
+        
+        /**
+         * init plugin
+         */
+        function filterItemFactory( config )
+        {
+            var element         = jQuery('<li></li>'),
+                innerElement    = jQuery('<div></div>'),
+                removeAction    = jQuery('<a class="remove"></a>');
+            element.append(innerElement);
+            element.attr("_id", config.id);
+            innerElement.html( config.text );
+            innerElement.append(removeAction);
+            removeAction.click(removeFilter.bind(this, config));
+            return element;
+        }
+        dropDownElement.change(selected.bind(this));
+
+    };
+    
+//---- End drop down selector plugin -----
+
+/**
+ * Unite Admin Class
+ */
 function UniteAdminUG(){
 	
 	var t = this;
@@ -471,6 +685,9 @@ function UniteAdminUG(){
 			gallery_type: g_galleryType,
 			data:data
 		};
+		
+		if(typeof g_ugNonce == "string")
+			objData["nonce"] = g_ugNonce;
 		
 		hideErrorMessage();
 		showAjaxLoader();

@@ -1,3 +1,7 @@
+version 1.5
+
+-feature: added "category tabs" support
+
 version 1.4.6
 
 -bug fix: fixed js error on carousel without navigation

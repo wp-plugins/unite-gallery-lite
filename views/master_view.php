@@ -47,6 +47,10 @@ defined('_JEXEC') or die('Restricted access');
 		var g_ugAdmin;
 	";
 	
+	//get nonce
+	if(method_exists("UniteProviderFunctionsUG", "getNonce"))
+		$script .= "\n		var g_ugNonce='".UniteProviderFunctionsUG::getNonce()."';";
+	
 	UniteProviderFunctionsUG::printCustomScript($script);
 ?>
 	

@@ -33,8 +33,8 @@ defined('_JEXEC') or die('Restricted access');
 		private function checkForErrors($prefix = ""){
 
 			$message = $this->pdb->getErrorMsg();
-			
-			if(!$message)
+						
+			if(empty($message))
 				return(false);
 			
 			if(!empty($prefix))
@@ -50,8 +50,14 @@ defined('_JEXEC') or die('Restricted access');
 		 * 
 		 * insert variables to some table
 		 */
-		public function insert($tableName,$arrItems){
-
+		public function insert($tableName, $arrItems){
+			
+			if(method_exists($this->pdb, "insert")){
+				$this->lastRowID = $this->pdb->insert($tableName, $arrItems);
+				return($this->lastRowID);
+			}
+			
+			
 			$strFields = "";
 			$strValues = "";
 			foreach($arrItems as $field=>$value){
@@ -91,6 +97,11 @@ defined('_JEXEC') or die('Restricted access');
 			UniteFunctionsUG::validateNotEmpty($table,"table name");
 			UniteFunctionsUG::validateNotEmpty($where,"where");
 			
+			if(method_exists($this->pdb, "delete")){
+				$numRows = $this->pdb->delete($table, $where);
+				return($numRows);
+			}
+			
 			if(is_array($where))
 				$where = $this->getWhereString($where);
 			
@@ -125,6 +136,13 @@ defined('_JEXEC') or die('Restricted access');
 		 * insert variables to some table
 		 */
 		public function update($tableName,$arrData,$where){
+			
+			if(method_exists($this->pdb, "update")){
+				
+				$numRows = $this->pdb->update($tableName, $arrData, $where);
+				
+				return($numRows);
+			}
 			
 			UniteFunctionsUG::validateNotEmpty($tableName,"table cannot be empty");
 			UniteFunctionsUG::validateNotEmpty($where,"where cannot be empty");
@@ -207,12 +225,15 @@ defined('_JEXEC') or die('Restricted access');
 			
 			$query = "select * from $tableName";
 			if($where) $query .= " where $where";
-			if($orderField) $query .= " order by $orderField";
+			if($orderField){
+				$orderField = $this->escape($orderField);
+				$query .= " order by $orderField";
+			}
 			if($groupByField) $query .= " group by $groupByField";
 			if($sqlAddon) $query .= " ".$sqlAddon;
-			
+						
 			$rows = $this->fetchSql($query);
-			
+						
 			return($rows);
 		}
 		

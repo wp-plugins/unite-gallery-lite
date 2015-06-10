@@ -92,6 +92,7 @@
 					label="Shuffle Items At Start"
 					description="Shuffle (randomize) items at gallery start">	
 				</field>
+				
 				<field type="hr"></field>
 				
 				<field name="slider_background_color" 

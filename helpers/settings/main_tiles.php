@@ -18,11 +18,19 @@ defined('_JEXEC') or die('Restricted access');
 	
 	$settingsMain->addItemsCategorySelect("category", null, $isNewGallery);
 	
+	if ( $isNewGallery == false ) {
+		$settingsMain->addHr();
+		$settingsMain->addRadioBoolean("enable_category_tabs", __("Enable Category Tabs", UNITEGALLERY_TEXTDOMAIN), false);
+		
+		$settingsMain->addControl("enable_category_tabs", "category", "enable", "false");
+	}
+	
 	$settingsMain->addHr();
 	
 	$params = array("class"=>"input-number","unit"=>"px");
 	
 	$settingsMain->addRadioBoolean("full_width", "Full Width", true);
+	
 	
 	$settingsMain->addTextbox("gallery_width", "1000", __("Width", UNITEGALLERY_TEXTDOMAIN),$params);	
 	

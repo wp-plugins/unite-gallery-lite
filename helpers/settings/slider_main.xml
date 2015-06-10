@@ -117,18 +117,21 @@
 			child="slider_zoom_max_ratio" value="true" />
 	
 		<field type="hr"></field>
+
 		<field name="slider_enable_links" 
 			type="boolean"
 			default="true" 
 			label="Enable Slide As Link"
 			description="enable slide as link functionality, you have to enter the links in edit items of cause">	
 		</field>
+		
 		<field name="slider_links_newpage" 
 			type="boolean"
 			default="false" 
 			label="Open Links In New Page"
 			description="open the slide link in new page">
 		</field>
+		
 		<field type="hr"></field>
 		
 		<field name="slider_video_enable_closebutton" 

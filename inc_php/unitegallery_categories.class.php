@@ -49,10 +49,12 @@ class UniteGalleryCategories extends UniteElementsBaseUG{
 			}while($titleExists == true);
 		}
 		
+    
 		//prepare insert array
 		$arrInsert = array();
 		$arrInsert["title"] = $title;
 		$arrInsert["ordering"] = $maxOrder+1;
+    $arrInsert["params"] = '';
 		
 		//insert the category
 		$catID = $this->db->insert(GlobalsUG::$table_categories,$arrInsert);
@@ -78,6 +80,33 @@ class UniteGalleryCategories extends UniteElementsBaseUG{
 		
 		return($arrCats);
 	}
+	
+	
+	/**
+	 * get category list by id's string
+	 */
+	public function getListByIds( $ids ) {
+		
+		$ids = $this->db->escape($ids);
+		
+		$tableCats = GlobalsUG::$table_categories;
+		$query = "select cats.* from {$tableCats} as cats WHERE cats.id IN(" . $ids . ")";
+		$arrCats = $this->db->fetchSql($query);
+		
+		$arrCats = UniteFunctionsUG::arrayToAssoc($arrCats, "id");
+		
+		//order by IDs
+		$arrIDs = explode(",", $ids);
+		$arrCatsFinal = array();
+		foreach($arrIDs as $id){
+			if(array_key_exists($id, $arrCats))
+				$arrCatsFinal[] = $arrCats[$id];
+		}
+		
+		
+		return($arrCatsFinal);
+	}
+	
 	
 	/**
 	 * 
@@ -159,6 +188,9 @@ class UniteGalleryCategories extends UniteElementsBaseUG{
 	 * get true/false if some category exists
 	 */
 	public function isCatExists($catID){
+		
+		UniteFunctionsUG::validateNumeric($catID, "category id");
+		
 		$arrCat = $this->db->fetchSingle(GlobalsUG::$table_categories,"id=$catID");
 		return !empty($arrCat);		
 	}
@@ -169,6 +201,9 @@ class UniteGalleryCategories extends UniteElementsBaseUG{
 	 * get category
 	 */
 	public function getCat($catID){
+		
+		UniteFunctionsUG::validateNumeric($catID, "category id");
+		
 		$catID = (int)$catID;
 		
 		$arrCat = $this->db->fetchSingle(GlobalsUG::$table_categories,"id=$catID");

@@ -1,6 +1,5 @@
 <?php
 
-
 defined('_JEXEC') or die('Restricted access');
 
 
@@ -36,7 +35,6 @@ defined('_JEXEC') or die('Restricted access');
 						
 			$this->init();
 		}
-		
 		
 		
 		/**
@@ -93,11 +91,19 @@ defined('_JEXEC') or die('Restricted access');
 			$this->galleryHtmlID = "ugdefault_{$galleryID}_{$serial}";
 			
 			$origParams = $this->gallery->getParams();
-			
+						
 			//set params for default settings get function
 			$this->arrOriginalParams = $origParams;	
 			
+			$enableTabs = $this->getParam("enable_category_tabs", self::FORCE_BOOLEAN);
+			
 			$defaultValues = $this->getDefautSettingsValues();
+			
+			//get categoty tabs settings:
+			if($enableTabs === true){
+				$defaultValuesTabs = $this->getDefautSettingsValues_tabs();
+				$defaultValues = array_merge($defaultValues, $defaultValuesTabs);
+			}
 						
 			$origParams = UniteFunctionsUG::filterArrFields($origParams, $defaultValues, true);
 			
@@ -106,12 +112,17 @@ defined('_JEXEC') or die('Restricted access');
 			$arrMustKeys = $this->getArrMustFields();
 						
 			$this->arrParams = UniteFunctionsUG::getDiffArrItems($this->arrOriginalParams, $defaultValues, $arrMustKeys);
-												
-			$this->modifyOptions();
 			
+			//add tabs related options
+			if($enableTabs === true){
+				$this->arrParams["gallery_urlajax"] = GlobalsUG::$url_ajax_front;
+				$this->arrParams["gallery_enable_tabs"] = "true";
+			}
+			
+			$this->modifyOptions();
 		}
 		
-				
+		
 		
 		/**
 		 * modify options
@@ -283,7 +294,21 @@ defined('_JEXEC') or die('Restricted access');
 			return($valuesMerged);
 		}
 		
+		/**
+		 * get default settings of categories
+		 */
+		protected function getDefautSettingsValues_tabs(){
 		
+			require GlobalsUG::$pathHelpersSettings."categorytab_main.php";
+			require GlobalsUG::$pathHelpersSettings."categorytab_params.php";
+			
+			// get merged settings with values
+			$valuesMain = $settingsMain->getArrValues();
+			$valuesParams = $settingsParams->getArrValues();
+			$valuesMerged = array_merge($valuesMain, $valuesParams);
+			
+			return($valuesMerged);
+		}
 		
 		
 		/**
@@ -309,7 +334,7 @@ defined('_JEXEC') or die('Restricted access');
 			$arr[] = $this->buildJsParam("gallery_debug_errors", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("slider_background_color");
 			$arr[] = $this->buildJsParam("slider_background_opacity", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
-					
+			
 			$arr[] = $this->buildJsParam("slider_scale_mode");
 			$arr[] = $this->buildJsParam("slider_scale_mode_media");
 			$arr[] = $this->buildJsParam("slider_scale_mode_fullscreen");
@@ -322,6 +347,7 @@ defined('_JEXEC') or die('Restricted access');
 			$arr[] = $this->buildJsParam("slider_zoom_max_ratio", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
 			$arr[] = $this->buildJsParam("slider_enable_links", null, self::TYPE_BOOLEAN);
 			$arr[] = $this->buildJsParam("slider_links_newpage", null, self::TYPE_BOOLEAN);
+			
 			$arr[] = $this->buildJsParam("slider_video_enable_closebutton", null, self::TYPE_BOOLEAN);
 			
 			$arr[] = $this->buildJsParam("slider_controls_always_on", null, self::TYPE_BOOLEAN);
@@ -477,7 +503,14 @@ defined('_JEXEC') or die('Restricted access');
 			$arr[] = $this->buildJsParam("grid_transition_duration", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
 			$arr[] = $this->buildJsParam("grid_transition_easing");
 			$arr[] = $this->buildJsParam("grid_carousel", null, self::TYPE_BOOLEAN);
+
+			//category tabs related
+			$arr[] = $this->buildJsParam("gallery_urlajax");
+			$arr[] = $this->buildJsParam("gallery_enable_tabs", null, self::TYPE_BOOLEAN);
+			$arr[] = $this->buildJsParam("tabs_container");
+			$arr[] = $this->buildJsParam("gallery_initial_catid");
 			
+			//tiles type
 			if($this->isTilesType == true){
 				
 				$arr[] = $this->buildJsParam("tile_width", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
@@ -604,132 +637,19 @@ defined('_JEXEC') or die('Restricted access');
 		
 		
 		/**
-		 * get video add html
-		 */
-		protected function getVideoAddHtml($type, $objItem){
-			
-			$addHtml = "";
-			switch($type){
-				case UniteGalleryItem::TYPE_YOUTUBE:
-				case UniteGalleryItem::TYPE_VIMEO:
-				case UniteGalleryItem::TYPE_WISTIA:
-					$videoID = $objItem->getParam("videoid");
-					$addHtml .= "data-videoid=\"{$videoID}\" ";
-					break;
-				case UniteGalleryItem::TYPE_HTML5VIDEO:
-					$urlMp4 = $objItem->getParam("video_mp4");
-					$urlWebm = $objItem->getParam("video_webm");
-					$urlOgv = $objItem->getParam("video_ogv");
-			
-					$addHtml .= "data-videomp4=\"{$urlMp4}\" ";
-					$addHtml .= "data-videowebm=\"{$urlWebm}\" ";
-					$addHtml .= "data-videoogv=\"{$urlOgv}\" ";
-			
-					break;
-			}
-			
-			return($addHtml);
-		}
-
-		
-		/**
 		 * put gallery items
 		 */
 		protected function putItems($arrItems){
-			
-			$tab = "						";
-			$nl = "\n".$tab;
 			
 			$thumbSize = "";
 			if($this->isTilesType){
 				$thumbSize = $this->getParam("tile_image_resolution");
 			}
 			
-			$totalHTML = "";
+			$objItems = new UniteGalleryItems();
+			$htmlItems =  $objItems->getItemsHtmlFront($arrItems, $thumbSize, $this->isTilesType);
 			
-			$counter = 0;
-			
-			// Dear friend. Yes, you have found a place where you can 
-			// programmically remove the limitations. 
-			// Though you should know that it's Illigal, and not moral! 
-			// If you like the gallery and has respect to it's developers hard work, you should purchase a full version copy!.
-			// Please buy it from here: http://codecanyon.net/item/unite-gallery-wordpress-plugin/10458750
-			// You'll get lifetime support and updates, so why not, it's not so expensive!
-			
-			foreach($arrItems as $objItem):
-
-				if($this->isTilesType && $counter >= 20)
-					break;
-				else 
-				  if($this->isTilesType == false && $counter >= 12)
-					break;
-				
-				$counter++;
-			
-				$urlImage = $objItem->getUrlImage();
-				$urlThumb = $objItem->getUrlThumb($thumbSize);
-				
-				$title = $objItem->getTitle();
-				$type = $objItem->getType();
-				$alt = $objItem->getAlt();
-				
-				$description = $objItem->getParam("ug_item_description");
-				
-				$enableLink = $objItem->getParam("ug_item_enable_link");
-				$enableLink = UniteFunctionsUG::strToBool($enableLink);
-				
-				//combine description
-				if($enableLink == true){
-					$link = $objItem->getParam("ug_item_link");
-					
-					/*
-					if(!empty($link) && $this->isTilesType == false){
-						$isBlank = ($objItem->getParam("ug_item_link_open_in") == "new");
-						$htmlLink = UniteFunctionsUG::getHtmlLink($link, $link, "", "", $isBlank);
-						$description .= " ".$htmlLink;
-					}
-					*/
-				}
-				
-				$title = htmlspecialchars($title);
-				$description = htmlspecialchars($description);
-				$alt = htmlspecialchars($alt);
-				
-				
-				$strType = "";
-				if($type != UniteGalleryItem::TYPE_IMAGE){
-					$strType = "data-type=\"{$type}\" ";
-				}
-				
-				$addHtml = $this->getVideoAddHtml($type, $objItem);
-				
-				//set link (on tiles mode)
-				$linkStart = "";
-				$linkEnd = "";
-				if($enableLink == true){
-					$linkStart = "<a href=\"{$link}\">";
-					$linkEnd = "</a>";
-				}
-				
-				$html = "\n";
-				
-				if($linkStart)
-					$html .= $nl.$linkStart;
-				
-				$html .= $nl."<img alt=\"{$alt}\"";
-				$html .= $nl."    {$strType} src=\"{$urlThumb}\"";
-				$html .= $nl."     data-image=\"{$urlImage}\"";
-				$html .= $nl."     data-description=\"{$description}\"";
-				$html .= $nl."     {$addHtml}style=\"display:none\">";
-				
-				if($linkEnd)
-					$html .= $nl.$linkEnd;
-				
-				$totalHTML .= $html;
-			
-			 endforeach;	
-			 
-			 return($totalHTML);
+			return($htmlItems);
 		}
 		
 		
@@ -742,6 +662,162 @@ defined('_JEXEC') or die('Restricted access');
 			$this->putJsToBody = $jsToBody;
 						
 		}
+		
+		
+		/**
+		 * output categories
+		 */
+		protected function getCategoryTabsHtml($galleryHtmlID, $objCategories ){
+			
+			$categories = $this->getParam("categorytabs_ids");
+			if(empty($categories))
+				return("");
+			
+			$tabsID = $galleryHtmlID."_tabs";
+			$this->arrParams["tabs_container"] = "#".$tabsID;
+			
+			$output = "";
+			
+			//make inner style
+			$arrStyleWrapper = array();
+			$arrStyleTab = array();
+			$arrStyleTabHover = array();
+			$arrStyleTabSelected = array();
+			
+			//make wrapper style
+			$position = $this->getParam("tabs_position");
+			if($position == "left" || $position == "right"){
+				$arrStyleWrapper = $this->addParamToStyleArray($arrStyleWrapper, "tabs_position", "text-align");
+				$arrStyleWrapper = $this->addParamToStyleArray($arrStyleWrapper, "tabs_offset", "padding-{$position}", "px", self::FORCE_NUMERIC);
+			}
+			
+			$arrStyleWrapper = $this->addParamToStyleArray($arrStyleWrapper, "tabs_margin_top", "margin-top", "px", self::FORCE_NUMERIC);
+			$arrStyleWrapper = $this->addParamToStyleArray($arrStyleWrapper, "tabs_margin_bottom", "margin-bottom", "px", self::FORCE_NUMERIC);
+			
+			//make tab style
+			
+			//space between tabs
+			$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tabs_space_between", "margin-left", "px", self::FORCE_NUMERIC);
+			
+			//tab padding 
+			$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tab_padding_vert", "padding-top", "px", self::FORCE_NUMERIC);
+			$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tab_padding_vert", "padding-bottom", "px", self::FORCE_NUMERIC);
+			$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tab_padding_hor", "padding-left", "px", self::FORCE_NUMERIC);
+			$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tab_padding_hor", "padding-right", "px", self::FORCE_NUMERIC);
+			
+			//tab style
+			$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tab_background_color", "background-color");
+			$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tab_text_color", "color");
+			$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tab_text_size", "font-size","px",self::FORCE_NUMERIC);
+			$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tab_font_family", "font-family");
+			$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tab_font_weight", "font-weight");
+			$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tab_border_radius", "border-radius", "px", self::FORCE_NUMERIC);
+			
+			//tab border
+			$enableBorder = $this->getParam("tab_enable_border", self::FORCE_BOOLEAN);
+			if($enableBorder == true){
+				$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tab_border_width", "border-width", "px", self::FORCE_NUMERIC);
+				$arrStyleTab = $this->addParamToStyleArray($arrStyleTab, "tab_border_color", "border-color");
+				$arrStyleTab["border-style"] = "solid";
+			}
+			
+			//tab mouseover
+			$enableHoverBG = $this->getParam("tab_hover_background_change", self::FORCE_BOOLEAN);
+			if($enableHoverBG == false)
+				$arrStyleTabHover["background-color"] = $this->getParam("tab_background_color")." !important";
+			else
+				$arrStyleTabHover = $this->addParamToStyleArray($arrStyleTabHover, "tab_hover_background_color", "background-color"," !important");
+			
+			$enableHoverColor = $this->getParam("tab_hover_color_change", self::FORCE_BOOLEAN);
+			if($enableHoverColor == true)
+				$arrStyleTabHover = $this->addParamToStyleArray($arrStyleTabHover, "tab_hover_text_color", "color"," !important");
+			
+			$enableHoverColor = $this->getParam("tab_hover_bordercolor_change", self::FORCE_BOOLEAN);
+			if($enableHoverColor == true)
+				$arrStyleTabHover = $this->addParamToStyleArray($arrStyleTabHover, "tab_hover_border_color", "border-color"," !important");
+			
+			//tab selected:
+			$arrStyleTabSelected = $this->addParamToStyleArray($arrStyleTabSelected, "tab_selected_background_color", "background-color"," !important");
+			
+			$enableSelectedColor = $this->getParam("tab_selected_color_change", self::FORCE_BOOLEAN);
+			if($enableSelectedColor == true)
+				$arrStyleTabSelected = $this->addParamToStyleArray($arrStyleTabSelected, "tab_selected_text_color", "color"," !important");
+			
+			
+			$enableSelectedBorderColor = $this->getParam("tab_selected_bordercolor_change", self::FORCE_BOOLEAN);
+			if($enableSelectedBorderColor == true)
+				$arrStyleTabSelected = $this->addParamToStyleArray($arrStyleTabSelected, "tab_selected_border_color", "border-color"," !important");
+			
+			$addCSSTab = $this->getParam("tab_additional_css");
+			$addCSSTabHover = $this->getParam("tab_hover_additional_css");
+			$addCSSTabSelected = $this->getParam("tab_selected_additional_css");
+			
+			
+			//make style strings
+			$strStyleWrapper = UniteFunctionsUG::arrStyleToStrStyle($arrStyleWrapper, "#".$tabsID.".ug-tabs-wrapper");
+			$strStyleTab = UniteFunctionsUG::arrStyleToStrStyle($arrStyleTab, "#".$tabsID.".ug-tabs-wrapper a.ug-tab", $addCSSTab);
+			$strStyleTabHover = UniteFunctionsUG::arrStyleToStrStyle($arrStyleTabHover, "#".$tabsID.".ug-tabs-wrapper a.ug-tab:hover:not(.ug-tab-selected)", $addCSSTabHover);
+			$strStyleTabSelected = UniteFunctionsUG::arrStyleToStrStyle($arrStyleTabSelected, "#".$tabsID.".ug-tabs-wrapper a.ug-tab.ug-tab-selected", $addCSSTabSelected);
+			
+			$br = "\n";
+			
+			$style = $strStyleWrapper.$strStyleTab.$strStyleTabHover.$strStyleTabSelected;
+				
+			$output = "";
+			
+			//put in the body or add to inline
+			$putStylesInBody = $this->getParam("tab_put_styles_in_body", self::FORCE_BOOLEAN);
+			if($putStylesInBody == true)
+				$output .= "\n<style type='text/css'>{$style}</style>\n\n";
+			else
+				HelperUG::addStyleInline($style);
+			
+				$arrCats = $objCategories->getListByIds($categories);
+				
+				$output .= "<div id=\"{$tabsID}\" class=\"ug-tabs-wrapper\">";
+				
+				$isFirstSelected = false;
+				$selectedCat = $this->getParam("tabs_init_catid");
+				if($selectedCat == "first")
+					$isFirstSelected = true;
+
+				$counter = 0;
+				
+				// Dear friend. Yes, you have found a place where you can
+				// programmically remove the limitations.
+				// Though you should know that it's Illigal, and not moral!
+				// If you like the gallery and has respect to it's developers hard work, you should purchase a full version copy!.
+				// Please buy it from here: http://codecanyon.net/item/unite-gallery-wordpress-plugin/10458750?ref=valiano
+				// You'll get lifetime support and updates, so why not, it's not so expensive!
+				
+				foreach ( $arrCats as $category ) {
+					
+					if($counter >= 4)
+						break;
+					
+					$counter++;
+					
+					$title = UniteFunctionsUG::getVal($category, "title");
+					$id = UniteFunctionsUG::getVal($category, "id");
+					
+					$class = "";
+					if($isFirstSelected == true){
+						$isFirstSelected = false;
+						$class = " ug-tab-selected";
+					}else{
+						if($id == $selectedCat)
+							$class = " ug-tab-selected";
+					}
+					
+					$output .= "<a class=\"ug-tab{$class}\" href=\"javascript:void(0)\" data-catid=\"{$id}\">{$title}</a>";
+				}
+				
+				$output .= "</div>";
+				
+		
+			return $output;
+		}
+		
 		
 		
 		/**
@@ -763,19 +839,38 @@ defined('_JEXEC') or die('Restricted access');
 				if(isset($arrOptions["scriptsonly"]))
 					return(false);
 				
+				$enableCatTabs = $this->getParam('enable_category_tabs', self::FORCE_BOOLEAN);
+				
 				//custom items pass
 				if(is_array($arrOptions) && array_key_exists("items", $arrOptions)){
 
 					$arrItems = $arrOptions["items"];
 					
+					$enableCatTabs = false;
+					
 				}else{
 					
-					//set gallery category
+					//set gallery category						
 					$optCatID = UniteFunctionsUG::getVal($arrOptions, "categoryid");
+					
 					if(!empty($optCatID) && $objCategories->isCatExists($optCatID))
 						$categoryID = $optCatID;
-					else
-						$categoryID = $this->getParam("category");
+					else{
+						if($enableCatTabs == true){
+							$categoryID = $this->getParam("tabs_init_catid");
+							
+							if($categoryID == "first"){	//get first category from tabs
+								$strCatIDs = $this->getParam("categorytabs_ids");
+								$arrIDs = explode("," , $strCatIDs);
+								if(!empty($arrIDs))
+									$categoryID = $arrIDs[0];
+							}
+							
+							if(empty($categoryID) || is_numeric($categoryID) == false)
+							$categoryID = $this->getParam("category");
+						}else
+							$categoryID = $this->getParam("category");
+					}
 					
 					if(empty($categoryID))
 						UniteFunctionsUG::throwError(__("No items category selected", UNITEGALLERY_TEXTDOMAIN));
@@ -802,15 +897,23 @@ defined('_JEXEC') or die('Restricted access');
 				}
 				
 				$wrapperStyle = $this->getPositionString();
-								
-				//set position			
-				$jsOptions = $this->buildJsParams();
+
+				$serial = self::$serial;
+				$galleryHtmlID = $this->galleryHtmlID;
 				
+				//set position			
+				$htmlTabs = "";
+				if($enableCatTabs == true){
+					$htmlTabs = $this->getCategoryTabsHtml($galleryHtmlID, $objCategories);
+					$this->arrParams["gallery_initial_catid"] = $categoryID;
+				}
+				
+				$jsOptions = $this->buildJsParams();
 				
 				global $uniteGalleryVersion;
 				$output = "
 					\n
-					<!-- START Unite Gallery Lite {$uniteGalleryVersion} -->
+					<!-- START UNITE GALLERY {$uniteGalleryVersion} -->
 					
 				";
 				
@@ -823,9 +926,9 @@ defined('_JEXEC') or die('Restricted access');
 				$linePrefix4 = "\n						";
 				$br = "\n";
 				
-				$serial = self::$serial;
-				$galleryHtmlID = $this->galleryHtmlID;
-				
+				if($enableCatTabs == true)
+					$output .= $htmlTabs;
+					
 				$output .= $linePrefix."<div id='{$this->galleryHtmlID}' style='{$wrapperStyle}'>";
 				$output .= $linePrefix2.$this->putItems($arrItems);
 				$output .= $linePrefix."</div>";
@@ -855,13 +958,14 @@ defined('_JEXEC') or die('Restricted access');
 					$output = str_replace("\n", "", $output);
 					$output = trim($output);
 				}
+				
 				return $output;
 				?>
 				
 			<?php 
 			
 		     }catch(Exception $e){
-		     	$prefix = __("Unite Gallery Lite Error",UNITEGALLERY_TEXTDOMAIN);
+		     	$prefix = __("Unite Gallery Error",UNITEGALLERY_TEXTDOMAIN);
 				$this->putErrorMessage($e, $prefix);
 		     }
 		

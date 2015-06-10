@@ -143,7 +143,7 @@ defined('_JEXEC') or die('Restricted access');
 		 * get url to some view.
 		 */
 		public static function getViewUrl($viewName,$urlParams=""){
-			
+				
 			$params = "&view=".$viewName;
 			
 			if(!empty($urlParams))
@@ -151,9 +151,11 @@ defined('_JEXEC') or die('Restricted access');
 			
 			$link = GlobalsUG::$url_component_admin.$params;
 			
+			$link = UniteFunctionsUG::normalizeLink($link);
+			
 			return($link);
 		}
-		
+				
 		
 		/**
 		 * require some template from "templates" folder
@@ -262,6 +264,17 @@ defined('_JEXEC') or die('Restricted access');
 			
 		}
 
+		
+		/**
+		 * put style inside the page
+		 */
+		public static function addStyleInline($style){
+			
+			UniteProviderFunctionsUG::addStyleInline($style);
+			
+		}
+		
+		
 		/**
 		 * put scripts of some gallery
 		 */

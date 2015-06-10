@@ -559,6 +559,14 @@ function UGTheme_default(){
 			hidePanel();
 	}
 
+	/**
+	 * before items request: hide items, show preloader
+	 */
+	function onBeforeReqestItems(){
+	
+		g_gallery.showDisabledOverlay();
+	
+	}
 	
 	
 	/**
@@ -567,6 +575,7 @@ function UGTheme_default(){
 	function initEvents(){
 						
 		g_objGallery.on(g_gallery.events.SIZE_CHANGE,onSizeChange);
+		g_objGallery.on(g_gallery.events.GALLERY_BEFORE_REQUEST_ITEMS, onBeforeReqestItems);
 		
 		//set the panel buttons
 		if(g_objButtonPlay){
@@ -610,6 +619,7 @@ function UGTheme_default(){
 	this.destroy = function(){
 		
 		g_objGallery.off(g_gallery.events.SIZE_CHANGE);
+		g_objGallery.off(g_gallery.events.GALLERY_BEFORE_REQUEST_ITEMS);
 		
 		//set the panel buttons
 		if(g_objButtonPlay)

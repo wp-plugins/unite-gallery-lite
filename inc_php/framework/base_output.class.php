@@ -48,6 +48,35 @@ defined('_JEXEC') or die('Restricted access');
 		
 		
 		/**
+		 * return true if the param exists and not empty
+		 */
+		protected function isParamExistsAndNotEmpty($name){
+			$exists = array_key_exists($name, $this->arrParams);
+			
+			if($exists && $this->arrParams[$name] !== "")
+				return(true);
+			
+			return false;
+		}
+		
+		
+		/**
+		 * add some param to style array, if not exists and not emtpy
+		 */
+		protected function addParamToStyleArray($arrStyle, $name, $attr, $suffix = "", $valiateMode = ""){
+			
+			if($this->isParamExists($name) == false)
+				return($arrStyle);
+			
+			$value = $this->getParam($name, $valiateMode);
+			
+			$arrStyle[$attr] = $value.$suffix;
+			
+			return($arrStyle);
+		}
+		
+		
+		/**
 		 *
 		 * get some param
 		 */
