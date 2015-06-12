@@ -1,3 +1,7 @@
+version 1.5.1
+
+-bog fix: fixed theme default options (like autoplay=true) that was brocken in the last update
+
 version 1.5
 
 -feature: added "category tabs" support

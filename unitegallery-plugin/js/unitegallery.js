@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.5, released 07 Jun 2015 
+// Unite Gallery, Version: 1.5.1, released 12 Jun 2015 
 
 
 /**
@@ -3780,11 +3780,11 @@ function UniteGalleryMain(){
 	/**
 	 * init the theme
 	 */
-	function initTheme(objParams){
+	function initTheme(objCustomOptions){
 		 
 		//set theme function:
-		 if(objParams.hasOwnProperty("gallery_theme"))
-			 g_options.gallery_theme = objParams.gallery_theme;
+		 if(objCustomOptions.hasOwnProperty("gallery_theme"))
+			 g_options.gallery_theme = objCustomOptions.gallery_theme;
 		 else{
 			 var defaultTheme = g_options.gallery_theme;
 			 if(g_ugFunctions.isThemeRegistered(defaultTheme) == false)
@@ -3810,11 +3810,8 @@ function UniteGalleryMain(){
 	    	 g_objWrapper.html("");
 		 }
 		 
-		// trace(g_options.tile_enable_textpanel);
-		 
 		 g_objTheme = new g_options.gallery_theme();
-		 g_objTheme.init(t, g_options);
-		 
+		 g_objTheme.init(t, objCustomOptions);
 	}
 	
 	
@@ -3842,7 +3839,7 @@ function UniteGalleryMain(){
 			
 			if(isCustomOptions)
 		      g_temp.objCustomOptions = objCustomOptions;
-			 
+			 			 
 		     if(g_temp.isRunFirstTime == true){
 		    	 
 		    	 g_galleryID = galleryID;
@@ -3916,7 +3913,7 @@ function UniteGalleryMain(){
 			 //modify and verify the params
 			 if(isCustomOptions)
 				 modifyInitParams(g_temp.objCustomOptions);
-			 
+			 			 
 			 validateParams();
 			 
 			 //shuffle items
@@ -3926,7 +3923,7 @@ function UniteGalleryMain(){
 				for(var index in g_arrItems)		//fix index
 					g_arrItems[index].index = parseInt(index);
 			 }
-			 
+			 			 
 			 //init the theme
 			 initTheme(g_temp.objCustomOptions);
 			 			 				 
@@ -3971,6 +3968,7 @@ function UniteGalleryMain(){
 		 //select first item
 		 if(g_numItems > 0) 
 			 t.selectItem(0);
+		 
 		 
 		 //set autoplay
 		 if(g_options.gallery_autoplay == true)
@@ -5377,7 +5375,7 @@ function UniteGalleryMain(){
 	 * set main gallery params, extend current params
 	 */
 	this.setOptions = function(customOptions){
-		
+				
 		g_options = jQuery.extend(g_options, customOptions);		
 	}
 	
