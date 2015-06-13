@@ -641,10 +641,10 @@ defined('_JEXEC') or die('Restricted access');
 		 */
 		protected function putItems($arrItems){
 			
-			$thumbSize = "";
-			if($this->isTilesType){
+			$thumbSize = $this->getParam("thumb_resolution");
+			if($this->isTilesType)
 				$thumbSize = $this->getParam("tile_image_resolution");
-			}
+			
 			
 			$objItems = new UniteGalleryItems();
 			$htmlItems =  $objItems->getItemsHtmlFront($arrItems, $thumbSize, $this->isTilesType);

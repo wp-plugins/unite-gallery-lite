@@ -62,6 +62,7 @@ defined('_JEXEC') or die('Restricted access');
 		const PARAM_CELLSTYLE = "cellStyle";	//additional text after the field
 		const PARAM_NODRAW = "nodraw";			//don't draw the setting row
 		const PARAM_ADDFIELD = "addfield";		//add field to draw 
+		const PARAM_ADD_SETTING_AFTER = "add_setting_after";	//add setting after another existing setting, and not to the end
 		
 		//view defaults:
 		protected $defaultText = "Enter value";
@@ -83,8 +84,10 @@ defined('_JEXEC') or die('Restricted access');
 		protected $customFunction_afterSections = null;
 		protected $colorOutputType = self::COLOR_OUTPUT_HTML;
 		
-		//-----------------------------------------------------------------------------------------------
-		// constructor
+		
+	    /**
+	     * constructor
+	     */
 	    public function __construct(){
 	    	
 	    }
@@ -151,8 +154,12 @@ defined('_JEXEC') or die('Restricted access');
 			return($setting);
 		}
 		
-		//-----------------------------------------------------------------------------------------------
-		// validate items parameter. throw exception on error
+		
+		/**
+		 * 
+		 * validate items parameter. throw exception on error
+		 * @throws Exception
+		 */
 		private function validateParamItems($arrParams){
 			if(!isset($arrParams["items"])) throw new Exception("no select items presented");
 			if(!is_array($arrParams["items"])) throw new Exception("the items parameter should be array");
@@ -160,10 +167,24 @@ defined('_JEXEC') or die('Restricted access');
 		}
 		
 
-		//-----------------------------------------------------------------------------------------------
-		//add this setting to index
+		/**
+		 * add this setting to index
+		 * @param $name
+		 */
 		private function addSettingToIndex($name){
 			$this->arrIndex[$name] = count($this->arrSettings)-1;
+		}
+		/**
+		 * regenerate index array from the existing settings
+		 */
+		private function regenerateIndex(){
+			$this->arrIndex = array();
+			foreach($this->arrSettings as $index=>$setting){
+				$name = UniteFunctionsUG::getVal($setting, "name");
+				if(empty($name))
+					continue;
+				$this->arrIndex[$name] = $index;
+			}
 		}
 		
 		private function ________________GETTERS________________(){}
@@ -500,8 +521,10 @@ defined('_JEXEC') or die('Restricted access');
 			$this->arrSections[] = $arrSection;
 		}
 		
-		//-----------------------------------------------------------------------------------------------
-		//add setting, may be in different type, of values
+		
+		/**
+		 * add setting, may be in different type, of values
+		 */
 		protected function add($name,$defaultValue = "",$text = "",$type = self::TYPE_TEXT,$arrParams = array()){
 			
 			//validation:
@@ -558,10 +581,22 @@ defined('_JEXEC') or die('Restricted access');
 			//addsection and sap keys
 			$setting = $this->checkAndAddSectionAndSap($setting);
 			
+			if(array_key_exists(self::PARAM_ADD_SETTING_AFTER, $setting)){
+				$addAfter = $setting[self::PARAM_ADD_SETTING_AFTER];
+				if(array_key_exists($addAfter, $this->arrIndex) == false)
+					UniteFunctionsUG::throwError("The setting with key: {$addAfter} don't exists");
+				unset($setting[self::PARAM_ADD_SETTING_AFTER]);
+				$insertPos = $this->arrIndex[$addAfter];
+				//insert after pos
+				array_splice($this->arrSettings, $insertPos+1, 0, array($setting));
+				//regenerate index array
+				$this->regenerateIndex();
+			}else{
 			$this->arrSettings[] = $setting;
 			
 			//add to settings index
 			$this->addSettingToIndex($name);
+			}
 		}
 						
 		

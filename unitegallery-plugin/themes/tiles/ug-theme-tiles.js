@@ -175,7 +175,7 @@ function UGTheme_tiles(){
 	 * before items request: hide items, show preloader
 	 */
 	function onBeforeReqestItems(){
-		
+				
 		g_objTilesWrapper.hide();
 		
 		if(g_objPreloader)

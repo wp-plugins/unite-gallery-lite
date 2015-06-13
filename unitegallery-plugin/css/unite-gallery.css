@@ -561,7 +561,9 @@ img.ug-sepia-effect{
 	z-index:100;
 	width:100%;
 	height:100%;
-	background-color:rgba(0,0,0,0.3);
+	background-color:#000000;
+	opacity: 0.3;
+    filter: alpha(opacity=30);	
 	background-image:url('../images/cover-grid.png');
 }
 
@@ -739,7 +741,15 @@ img.ug-sepia-effect{
 .ug-lightbox .ug-lightbox-top-panel{
 	position:absolute;
 	z-index:2;
-	background-color:rgba(0,0,0,0.4);
+}
+
+.ug-lightbox .ug-lightbox-top-panel-overlay{
+	width:100%;
+	height:100%;
+	position:absolute;
+	background-color:#000000;
+	opacity:0.4;
+	filter: alpha(opacity=40);
 }
 
 

@@ -295,6 +295,13 @@ class UniteProviderFunctionsUG{
 
 	
 	/**
+	 * get "small" thumb sizes (medium / thumbnail)
+	 */
+	public static function getThumbSizesSmall(){
+		$arrItems = UniteFunctionsWPUG::getArrThumbSizes(true);
+		return($arrItems);
+	}
+	/**
 	 * put galleries view text
 	 */
 	public static function putGalleriesViewText(){

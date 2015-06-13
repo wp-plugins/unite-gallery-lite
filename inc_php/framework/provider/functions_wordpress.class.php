@@ -1219,13 +1219,16 @@ defined('_JEXEC') or die('Restricted access');
 		/**
 		 * get thumbnail sizes array
 		 */
-		public static function getArrThumbSizes(){
+		public static function getArrThumbSizes($smallOnly = false){
 			global $_wp_additional_image_sizes;
 			
 			$arrWPSizes = get_intermediate_image_sizes();
 			
 			$arrSizes = array();
+			$arrSizes[self::THUMB_SMALL] = "Thumbnail (150x150)";
 			$arrSizes[self::THUMB_MEDIUM] = "Medium (max width 300)";
+			if($smallOnly == true)
+				return($arrSizes);
 			
 			foreach($arrWPSizes as $size){
 				$title = ucfirst($size);

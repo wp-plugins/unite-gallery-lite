@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.5.1, released 12 Jun 2015 
+// Unite Gallery, Version: 1.5.3, released 13 Jun 2015 
 
 
 /**
@@ -236,6 +236,13 @@ function UG_API(gallery){
 		g_gallery.run(null, customOptions);
 	}
 	
+	
+	/**
+	 * destroy the gallery
+	 */
+	this.destroy = function(){
+		g_gallery.destroy();
+	}
 	
 }
 
@@ -1692,6 +1699,7 @@ function UGFunctions(){
 		starTime:0,
 		arrThemes:[],
 		isTouchDevice:-1,
+		isRgbaSupported: -1,
 		timeCache:{},
 		dataCache:{},
 		lastEventType:"",		//for validate touchstart click
@@ -2110,6 +2118,7 @@ function UGFunctions(){
 		
 		return(elementPoint);
 	}
+
 	
 	/**
 	 * get image oritinal size
@@ -2119,10 +2128,42 @@ function UGFunctions(){
 		var htmlImage = objImage[0];
 		
 		var output = {};
-		output.width = htmlImage.naturalWidth;
-		output.height = htmlImage.naturalHeight;
 		
-		return(output);
+		if(typeof htmlImage.naturalWidth == "undefined"){
+
+			//check from cache
+			if(typeof objImage.data("naturalWidth") == "number"){
+				var output = {};
+				output.width = objImage.data("naturalWidth");
+				output.height = objImage.data("naturalHeight");
+				return(output);
+			}
+			
+		   //load new image
+		   var newImg = new Image();
+	       newImg.src = htmlImage.src;
+	        
+	       if (newImg.complete) {
+	        	output.width = newImg.width;
+	        	output.height = newImg.height;
+
+	        	//caching
+				objImage.data("naturalWidth", output.width);
+				objImage.data("naturalHeight", output.height);
+	        	return(output);
+	        	
+	       }
+	    
+	       return({width:0,height:0});
+		        
+		}else{
+			
+			output.width = htmlImage.naturalWidth;
+			output.height = htmlImage.naturalHeight;
+			
+			return(output);
+		}
+		
 	}
 
 	
@@ -3106,9 +3147,87 @@ function UGFunctions(){
 	this.clearStoredEventData = function(id){
 		g_temp.dataCache[id] = null;
 	}
+
+	this.z_________CHECK_SUPPORT_FUNCTIONS_______ = function(){}
 	
+	
+	
+	/**
+	 * is canvas exists in the browser
+	 */
+	this.isCanvasExists = function(){
 		
+		var canvas = jQuery('<canvas width="500" height="500" > </canvas>')[0];
+		
+		if(typeof canvas.getContext == "function")
+			return(true);
+		
+		return(false);
+	}
+	
+	/**
+	 * tells if vertical scrollbar exists
+	 */
+	this.isScrollbarExists = function(){
+		var hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
+		return(hasScrollbar);
+	}
+	
+	/**
+	 * check if this device are touch enabled
+	 */
+	this.isTouchDevice = function(){
+		
+		  //get from cache
+		  if(g_temp.isTouchDevice !== -1)
+			  return(g_temp.isTouchDevice);
+		  
+		  try{ 
+			  document.createEvent("TouchEvent"); 
+			  g_temp.isTouchDevice = true; 
+		  }
+		  catch(e){ 
+			  g_temp.isTouchDevice = false; 
+		  }
+		  
+		  return(g_temp.isTouchDevice);
+	}
+	
+	
+	/**
+	 * check if it's a desctop devide
+	 */
+	this.isDesktopDevice = function(){
+		
+		var isDesktop = typeof window.screenX !== undefined && !t.isTouchDevice() ? true : false;		
+		
+		return(isDesktop);
+	}
+	
+	/**
+	 * check if 
+	 */
+	this.isRgbaSupported = function(){
+		
+		if(g_temp.isRgbaSupported !== -1)
+			return(g_temp.isRgbaSupported);
+		
+		var scriptElement = document.getElementsByTagName('script')[0];
+		var prevColor = scriptElement.style.color;
+		try {
+			scriptElement.style.color = 'rgba(1,5,13,0.44)';
+		} catch(e) {}
+		var result = scriptElement.style.color != prevColor;
+		scriptElement.style.color = prevColor;
+		
+		g_temp.isRgbaSupported = result;
+		
+		return result;
+	}
+	
 	this.z_________GENERAL_FUNCTIONS_______ = function(){}
+	
+
 	
 	/**
 	 * get css size parameter, like width. if % given, leave it, if number without px - add px.
@@ -3201,30 +3320,7 @@ function UGFunctions(){
 		debugLine({"Time Passed": diffTime},true);
 	}
 	
-	
-	/**
-	 * is canvas exists in the browser
-	 */
-	this.isCanvasExists = function(){
 		
-		var canvas = jQuery('<canvas width="500" height="500" > </canvas>')[0];
-		
-		if(typeof canvas.getContext == "function")
-			return(true);
-		
-		return(false);
-	}
-	
-	
-	/**
-	 * tells if vertical scrollbar exists
-	 */
-	this.isScrollbarExists = function(){
-		var hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
-		return(hasScrollbar);
-	}
-	
-	
 	/**
 	 * put progress indicator to some parent by type
 	 * return the progress indicator object
@@ -3324,36 +3420,6 @@ function UGFunctions(){
 	}
 
 	
-	/**
-	 * check if this device are touch enabled
-	 */
-	this.isTouchDevice = function(){
-		
-		  //get from cache
-		  if(g_temp.isTouchDevice !== -1)
-			  return(g_temp.isTouchDevice);
-		  
-		  try{ 
-			  document.createEvent("TouchEvent"); 
-			  g_temp.isTouchDevice = true; 
-		  }
-		  catch(e){ 
-			  g_temp.isTouchDevice = false; 
-		  }
-		  
-		  return(g_temp.isTouchDevice);
-	}
-	
-	
-	/**
-	 * check if it's a desctop devide
-	 */
-	this.isDesktopDevice = function(){
-		
-		var isDesktop = typeof window.screenX !== undefined && !t.isTouchDevice() ? true : false;		
-		
-		return(isDesktop);
-	}
 	
 	
 	/**
@@ -3802,14 +3868,6 @@ function UniteGalleryMain(){
 		 g_options.gallery_theme = eval(themeFunction);
 		 
 		 //init the theme
-		 
-		 //destroy last theme if exists
-		 if(g_objTheme && typeof g_objTheme.destroy == "function"){
-			
-			 g_objTheme.destroy();
-	    	 g_objWrapper.html("");
-		 }
-		 
 		 g_objTheme = new g_options.gallery_theme();
 		 g_objTheme.init(t, objCustomOptions);
 	}
@@ -3872,7 +3930,9 @@ function UniteGalleryMain(){
 				 clearInitData();
 		    	 
 		     }else{		//reset options - not first time run
-		    	 destroy();
+		    	 
+		    	 t.destroy();
+		    	 
 		    	 resetOptions();
 
 		    	 g_options = jQuery.extend(g_options, g_temp.objCustomOptions);
@@ -4418,6 +4478,7 @@ function UniteGalleryMain(){
 		
 		objItem.isBigImageLoaded = true;
 		
+		//get size with fallback function
 		var objSize = g_functions.getImageOriginalSize(objImage);
 		
 		objItem.imageWidth = objSize.width;
@@ -4780,7 +4841,7 @@ function UniteGalleryMain(){
 	/**
 	 * destroy all gallery events
 	 */
-	function destroy(){
+	this.destroy = function(){
 		
 		g_objWrapper.off("dragstart");
 		g_objGallery.off(t.events.ITEM_IMAGE_UPDATED);
@@ -4824,6 +4885,12 @@ function UniteGalleryMain(){
 		 if(g_options.gallery_control_keyboard == true)
 			 jQuery(document).off("keydown");
 		
+		 //destroy theme
+		 if(g_objTheme && typeof g_objTheme.destroy == "function"){
+			 g_objTheme.destroy();
+		 }
+
+		 g_objWrapper.html("");
 	}
 	
 	
@@ -6898,6 +6965,8 @@ function UGLightbox(){
 		if(g_temp.isCompact == false)
 			html += "<div class='ug-lightbox-top-panel'>";
 				
+		html += 	"<div class='ug-lightbox-top-panel-overlay'></div>";
+		
 		html += 	"<div class='ug-lightbox-button-close'></div>";
 		
 		if(g_options.lightbox_show_numbers)
@@ -6920,8 +6989,9 @@ function UGLightbox(){
 		
 		g_objOverlay = g_objWrapper.children(".ug-lightbox-overlay");
 		
-		if(g_temp.isCompact == false)
+		if(g_temp.isCompact == false){
 			g_objTopPanel = g_objWrapper.children(".ug-lightbox-top-panel");
+		}
 		
 		g_objButtonClose = g_objWrapper.find(".ug-lightbox-button-close");
 		
@@ -6952,9 +7022,10 @@ function UGLightbox(){
 		if(g_options.lightbox_overlay_opacity !== null)
 			g_objOverlay.fadeTo(0, g_options.lightbox_overlay_opacity);
 		
-		if(g_objTopPanel && g_options.lightbox_top_panel_opacity !== null)
-			g_objTopPanel.css("background-color","rgb(0,0,0,"+g_options.lightbox_top_panel_opacity+")");
-		
+		if(g_objTopPanel && g_options.lightbox_top_panel_opacity !== null){
+			g_objTopPanel.children(".ug-lightbox-top-panel-overlay").fadeTo(0, g_options.lightbox_top_panel_opacity);
+		}
+			
 		//set numbers properties
 		if(g_objNumbers){
 			var cssNumbers = {};
@@ -7903,6 +7974,7 @@ function UGLightbox(){
 		 }
 		 
 	}
+
 	
 	/**
 	 * on mouse wheel
@@ -7912,21 +7984,23 @@ function UGLightbox(){
 		if(g_temp.isOpened == false)
 			return(true);
 		
-		if(g_options.gallery_mousewheel_role == "advance"){
-			
-			g_gallery.onGalleryMouseWheel(event, delta, deltaX, deltaY);
-		
-		}else{
-			
-			var slideType = g_objSlider.getSlideType();
-			if(slideType != "image"){
+		switch(g_options.gallery_mousewheel_role){
+			default:
+			case "zoom":
+				var slideType = g_objSlider.getSlideType();
+				if(slideType != "image")
+					event.preventDefault();
+			break;
+			case "none":
 				event.preventDefault();
-			}
-			
+			break;
+			case "advance":
+				g_gallery.onGalleryMouseWheel(event, delta, deltaX, deltaY);
+			break;
 		}
 		
-		
 	}
+	
 	
 	/**
 	 * init events
@@ -8008,7 +8082,7 @@ function UGLightbox(){
 
 	
 	/**
-	 * destroy the lightbox events
+	 * destroy the lightbox events and the html it created
 	 */
 	this.destroy = function(){
 		
@@ -8041,6 +8115,9 @@ function UGLightbox(){
 		g_objGallery.off(g_gallery.events.GALLERY_KEYPRESS, onKeyPress);
 		
 		g_objWrapper.off("mousewheel");
+		
+		//remove the html
+		g_objWrapper.remove();
 	}
 	
 	
@@ -8973,13 +9050,12 @@ function UGSlider(){
 		g_temp.isRunOnce = true;
 		
 		//set background color
-	   
 	   if(g_options.slider_background_color){	   		
 		   var bgColor = g_options.slider_background_color;
 		   
 		   if(g_options.slider_background_opacity != 1)
 			   bgColor = g_functions.convertHexToRGB(bgColor, g_options.slider_background_opacity);
-			  
+		   
 		   g_objSlider.css("background-color", bgColor);
 	   
 	   }else if(g_options.slider_background_opacity != 1){	//set opacity with default color
@@ -9616,7 +9692,8 @@ function UGSlider(){
 		var slideType = t.getSlideType(objSlide);
 		
 		objPadding = t.getObjImagePadding();
-				
+		
+		
 		if(currentImage == urlImage && isForce !== true){
 			
 			var objImage = objItemWrapper.children("img");
@@ -9629,6 +9706,7 @@ function UGSlider(){
 				scaleImageConstantSize(objImage, objItem);
 			else
 				g_functions.scaleImageFitParent(objImage, objItem.imageWidth, objItem.imageHeight, scaleMode, objPadding);
+
 			
 			g_objThis.trigger(t.events.AFTER_PUT_IMAGE, objSlide);
 			
@@ -13292,7 +13370,8 @@ function UGThumbsGeneral(){
 			funcSetCustomThumbHtml:null,
 			isEffectBorder: false,
 			isEffectOverlay: false,
-			isEffectImage: false
+			isEffectImage: false,
+			colorOverlayOpacity: 1
 		};
 		
 		var g_serviceParams = {			//service variables	
@@ -13397,7 +13476,7 @@ function UGThumbsGeneral(){
 				 
 				 if(g_temp.isEffectOverlay)
 					 objThumbWrapper.append("<div class='ug-thumb-overlay'></div>");
-				 				 
+				 
 				 g_objParent.append(objThumbWrapper);
 				 
 
@@ -13452,9 +13531,14 @@ function UGThumbsGeneral(){
 				if(g_options.thumb_overlay_color){
 										
 					var objCss = {};
-					var colorRGB = g_functions.convertHexToRGB(g_options.thumb_overlay_color, g_options.thumb_overlay_opacity);
+					if(g_functions.isRgbaSupported()){
+						var colorRGB = g_functions.convertHexToRGB(g_options.thumb_overlay_color, g_options.thumb_overlay_opacity);
+						objCss["background-color"] = colorRGB;										
+					}else{
+						objCss["background-color"] = g_options.thumb_overlay_color;
+						g_temp.colorOverlayOpacity = g_options.thumb_overlay_opacity;
+					}
 					
-					objCss["background-color"] = colorRGB;										
 					g_objParent.find(".ug-thumb-wrapper .ug-thumb-overlay").css(objCss);
 				}
 				
@@ -13563,9 +13647,9 @@ function UGThumbsGeneral(){
 			var animationDuration = g_options.thumb_transition_duration;
 			if(noAnimation && noAnimation === true)
 				animationDuration = 0;
-						
+			
 			if(isActive){
-				objOverlay.stop(true).fadeTo(animationDuration, 1);
+				objOverlay.stop(true).fadeTo(animationDuration, g_temp.colorOverlayOpacity);
 			}else{
 				objOverlay.stop(true).fadeTo(animationDuration, 0);
 			}
@@ -16493,7 +16577,8 @@ function UGTileDesign(){
 	var g_temp = {
 		isFixedMode:false,
 		eventSizeChange: "thumb_size_change",
-		funcParentApproveClick: null
+		funcParentApproveClick: null,
+		isSaparateIcons: false
 	};
 	
 	
@@ -16527,6 +16612,10 @@ function UGTileDesign(){
 		//get thumb default options too:
 		var thumbOptions = g_thumbs.getOptions();
 		g_options = jQuery.extend(g_options, thumbOptions);
+		
+		//check if saparate icons
+		g_temp.isSaparateIcons = !g_functions.isRgbaSupported();
+		
 	}
 	
 	
@@ -16540,7 +16629,7 @@ function UGTileDesign(){
 			
 			g_options.thumb_overlay_opacity = g_options.tile_overlay_opacity;
 			g_options.thumb_overlay_color = g_options.tile_overlay_color;
-			
+		
 		}else if(g_options.tile_enable_icons == false){		//if nothing on overlay - turn it off
 			g_options.thumb_color_overlay_effect = false;		
 		}else{											//if icons enabled - make it transparent
@@ -16624,7 +16713,7 @@ function UGTileDesign(){
 				if(objItem.type != "image")
 					iconPlayClass = "ug-button-play ug-icon-play";
 				
-				htmlAdd += "<div class='ug-tile-icon " + iconPlayClass + "'></div>";
+				htmlAdd += "<div class='ug-tile-icon " + iconPlayClass + "' style='display:none'></div>";
 			}
 			
 			//add link icon
@@ -16637,12 +16726,15 @@ function UGTileDesign(){
 					
 					htmlAdd += "<a href='"+objItem.link+"'"+linkTarget+" class='ug-tile-icon ug-icon-link'></a>";					
 				}else{
-					htmlAdd += "<div class='ug-tile-icon ug-icon-link'></div>";					
+					htmlAdd += "<div class='ug-tile-icon ug-icon-link' style='display:none'></div>";					
 				}
 				
 			}
-						
-		var objOverlay = objThumbWrapper.children(".ug-thumb-overlay");
+		
+		if(g_temp.isSaparateIcons == true)		//put the icons on the thumb
+			var objOverlay = objThumbWrapper;
+		else
+			var objOverlay = objThumbWrapper.children(".ug-thumb-overlay");
 		
 		objOverlay.append(htmlAdd);		
 		
@@ -17035,6 +17127,27 @@ function UGTileDesign(){
 		
 	}
 	
+
+	/**
+	 * set thumb border effect
+	 */
+	function setIconsEffect(objTile, isActive, noAnimation){
+		
+		var animationDuration = g_options.thumb_transition_duration;
+		if(noAnimation && noAnimation === true)
+			animationDuration = 0;
+		
+		var g_objIconZoom = getButtonZoom(objTile);
+		var g_objIconLink = getButtonLink(objTile);
+		var opacity = isActive?1:0;
+		
+		if(g_objIconZoom)
+			g_objIconZoom.stop(true).fadeTo(animationDuration, opacity);
+		if(g_objIconLink)
+			g_objIconLink.stop(true).fadeTo(animationDuration, opacity);
+		
+	}
+	
 	
 	/**
 	 * set tile over style
@@ -17046,13 +17159,20 @@ function UGTileDesign(){
 		if(g_options.tile_enable_image_effect)
 			setImageOverlayEffect(objTile, true);
 		
-		var objImageOverlay = objTile.children(".ug-tile-image-overlay");			
-		objImageOverlay.show();
+		//var objImageOverlay = objTile.children(".ug-tile-image-overlay");			
+		//objImageOverlay.show();
 
 		if(g_options.tile_enable_textpanel == true && g_options.tile_textpanel_always_on == false)
 			setTextpanelEffect(objTile, true);
 		
+		//show/hide icons - if saparate (if not, they are part of the overlay)
+		if(g_temp.isSaparateIcons && g_options.tile_enable_icons == true){
+			var isSet = (g_options.thumb_overlay_reverse == true);
+			setIconsEffect(objTile, isSet, false);
+		}
+		
 	}
+	
 	
 	
 	/**
@@ -17061,12 +17181,18 @@ function UGTileDesign(){
 	function setNormalStyle(data, objTile){
 				
 		objTile = jQuery(objTile);
-				
+		
 		if(g_options.tile_enable_image_effect)
 			setImageOverlayEffect(objTile, false);
 				
 		if(g_options.tile_enable_textpanel == true && g_options.tile_textpanel_always_on == false)
 			setTextpanelEffect(objTile, false);
+		
+		//show/hide icons - if saparate (if not, they are part of the overlay)
+		if(g_temp.isSaparateIcons && g_options.tile_enable_icons == true){
+			var isSet = (g_options.thumb_overlay_reverse == true)?false:true;
+			setIconsEffect(objTile, isSet, false);
+		}
 		
 	}
 	
@@ -17235,6 +17361,7 @@ function UGTileDesign(){
 		g_objParentWrapper.delegate(".ug-tile .ug-icon-link", "click", onLinkButtonClick);
 	}
 	
+	
 	/**
 	 * destroy the element events
 	 */
@@ -17245,17 +17372,17 @@ function UGTileDesign(){
 		jQuery(g_thumbs).off(g_thumbs.events.PLACEIMAGE);
 		g_objWrapper.off(g_temp.eventSizeChange);
 		
-		
 		if(g_options.tile_enable_textpanel == true){
 			var objThumbs = g_thumbs.getThumbs();
-			jQuery.each(objThumbs, function(index, thumb){
+			jQuery.each(objThumbs, function(index, thumb){				
 				var textPanel = getTextPanel(jQuery(thumb));
-				textPanel.destroy();
+				if(textPanel)
+					textPanel.destroy();
 			});
 		}
 		
 		g_thumbs.destroy();
-					
+
 	}
 	
 	

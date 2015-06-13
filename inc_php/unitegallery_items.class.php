@@ -239,6 +239,8 @@ class UniteGalleryItems extends UniteElementsBaseUG{
 			UniteFunctionsUG::throwError("Get items not alowed for this category");
 		
 		//get thumb size
+		$thumbSize = $gallery->getParam("thumb_resolution");
+		if(empty($thumbSize))
 		$thumbSize = $gallery->getParam("tile_image_resolution");
 		
 		//get arrItems
