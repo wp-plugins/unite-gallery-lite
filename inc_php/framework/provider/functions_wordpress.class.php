@@ -1227,6 +1227,7 @@ defined('_JEXEC') or die('Restricted access');
 			$arrSizes = array();
 			$arrSizes[self::THUMB_SMALL] = "Thumbnail (150x150)";
 			$arrSizes[self::THUMB_MEDIUM] = "Medium (max width 300)";
+			
 			if($smallOnly == true)
 				return($arrSizes);
 			

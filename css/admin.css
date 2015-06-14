@@ -524,6 +524,11 @@ ul.context_menu li a:focus{
 	background-color:white;
 }
 
+.settings_panel_single{
+	padding-left:20px;
+	padding-right:20px;
+}
+
 .settings_panel .settings_panel_left{	
  	display: table-cell;
     float: none;
@@ -758,6 +763,7 @@ table.unite_table_settings_wide tr th{
 	padding-top:12px;
 }
 
+.settings_panel_single .unite_table_settings_wide tr th,
 .settings_panel_left .unite_table_settings_wide tr th{
 	width:160px;	
 }

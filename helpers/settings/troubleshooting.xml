@@ -2,6 +2,16 @@
 
 <fields>
 
+		<fieldset name="advanced" label="Advanced" icon="eg-icon-cog-alt">
+	
+			<field name="show_advanced_tab" 
+				   type="boolean"
+				   default="false" 
+				   label="Show Advanced Tab" 
+				   description="Show advanced tab, at the top near settings/items/preview tabs where can be edited advanced scripts or styles to be add to the gallery">
+			</field>				
+			
+		</fieldset>
 		<fieldset name="troubleshooting" label="Troubleshooting" icon="eg-icon-cog-alt">
 				
 				<field name="include_jquery" 

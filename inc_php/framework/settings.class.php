@@ -174,10 +174,12 @@ defined('_JEXEC') or die('Restricted access');
 		private function addSettingToIndex($name){
 			$this->arrIndex[$name] = count($this->arrSettings)-1;
 		}
+		
 		/**
 		 * regenerate index array from the existing settings
 		 */
 		private function regenerateIndex(){
+			
 			$this->arrIndex = array();
 			foreach($this->arrSettings as $index=>$setting){
 				$name = UniteFunctionsUG::getVal($setting, "name");
@@ -559,8 +561,7 @@ defined('_JEXEC') or die('Restricted access');
 			$setting["type"] = $type;
 			$setting["text"] = $text;
 			$setting["value"] = $defaultValue;
-						
-			
+
 			$setting = array_merge($setting,$arrParams);
 			
 			//set datatype
@@ -583,20 +584,27 @@ defined('_JEXEC') or die('Restricted access');
 			
 			if(array_key_exists(self::PARAM_ADD_SETTING_AFTER, $setting)){
 				$addAfter = $setting[self::PARAM_ADD_SETTING_AFTER];
+				
 				if(array_key_exists($addAfter, $this->arrIndex) == false)
 					UniteFunctionsUG::throwError("The setting with key: {$addAfter} don't exists");
+				
 				unset($setting[self::PARAM_ADD_SETTING_AFTER]);
+				
 				$insertPos = $this->arrIndex[$addAfter];
+				
 				//insert after pos
 				array_splice($this->arrSettings, $insertPos+1, 0, array($setting));
+				
 				//regenerate index array
 				$this->regenerateIndex();
+				
 			}else{
-			$this->arrSettings[] = $setting;
-			
-			//add to settings index
-			$this->addSettingToIndex($name);
+				$this->arrSettings[] = $setting;
+				
+				//add to settings index
+				$this->addSettingToIndex($name);
 			}
+			
 		}
 						
 		

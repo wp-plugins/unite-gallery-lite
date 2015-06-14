@@ -59,6 +59,7 @@ defined('_JEXEC') or die('Restricted access');
 				case GlobalsUG::VIEW_GALLERY:
 				case GlobalsUG::VIEW_PREVIEW:					
 				case GlobalsUG::VIEW_CATEGORY_TABS:
+				case GlobalsUG::VIEW_ADVANCED:
 					$galleryID = UniteFunctionsUG::getPostGetVariable("id","", UniteFunctionsUG::VALIDATE_NUMERIC_OR_EMPTY);
 				break;
 				case GlobalsUG::VIEW_ITEMS:

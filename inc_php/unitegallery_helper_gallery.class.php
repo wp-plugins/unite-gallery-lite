@@ -143,19 +143,24 @@ defined('_JEXEC') or die('Restricted access');
 		 * get view category settings of the current gallery
 		 * @return string
 		 */
-		public static function getUrlViewCategoryTabs($galleryID = "", $params = ""){
+		public static function getUrlViewCategoryTabs(){
 
-			if(empty($galleryID))
 				$galleryID = GlobalsUGGallery::$galleryID;
 			
-			$strParams = "id={$galleryID}";
 			
-			if(!empty($params))
-				$strParams .= "&".$params;
 				
-			$url = HelperUG::getViewUrl(GlobalsUG::VIEW_CATEGORY_TABS, $strParams);
+			$url = HelperUG::getViewUrl(GlobalsUG::VIEW_CATEGORY_TABS, "id={$galleryID}");
 			return($url);
 		
+		}
+		/**
+		 * get view category settings of the current gallery
+		 * @return string
+		 */
+		public static function getUrlViewAdvanced(){
+			$galleryID = GlobalsUGGallery::$galleryID;
+			$url = HelperUG::getViewUrl(GlobalsUG::VIEW_ADVANCED, "id={$galleryID}");
+			return($url);
 		}
 		
 		

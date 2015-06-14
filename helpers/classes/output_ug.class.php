@@ -88,7 +88,7 @@ defined('_JEXEC') or die('Restricted access');
 			
 			$serial = self::$serial;
 			$this->galleryID = $galleryID;
-			$this->galleryHtmlID = "ugdefault_{$galleryID}_{$serial}";
+			$this->galleryHtmlID = "unitegallery_{$galleryID}_{$serial}";
 			
 			$origParams = $this->gallery->getParams();
 						
@@ -105,6 +105,9 @@ defined('_JEXEC') or die('Restricted access');
 				$defaultValues = array_merge($defaultValues, $defaultValuesTabs);
 			}
 						
+			//add advanced settings (instead of merge with setting file):
+			$defaultValues["ug_additional_scripts"] = "";
+			$defaultValues["ug_additional_styles"] = "";
 			$origParams = UniteFunctionsUG::filterArrFields($origParams, $defaultValues, true);
 			
 			$this->arrOriginalParams = array_merge($defaultValues, $origParams);
@@ -662,6 +665,17 @@ defined('_JEXEC') or die('Restricted access');
 			$this->putJsToBody = $jsToBody;
 						
 		}
+		/**
+		 * put inline styles
+		 */
+		protected function putInlineStyle($style){
+			//put in the body or add to inline
+			$putStylesInBody = $this->getParam("tab_put_styles_in_body", self::FORCE_BOOLEAN);
+			if($putStylesInBody == true)
+				$output .= "\n<style type='text/css'>{$style}</style>\n\n";
+			else
+				HelperUG::addStyleInline($style);
+		}
 		
 		
 		/**
@@ -762,15 +776,10 @@ defined('_JEXEC') or die('Restricted access');
 			$br = "\n";
 			
 			$style = $strStyleWrapper.$strStyleTab.$strStyleTabHover.$strStyleTabSelected;
+			$this->putInlineStyle($style);
 				
 			$output = "";
 			
-			//put in the body or add to inline
-			$putStylesInBody = $this->getParam("tab_put_styles_in_body", self::FORCE_BOOLEAN);
-			if($putStylesInBody == true)
-				$output .= "\n<style type='text/css'>{$style}</style>\n\n";
-			else
-				HelperUG::addStyleInline($style);
 			
 				$arrCats = $objCategories->getListByIds($categories);
 				
@@ -819,6 +828,35 @@ defined('_JEXEC') or die('Restricted access');
 		}
 		
 		
+		/**
+		 * get additional scripts
+		 */
+		protected function getAdditionalScripts($serial){
+			$addScripts = $this->getParam("ug_additional_scripts");
+			$addScripts = trim($addScripts);
+			if(empty($addScripts))
+				return($addScripts);
+			//add tabs prefix to each line
+			$linePrefix4 = "						";
+			$addScripts = UniteFunctionsUG::addPrefixToEachLine($addScripts, $linePrefix4);
+			//replace API tab
+			$varAPI = "ugapi".$serial;
+			$addScripts = str_replace("[api]", $varAPI, $addScripts);
+			return($addScripts);
+		}
+		/**
+		 * get additional styles
+		 */
+		protected function getAdditionalStyles(){
+			$addStyles = $this->getParam("ug_additional_styles");
+			$addStyles = trim($addStyles);
+			if(empty($addStyles))
+				return($addStyles);
+			$replaceID = "#".$this->galleryHtmlID;
+			$addStyles = str_replace("[galleryid]", $replaceID, $addStyles);
+			$addStyles = "\n/* unite gallery additional styles */ \n".$addStyles;
+			return($addStyles);
+		}
 		
 		/**
 		 * 
@@ -908,14 +946,20 @@ defined('_JEXEC') or die('Restricted access');
 					$this->arrParams["gallery_initial_catid"] = $categoryID;
 				}
 				
+				//get output related variables
 				$jsOptions = $this->buildJsParams();
 				
+				$addScripts = $this->getAdditionalScripts($serial);
+				$hasAddScripts = !empty($addScripts);
+				$addStyles = $this->getAdditionalStyles();
 				global $uniteGalleryVersion;
 				$output = "
 					\n
 					<!-- START UNITE GALLERY {$uniteGalleryVersion} -->
 					
 				";
+				if(!empty($addStyles))
+					$this->putInlineStyle($addStyles);
 				
 				if($this->putJsToBody == true)
 					$output .= $this->putJsIncludesToBody();
@@ -945,7 +989,17 @@ defined('_JEXEC') or die('Restricted access');
 				$output .= $linePrefix3."};";
 								
 				$output .= $linePrefix3."if(ugCheckForErrors('#{$galleryHtmlID}', 'cms'))";
+				if($hasAddScripts)
+					$output .= "{";
 				$output .= $linePrefix4."ugapi{$serial} = jQuery('#{$galleryHtmlID}').unitegallery(objUGParams);";
+				//add custom scripts
+				if($hasAddScripts){
+					$output .= $br;
+					$output .= $linePrefix4."// custom scripts";
+					$output .= $br;
+					$output .= $addScripts;
+					$output .= $linePrefix3."}";
+				}
 				$output .= $linePrefix2."});";
 				$output .= $linePrefix."</script>";
 				$output .= $br;

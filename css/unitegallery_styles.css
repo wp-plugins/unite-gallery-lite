@@ -111,6 +111,10 @@ ul.list_galleries li a:hover{
 	line-height: 1.6em;
 }
 
+.ug-settings-advanced .CodeMirror-scroll{
+	height: 200px;
+}
+
 #---------------End_Gallery_View---------------------{}
 
 /* ====================================== */

@@ -3,7 +3,8 @@ function UGAdmin(){
 	
 	var t = this;
 	var g_settings = new UniteSettingsUG();
-	var g_providerAdmin;
+	var g_providerAdmin, g_codemirrorJS = null, g_comdemirrorCSS = null;
+	
 	
 	if(typeof UniteProviderAdminUG == "function")
 		g_providerAdmin = new UniteProviderAdminUG();
@@ -258,7 +259,19 @@ function UGAdmin(){
 			objTab.hide();
 	}
 	
-	
+	/**
+	 * on show advanced radio button click. show / hide advanced tab
+	 */
+	function onInputShowAdvancedTabClick(){
+		var objTab = jQuery("#tab_advanced_settings");
+		var radioID = jQuery(this).attr("id");
+		
+		if(radioID == "show_advanced_tab_1")
+			objTab.show();
+		else
+			objTab.hide();
+		
+	}
 
 	/**
 	 * init gallery view with common settings
@@ -287,7 +300,8 @@ function UGAdmin(){
 			g_ugAdmin.ajaxRequest("delete_gallery");
 		});
 
-	    jQuery("#enable_category_tabs input").click(onInputEnableCatTabsClick);
+		jQuery("#enable_category_tabs input").click(onInputEnableCatTabsClick);
+	    jQuery("#show_advanced_tab input").click(onInputShowAdvancedTabClick);
 	    
 		initShortcode();
 		
@@ -344,5 +358,54 @@ function UGAdmin(){
         });
         
     };
+
+    
+    
+    /**
+     * advanced view
+     */
+    this.initAdvancedView = function(){
+		
+    	//set codemirror
+        setTimeout(function(){
+        	
+        	g_codemirrorJS = CodeMirror.fromTextArea(document.getElementById("ug_additional_scripts"), {
+                mode: {name: "javascript"},
+                lineNumbers: true
+            });
+
+        	g_comdemirrorCSS = CodeMirror.fromTextArea(document.getElementById("ug_additional_styles"), {
+                mode: {name: "css"},
+                lineNumbers: true
+            });
+        	
+        }, 500);					 
+    	
+        
+        jQuery("#button_save_gallery").click(function(){
+
+            data = {};
+			data.params = {};
+			
+			if(g_codemirrorJS === null)
+				throw new Error("The codemirror editor not enabled");
+			
+			//get params
+			data.params.ug_additional_scripts = g_codemirrorJS.getValue();
+	        data.params.ug_additional_styles = g_comdemirrorCSS.getValue();
+	        
+            data.updateParamsOnly = true;
+        	
+            //some ajax beautifyer
+            g_ugAdmin.setAjaxLoaderID("loader_update");
+            g_ugAdmin.setAjaxHideButtonID("button_save_gallery");
+            g_ugAdmin.setSuccessMessageID("update_gallery_success");
+            g_ugAdmin.setErrorMessageID("error_message_settings");
+            g_ugAdmin.ajaxRequest("update_gallery" ,data);
+        	
+        });
+        
+    	
+    }
     
 };

@@ -30,7 +30,8 @@ defined('_JEXEC') or die('Restricted access');
 		const VIEW_ITEMS = "items";
 		const VIEW_GALLERIES = "galleries";
 		const VIEW_GALLERY = "gallery";
-        const VIEW_CATEGORY_TABS = "categorytabs";
+      	        const VIEW_CATEGORY_TABS = "categorytabs";
+       	        const VIEW_ADVANCED = "advanced";
 		const VIEW_PREVIEW = "preview";
 		const VIEW_MEDIA_SELECT = "mediaselect";
 		
