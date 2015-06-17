@@ -5,6 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
 $settings = new UniteGallerySettingsUG();
+
 $settings->loadXMLFile(GlobalsUG::$pathHelpersSettings."slider_main.xml");
 
 $settings->updateSelectToEasing("slider_transition_easing");
@@ -36,6 +37,9 @@ $settings->updateSelectToAlignVert("slider_fullscreen_button_align_vert");
 $settings->updateSelectToSkins("slider_zoompanel_skin", "");
 $settings->updateSelectToAlignHor("slider_zoompanel_align_hor");
 $settings->updateSelectToAlignVert("slider_zoompanel_align_vert");
+
+if(method_exists("UniteProviderFunctionsUG", "addBigImageSizeSettings"))
+	$settings = UniteProviderFunctionsUG::addBigImageSizeSettings($settings, false, "slider_scale_mode_fullscreen");
 
 
 ?>

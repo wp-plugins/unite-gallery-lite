@@ -288,17 +288,41 @@ class UniteProviderFunctionsUG{
 		$params = array(
 			"description"=>__("Tiles thumbs resolution. If you choose custom resolution like: 'Big', and you use it with existing images, you need to recreate the thumbnails. You can use 'Regenerate Thumbnails' WordPress plugin for that", UNITEGALLERY_TEXTDOMAIN)
 		);
-		$settings->addSelect("tile_image_resolution", $arrItems, "Tile Image Resolution", UniteFunctionsWPUG::THUMB_MEDIUM, $params);
+		$settings->addSelect("thumb_resolution", $arrItems, "Tile Image Resolution", UniteFunctionsWPUG::THUMB_MEDIUM, $params);
 		
 		return($settings);
 	}
 
 	
 	/**
+	 * 
+	 * @param unknown_type $settings
+	 */
+	public static function addBigImageSizeSettings($settings, $isLightbox = false, $addAfter = null){
+		$arrItems = UniteFunctionsWPUG::getArrThumbSizes("big_only");
+		$params = array(
+			"description"=>__("Big image resolution. If you choose custom resolution like: 'Big', and you use it with existing images, you need to recreate the thumbnails. You can use 'Regenerate Thumbnails' WordPress plugin for that", UNITEGALLERY_TEXTDOMAIN)
+		);
+		if(!empty($addAfter)){
+			$params[UniteSettingsUG::PARAM_ADD_SETTING_AFTER] = $addAfter;
+		}
+		//for slider, add hr before
+		if($isLightbox == false){
+			$hrName = "hr_big_image_resolution";
+			$hrParams = array();
+			$hrParams[UniteSettingsUG::PARAM_ADD_SETTING_AFTER] = $addAfter;
+			$params[UniteSettingsUG::PARAM_ADD_SETTING_AFTER] = $hrName;
+			$settings->addHr($hrName, $hrParams);
+		}
+		$optionTitle = ($isLightbox == true)? "Lightbox Image Resolution" : "Slider Image Resolution";
+		$settings->addSelect("big_image_resolution", $arrItems, $optionTitle, UniteFunctionsWPUG::THUMB_FULL, $params);
+		return($settings);
+	}
+	/**
 	 * get "small" thumb sizes (medium / thumbnail)
 	 */
 	public static function getThumbSizesSmall(){
-		$arrItems = UniteFunctionsWPUG::getArrThumbSizes(true);
+		$arrItems = UniteFunctionsWPUG::getArrThumbSizes("small_only");
 		return($arrItems);
 	}
 	/**

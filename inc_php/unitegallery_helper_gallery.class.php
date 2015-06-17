@@ -145,20 +145,22 @@ defined('_JEXEC') or die('Restricted access');
 		 */
 		public static function getUrlViewCategoryTabs(){
 
-				$galleryID = GlobalsUGGallery::$galleryID;
+			$galleryID = GlobalsUGGallery::$galleryID;
 			
-			
-				
 			$url = HelperUG::getViewUrl(GlobalsUG::VIEW_CATEGORY_TABS, "id={$galleryID}");
 			return($url);
 		
 		}
+		
+		
 		/**
 		 * get view category settings of the current gallery
 		 * @return string
 		 */
 		public static function getUrlViewAdvanced(){
+		
 			$galleryID = GlobalsUGGallery::$galleryID;
+		
 			$url = HelperUG::getViewUrl(GlobalsUG::VIEW_ADVANCED, "id={$galleryID}");
 			return($url);
 		}

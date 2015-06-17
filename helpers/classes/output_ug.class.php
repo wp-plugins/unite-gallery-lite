@@ -212,6 +212,13 @@ defined('_JEXEC') or die('Restricted access');
 				}
 			}
 			
+			//modify thumb resolution (from old option).
+			$resolution = $this->getParam("thumb_resolution");
+			if(empty($resolution)){
+				$resolution = $this->getParam("tile_image_resolution");
+				if(!empty($resolution))
+					$this->arrParams["thumb_resolution"] = $resolution;
+			}
 			
 		}
 		
@@ -560,6 +567,7 @@ defined('_JEXEC') or die('Restricted access');
 
 				$arr[] = $this->buildJsParam("lightbox_hide_arrows_onvideoplay", null, self::TYPE_BOOLEAN);
 				$arr[] = $this->buildJsParam("lightbox_slider_control_zoom", null, self::TYPE_BOOLEAN);
+				$arr[] = $this->buildJsParam("lightbox_slider_transition");
 				$arr[] = $this->buildJsParam("lightbox_overlay_opacity", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
 				$arr[] = $this->buildJsParam("lightbox_overlay_color");
 				
@@ -645,12 +653,11 @@ defined('_JEXEC') or die('Restricted access');
 		protected function putItems($arrItems){
 			
 			$thumbSize = $this->getParam("thumb_resolution");
-			if($this->isTilesType)
-				$thumbSize = $this->getParam("tile_image_resolution");
+			$bigImageSize = $this->getParam("big_image_resolution");
 			
 			
 			$objItems = new UniteGalleryItems();
-			$htmlItems =  $objItems->getItemsHtmlFront($arrItems, $thumbSize, $this->isTilesType);
+			$htmlItems =  $objItems->getItemsHtmlFront($arrItems, $thumbSize, $bigImageSize, $this->isTilesType);
 			
 			return($htmlItems);
 		}

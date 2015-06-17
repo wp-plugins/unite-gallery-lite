@@ -288,8 +288,12 @@ defined('_JEXEC') or die('Restricted access');
 		 * 
 		 * get url image
 		 */
-		public function getUrlImage(){
-			return($this->urlImage);
+		public function getUrlImage($thumbSize = ""){
+			
+			if(empty($thumbSize) || $thumbSize == "full")
+				return($this->urlImage);
+			else
+				return($this->getUrlThumb($thumbSize));
 		}
 		
 		

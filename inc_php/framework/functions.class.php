@@ -294,12 +294,16 @@ defined('_JEXEC') or die('Restricted access');
 			
 			return($str);
 		}
+		
+		
 		/**
 		 * add prefix to each line in string
 		 */
 		public static function addPrefixToEachLine($str, $prefix){
+			
 			if(empty($str))
 				return($str);
+			
 			$arr = explode("\n", $str);
 			foreach($arr as $key=>$line){
 				$trimmed = trim($line);
@@ -307,6 +311,7 @@ defined('_JEXEC') or die('Restricted access');
 					continue;
 				$arr[$key] = $prefix.$line;
 			}
+			
 			$str = implode("\n", $arr);
 			return($str);
 		}

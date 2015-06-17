@@ -114,7 +114,7 @@ class UniteGalleryItems extends UniteElementsBaseUG{
 	/**
 	 * get front html of items array
 	 */
-	public function getItemsHtmlFront($arrItems, $thumbSize = "", $isTilesType = false){
+	public function getItemsHtmlFront($arrItems, $thumbSize = "", $bigImageSize="", $isTilesType = false){
 		
 		$tab = "						";
 		$nl = "\n".$tab;
@@ -140,7 +140,7 @@ class UniteGalleryItems extends UniteElementsBaseUG{
 			
 			$counter++;
 				
-			$urlImage = $objItem->getUrlImage();
+			$urlImage = $objItem->getUrlImage($bigImageSize);
 			$urlThumb = $objItem->getUrlThumb($thumbSize);
 			
 			$title = $objItem->getTitle();
@@ -156,13 +156,6 @@ class UniteGalleryItems extends UniteElementsBaseUG{
 			if($enableLink == true){
 				$link = $objItem->getParam("ug_item_link");
 			
-				/*
-				 if(!empty($link) && $this->isTilesType == false){
-				$isBlank = ($objItem->getParam("ug_item_link_open_in") == "new");
-				$htmlLink = UniteFunctionsUG::getHtmlLink($link, $link, "", "", $isBlank);
-				$description .= " ".$htmlLink;
-				}
-				*/
 			}
 			
 			$title = htmlspecialchars($title);
@@ -240,14 +233,13 @@ class UniteGalleryItems extends UniteElementsBaseUG{
 		
 		//get thumb size
 		$thumbSize = $gallery->getParam("thumb_resolution");
-		if(empty($thumbSize))
-		$thumbSize = $gallery->getParam("tile_image_resolution");
+		$bigImageSize = $gallery->getParam("big_image_resolution");
 		
 		//get arrItems
 		$arrItems = $this->getCatItems($catID);
 		
 		//get items html
-		$htmlItems = $this->getItemsHtmlFront($arrItems, $thumbSize);
+		$htmlItems = $this->getItemsHtmlFront($arrItems, $thumbSize, $bigImageSize);
 		
 		return($htmlItems);
 	}

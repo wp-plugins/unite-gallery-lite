@@ -7,6 +7,9 @@ defined('_JEXEC') or die('Restricted access');
 	
 	if(method_exists("UniteProviderFunctionsUG", "addTilesSizeSettings"))
 		$settings = UniteProviderFunctionsUG::addTilesSizeSettings($settings);
-
+	
+	if(method_exists("UniteProviderFunctionsUG", "addBigImageSizeSettings"))
+		$settings = UniteProviderFunctionsUG::addBigImageSizeSettings($settings, true);
+	
 	
 ?>

@@ -371,12 +371,15 @@ defined('_JEXEC') or die('Restricted access');
 		}
 		
 		
-		//-----------------------------------------------------------------------------------------------
-		//add horezontal sap
+		/**
+		 * add horezontal sap
+		 */
 		public function addHr($name="",$params=array()){
+			
 			$setting = array();
 			$setting["type"] = self::TYPE_HR;
 			
+		
 			//set item name
 			$itemName = "";
 			if($name != "")
@@ -402,14 +405,25 @@ defined('_JEXEC') or die('Restricted access');
 			$this->checkAddBulkControl($itemName);
 			
 			$setting = array_merge($params,$setting);
-			$this->arrSettings[] = $setting;
 			
-			//add to settings index
-			$this->addSettingToIndex($itemName);
+			//add after another setting
+			if(array_key_exists(self::PARAM_ADD_SETTING_AFTER, $setting)){
+			
+				$this->addSettingAfter($setting);
+			
+			}else{
+				$this->arrSettings[] = $setting;
+			
+				//add to settings index
+				$this->addSettingToIndex($itemName);
+			}
+			
 		}
 		
-		//-----------------------------------------------------------------------------------------------
-		//add static text
+		
+		/**
+		 * add static text
+		 */
 		public function addStaticText($text,$name="",$params=array()){
 			$setting = array();
 			$setting["type"] = self::TYPE_STATIC_TEXT;
@@ -523,6 +537,33 @@ defined('_JEXEC') or die('Restricted access');
 			$this->arrSections[] = $arrSection;
 		}
 		
+		/**
+		 * add some setting after another setting
+		 */
+		private function addSettingAfter($setting){
+			
+			$addAfter = $setting[self::PARAM_ADD_SETTING_AFTER];
+			
+			if(array_key_exists($addAfter, $this->arrIndex) == false)
+				UniteFunctionsUG::throwError("The setting with key: {$addAfter} don't exists");
+			
+			unset($setting[self::PARAM_ADD_SETTING_AFTER]);
+			
+			$insertPos = $this->arrIndex[$addAfter];
+			
+			//duplicate sap and section
+			$settingBefore = $this->arrSettings[$insertPos];
+			
+			$setting["sap"] = $settingBefore["sap"];
+			$setting["section"] = $settingBefore["section"];
+			
+			//insert after pos
+			array_splice($this->arrSettings, $insertPos+1, 0, array($setting));
+			
+			//regenerate index array
+			$this->regenerateIndex();
+			
+		}
 		
 		/**
 		 * add setting, may be in different type, of values
@@ -582,21 +623,10 @@ defined('_JEXEC') or die('Restricted access');
 			//addsection and sap keys
 			$setting = $this->checkAndAddSectionAndSap($setting);
 			
+			//add after another setting
 			if(array_key_exists(self::PARAM_ADD_SETTING_AFTER, $setting)){
-				$addAfter = $setting[self::PARAM_ADD_SETTING_AFTER];
 				
-				if(array_key_exists($addAfter, $this->arrIndex) == false)
-					UniteFunctionsUG::throwError("The setting with key: {$addAfter} don't exists");
-				
-				unset($setting[self::PARAM_ADD_SETTING_AFTER]);
-				
-				$insertPos = $this->arrIndex[$addAfter];
-				
-				//insert after pos
-				array_splice($this->arrSettings, $insertPos+1, 0, array($setting));
-				
-				//regenerate index array
-				$this->regenerateIndex();
+				$this->addSettingAfter($setting);
 				
 			}else{
 				$this->arrSettings[] = $setting;

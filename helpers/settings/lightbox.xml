@@ -38,7 +38,14 @@
 					<option value="advance" text="Advance Items"></option>
 			</field>				
 			
-			<field type="hr"></field>
+			<field name="lightbox_slider_transition" 
+				type="list"
+				default="slide" 
+				label="Lightbox Slider Transition"
+				description="The transition when the image is advanced (by arrow or mouse wheel). Slide or Fade.">  
+					<option value="slide" text="Slide"></option>
+					<option value="fade" text="Fade"></option>
+			</field>
 						
 		</fieldset>
 	

@@ -132,7 +132,7 @@ defined('_JEXEC') or die('Restricted access');
 
 		
 		/**
-		 * rename option (if exists)
+		 * rename option (if source exists)
 		 */
 		protected function renameOption($keySource, $keyDest, $deleteDestFirst = false){
 			
@@ -148,6 +148,8 @@ defined('_JEXEC') or die('Restricted access');
 			}
 		
 		}
+		
+		
 		
 		/**
 		 * delete options from keys array

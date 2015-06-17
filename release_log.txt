@@ -1,15 +1,28 @@
+version 1.5.3 b2
+
+-feature: added option - lightbox slider transition 
+-feature: added option - big image resolution (for tiles and themes)
+
 version 1.5.3 b1
+
 -feature: added "advanced tab" with custom styles / scripts
+
 version 1.5.3
+
 -feature: added "destroy function to API"
 -bug fix: fixed destroy function
+
 version 1.5.2 b1
+
 -feature: added thumb resolution for the themes
+
 version 1.5.2
+
 -feature: added thumb size: thumbnail (150x150)
 -bug fix: added remove html function to lightbox
 -bug fix: fixed some ie8 related issues
 -bug fix: disabled scrolling on lightbox with mousewheel: none
+
 version 1.5.1
 
 -bog fix: fixed theme default options (like autoplay=true) that was brocken in the last update
