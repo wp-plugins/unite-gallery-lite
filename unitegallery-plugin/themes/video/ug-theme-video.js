@@ -328,6 +328,23 @@ function UGTheme_video(){
 		
 	}
 	
+	/**
+	 * destroy the theme
+	 */
+	this.destroy = function(){
+		
+		g_objGallery.off(g_gallery.events.SIZE_CHANGE);
+		g_objGallery.off(g_gallery.events.ITEM_CHANGE);
+		g_objPlayer.destroy();
+		if(g_objButtonsPanel){
+			g_functions.destroyButton(g_buttonPrev);
+			g_functions.destroyButton(g_buttonNext);
+		}
+		
+		if(g_objPanel)
+			g_objPanel.destroy();
+	}
+	
 	
 	/**
 	 * run the theme setting

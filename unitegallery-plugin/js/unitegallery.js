@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.5.3, released 13 Jun 2015 
+// Unite Gallery, Version: 1.5.4, released 18 Jun 2015 
 
 
 /**
@@ -93,6 +93,7 @@ function UG_API(gallery){
 	this.play = function(){		
 		g_gallery.startPlayMode();		
 	}
+	
 	
 	/**
 	 * stop playing
@@ -5590,7 +5591,7 @@ function UniteGalleryMain(){
 		var divGallery = g_objWrapper.get(0);
 		
 		var isSupported = g_functions.toFullscreen(divGallery);
-		
+				
 		if(isSupported == false)
 			toFakeFullScreen();
 		

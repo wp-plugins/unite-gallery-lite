@@ -74,7 +74,7 @@ class UniteGalleryCategories extends UniteElementsBaseUG{
 		$tableItems = GlobalsUG::$table_items;
 		
 		$query = "select cats.*, count(items.id) as num_items from {$tableCats} as cats";
-		$query .= " left join $tableItems as items on items.catid=cats.id GROUP BY cats.id";
+		$query .= " left join $tableItems as items on items.catid=cats.id GROUP BY cats.id order by cats.ordering";
 		
 		$arrCats = $this->db->fetchSql($query);
 		

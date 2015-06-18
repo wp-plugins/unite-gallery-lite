@@ -1,3 +1,7 @@
+version 1.5.4
+
+-bug fix: fixed video gallery with tabs
+
 version 1.5.3
 
 -feature: added "destroy function to API"

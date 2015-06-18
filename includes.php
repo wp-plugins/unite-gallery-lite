@@ -4,7 +4,7 @@
 defined('_JEXEC') or die;
 
 global $uniteGalleryVersion;
-$uniteGalleryVersion = "1.5.3 b2";
+$uniteGalleryVersion = "1.5.4";
 
 $currentFile = __FILE__;
 $currentFolder = dirname($currentFile);

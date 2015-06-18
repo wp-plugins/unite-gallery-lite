@@ -1,3 +1,8 @@
+version 1.5.4
+
+-bug fix: fixed category ordering in items view
+-bug fix: fixed video gallery with tabs
+
 version 1.5.3 b2
 
 -feature: added option - lightbox slider transition 

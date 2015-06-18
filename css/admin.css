@@ -994,7 +994,7 @@ ul.list_settings select {
 
 .unite-drop-down-wrapper select{
 	width:250px;
-	height:100px;
+	height:150px !important;
 }
 
 div.unite-drop-down-wrapper a.remove{
