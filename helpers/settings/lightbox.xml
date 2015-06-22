@@ -27,6 +27,13 @@
 				label="Enable Slider Zooming"
 				description="Enable mouse wheel and pinch zooming of the lightbox slider">	
 			</field>
+
+			<field name="lightbox_slider_zoom_max_ratio" type="text" default="6"
+				label="Zoom Max Ratio" description="Max zoom ratio. The zooming will stop after this value.">
+			</field>
+	
+			<field type="control" parent="lightbox_slider_control_zoom" ctype="enable"
+				child="lightbox_slider_zoom_max_ratio" value="true" />
 			
 			<field name="gallery_mousewheel_role" 
 				type="list"

@@ -1,3 +1,8 @@
+version 1.5.4 b1
+
+-feature: added "lightbox zoom max ratio" functionality
+-bug fix: fixed <p> and <br> tags in gallery output
+
 version 1.5.4
 
 -bug fix: fixed category ordering in items view

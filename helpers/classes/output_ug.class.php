@@ -567,6 +567,7 @@ defined('_JEXEC') or die('Restricted access');
 
 				$arr[] = $this->buildJsParam("lightbox_hide_arrows_onvideoplay", null, self::TYPE_BOOLEAN);
 				$arr[] = $this->buildJsParam("lightbox_slider_control_zoom", null, self::TYPE_BOOLEAN);
+				$arr[] = $this->buildJsParam("lightbox_slider_zoom_max_ratio", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
 				$arr[] = $this->buildJsParam("lightbox_slider_transition");
 				$arr[] = $this->buildJsParam("lightbox_overlay_opacity", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
 				$arr[] = $this->buildJsParam("lightbox_overlay_color");

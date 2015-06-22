@@ -296,7 +296,7 @@ class UniteProviderFunctionsUG{
 	
 	/**
 	 * 
-	 * @param unknown_type $settings
+	 * @param  $settings
 	 */
 	public static function addBigImageSizeSettings($settings, $isLightbox = false, $addAfter = null){
 		$arrItems = UniteFunctionsWPUG::getArrThumbSizes("big_only");

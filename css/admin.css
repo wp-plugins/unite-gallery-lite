@@ -730,6 +730,7 @@ ul.list-tabs-settings li.selected a:hover{
 .unite-postbox li.setting-disabled input, 
 .unite-postbox input[type='text'][disabled='disabled']{	
 	color:#6D6D6D;
+	background-color:#f6f6f6;
 }
 
 /* color picker */
