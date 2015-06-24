@@ -963,7 +963,7 @@ defined('_JEXEC') or die('Restricted access');
 				global $uniteGalleryVersion;
 				$output = "
 					\n
-					<!-- START UNITE GALLERY {$uniteGalleryVersion} -->
+					<!-- START UNITE GALLERY LITE {$uniteGalleryVersion} -->
 					
 				";
 				if(!empty($addStyles))
@@ -1011,7 +1011,7 @@ defined('_JEXEC') or die('Restricted access');
 				$output .= $linePrefix2."});";
 				$output .= $linePrefix."</script>";
 				$output .= $br;
-				$output .= $linePrefix."<!-- END UNITEGALLERY -->";
+				$output .= $linePrefix."<!-- END UNITEGALLERY LITE -->";
 				
 				$compressOutput = $this->getParam("compress_output", self::FORCE_BOOLEAN);
 				

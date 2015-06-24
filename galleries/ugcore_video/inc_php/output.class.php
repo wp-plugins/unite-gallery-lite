@@ -38,7 +38,7 @@ defined('_JEXEC') or die('Restricted access');
 			if(file_exists($filepath_modified))
 				$urlSkin = $this->urlPlugin."themes/video/skin-{$skin}-modified.css";				
 			
-			HelperGalleryUG::addStyleAbsoluteUrl($urlSkin, "ug-theme-video");
+			HelperGalleryUG::addStyleAbsoluteUrl($urlSkin, "ug-theme-video-{$skin}");
 		}
 		
 		
