@@ -392,15 +392,15 @@ class UniteProviderFunctionsUG{
 		<!-- update gallery button -->
 		
 		<div class="ug-update-plugin-wrapper">
-			<a id="ug_button_update_plugin" class="unite-button-secondary" href="javascript:void(0)" ><?php _e("Update Plugin", UNITEGALLERY_TEXTDOMAIN)?></a>
+			<a id="ug_button_update_plugin" class="unite-button-primary" href="javascript:void(0)" ><?php _e("Update Plugin", UNITEGALLERY_TEXTDOMAIN)?></a>
 		</div>
 		
 		<!-- dialog update -->
 		
 		<div id="dialog_update_plugin" title="<?php _e("Update Gallery Plugin",UNITEGALLERY_TEXTDOMAIN)?>" style="display:none;">	
 		
-		<div class="ug-update-dialog-title"><?php _e("Update Unite Gallery Plugin",UNITEGALLERY_TEXTDOMAIN)?>:</div>	
-		<div class="ug-update-dialog-desc">
+			<div class="unite-dialog-title"><?php _e("Update Unite Gallery Plugin",UNITEGALLERY_TEXTDOMAIN)?>:</div>	
+			<div class="unite-dialog-desc">
 			<?php _e("To update the gallery please select the gallery install package.",UNITEGALLERY_TEXTDOMAIN) ?>		
 		
 		<br>
@@ -420,11 +420,11 @@ class UniteProviderFunctionsUG{
 		<?php _e("Choose the update file:",UNITEGALLERY_TEXTDOMAIN)?>
 		<br><br>
 		
-		<input type="file" name="update_file" class="ug-input-file-update">		
+				<input type="file" name="update_file" class="unite-dialog-fileinput">		
 		
 		<br><br>
 		
-		<input type="submit" class='unite-button-secondary' value="<?php _e("Update Gallery Plugin",UNITEGALLERY_TEXTDOMAIN)?>">	
+				<input type="submit" class='unite-button-primary' value="<?php _e("Update Gallery Plugin",UNITEGALLERY_TEXTDOMAIN)?>">	
 		</form>
 		
 		</div>
@@ -560,6 +560,21 @@ class UniteProviderFunctionsUG{
 			//delete the update
 			UniteFunctionsUG::deleteDir($pathUpdate);
 	
+			//change folder to original (if updated to full version)
+			if($productFolder == "unitegallery"){
+				$pathRename = str_replace("unite-gallery-lite", "unitegallery", $pathOriginalPlugin);
+				if($pathRename != $pathOriginalPlugin){
+					$success = @rename($pathOriginalPlugin, $pathRename);
+					if($success == true){	//activate plugin
+						$pluginFile = $pathRename."unitegallery.php";
+						if(file_exists($pluginFile)){
+							$activateSuccess = UniteFunctionsWPUG::activatePlugin($pluginFile);
+							if ( $activateSuccess == false ) 
+								$linkBack = admin_url("plugins.php");	//link to plugin activate
+						}
+					}
+				}
+			}
 			dmp("Updated Successfully, redirecting...");
 					echo "<script>location.href='$linkBack'</script>";
 	

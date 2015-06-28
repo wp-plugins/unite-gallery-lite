@@ -106,6 +106,16 @@ defined('_JEXEC') or die('Restricted access');
 			return($urlView);
 		}
 		
+		
+		/**
+		 * get advanced gallery view
+		 */
+		public static function getAdvancedView($galleryID){
+			
+			$url = self::getViewUrl(GlobalsUG::VIEW_ADVANCED, "id={$galleryID}");
+			return($url);
+		}
+		
 		/**
 		 *
 		 * get preview view
@@ -135,6 +145,23 @@ defined('_JEXEC') or die('Restricted access');
 			
 			$urlView = self::getViewUrl(GlobalsUG::VIEW_ITEMS, $options);
 			return($urlView);
+		}
+		
+		
+		/**
+		 * get ajax url with params for actions in admin only
+		 */
+		public static function getUrlAjaxActions($clientAction, $params = ""){
+			
+			$nonce = "";
+			if(method_exists("UniteProviderFunctionsUG", "getNonce"))
+				$nonce = "&nonce=".UniteProviderFunctionsUG::getNonce();
+			
+			$urlAjax = GlobalsUG::$url_ajax."?action=unitegallery_ajax_action{$nonce}&client_action={$clientAction}";
+			if(!empty($params))
+				$urlAjax .= "&".$params;
+			
+			return($urlAjax);
 		}
 		
 		

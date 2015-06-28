@@ -58,20 +58,6 @@ table.unite_table_settings_wide input[type="text"]{
 	padding-top:10px;
 }
 
-#dialog_update_plugin .ug-update-dialog-title{
-	font-weight:bold;
-	padding-top:20px;
-	padding-bottom:20px;
-}
-
-#dialog_update_plugin  .ug-update-dialog-desc{
-	font-style:italic;
-	padding-bottom:10px;
-}
-
-#dialog_update_plugin  .ug-input-file-update{
-	width:500px;
-}
 
 
 

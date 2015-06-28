@@ -277,10 +277,10 @@
 				}else{		//backend actions
 					
 					//verify nonce
-					$nonce = UniteFunctionsUG::getPostVariable("nonce");
+					$nonce = UniteFunctionsUG::getPostGetVariable("nonce");
 					$verified = wp_verify_nonce($nonce, "unitegallery_actions");
 					if($verified == false){
-						echo("Unauthorised access!");
+						_e("Unauthorised access!, if you updated the gallery recently, please do ctrl+f5 - refresh the page and try again.", UNITEGALLERY_TEXTDOMAIN);
 						exit();
 					}
 					

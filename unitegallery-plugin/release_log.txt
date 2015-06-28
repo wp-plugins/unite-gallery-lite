@@ -1,3 +1,7 @@
+version 1.5.5
+
+-bug fix: fixed size bugs in justified type
+
 version 1.5.4
 
 -bug fix: fixed video gallery with tabs

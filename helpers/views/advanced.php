@@ -3,7 +3,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 	$galleryID = GlobalsUGGallery::$galleryID;
-
+		
 	//add codemirror scripts
 	HelperUG::addScriptAbsoluteUrl(GlobalsUG::$urlPlugin."js/codemirror/codemirror.js", "codemirror_js");
 	HelperUG::addScriptAbsoluteUrl(GlobalsUG::$urlPlugin."js/codemirror/css.js", "codemirror_cssjs");
@@ -19,9 +19,13 @@ defined('_JEXEC') or die('Restricted access');
 	}
 	
 	require GlobalsUG::$pathHelpersSettings."advancedtab_main.php";
+	require GlobalsUG::$pathHelpersSettings."advancedtab_params.php";
+	
 	
 	$outputMain   = new UniteSettingsProductUG();
+	$outputParams = new UniteSettingsProductSidebarUG();
 	
+
 	$galleryTitle = GlobalsUGGallery::$gallery->getTitle();
 		
 	$headerTitle = $galleryTitle . __(" - [advanced settings]",UNITEGALLERY_TEXTDOMAIN);
@@ -30,8 +34,13 @@ defined('_JEXEC') or die('Restricted access');
 	
     //set setting values from the slider
     $settingsMain->setStoredValues($arrValues);
-
+    $settingsParams->setStoredValues($arrValues);
+    
     $outputMain->init($settingsMain);
+    $outputParams->init($settingsParams);
+        
+    $linkExport = HelperUG::getUrlAjaxActions("export_gallery_settings","galleryid={$galleryID}");
+    
     
     require HelperGalleryUG::getPathHelperTemplate("gallery_advanced");
 ?>

@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.5.4, released 18 Jun 2015 
+// Unite Gallery, Version: 1.5.5, released 26 Jun 2015 
 
 
 /**
@@ -16811,19 +16811,11 @@ function UGTileDesign(){
 	
 	
 	/**
-	 * get item from tile
-	 */
-	this.getItemByTile = function(objTile){
-		return g_thumbs.getItemByThumb(objTile);
-	}
-	
-	
-	/**
 	 * load tile image, place the image on load
 	 */
 	this.loadTileImage = function(objTile){
 		
-		var objImage = getTileImage(objTile);
+		var objImage = t.getTileImage(objTile);
 			
 		g_functions.checkImagesLoaded(objImage, null, function(objImage,isError){
 			onPlaceImage(null, objTile, jQuery(objImage));
@@ -16833,13 +16825,6 @@ function UGTileDesign(){
 	
 	function _________________GETTERS________________(){};
 	
-	/**
-	 * get tile image
-	 */
-	function getTileImage(objTile){
-		var objImage = objTile.children("img.ug-thumb-image");
-		return(objImage);
-	}
 	
 	
 	/**
@@ -16946,7 +16931,7 @@ function UGTileDesign(){
 		var sizeTile = g_functions.getElementSize(objTile);
 		
 		var objImageOverlay = getTileOverlayImage(objTile)
-		var objThumbImage = getTileImage(objTile);
+		var objThumbImage = t.getTileImage(objTile);
 		var objImageEffect = getTileImageEffect(objTile);
 		
 		//set image overlay size
@@ -17058,7 +17043,7 @@ function UGTileDesign(){
 		
 		if(g_options.tile_image_effect_reverse == false){
 			
-			var objThumbImage = getTileImage(objTile);
+			var objThumbImage = t.getTileImage(objTile);
 			
 			if(isActive){
 				objThumbImage.fadeTo(1,1);			
@@ -17412,41 +17397,6 @@ function UGTileDesign(){
 	}
 	
 	/**
-	 * run the tile design
-	 */
-	this.run = function(){
-		
-		//return(false);
-		
-		var objThumbs = g_thumbs.getThumbs();
-		
-		//hide original image if image effect active
-		if(g_options.tile_enable_image_effect == true && g_options.tile_image_effect_reverse == false)
-			objThumbs.children(".ug-thumb-image").fadeTo(0,0);
-		
-		g_thumbs.setHtmlProperties();
-		
-		if(g_temp.isFixedMode == true){
-			objThumbs.children(".ug-thumb-image").fadeTo(0,0);			
-			g_thumbs.loadThumbsImages();
-		}
-	}
-	
-	/**
-	 * get thumbs general option
-	 */
-	this.getObjThumbs = function(){
-		return g_thumbs;
-	}
-	
-	/**
-	 * get options
-	 */
-	this.getOptions = function(){
-		return g_options;
-	}
-	
-	/**
 	 * resize tile. If no size given, resize to original size
 	 */
 	this.resizeTile = function(objTile, newWidth, newHeight){
@@ -17489,6 +17439,61 @@ function UGTileDesign(){
 		g_options = jQuery.extend(g_options, newOptions);
 		g_thumbs.setOptions(newOptions);
 	}
+	
+	
+	/**
+	 * run the tile design
+	 */
+	this.run = function(){
+		
+		//return(false);
+		
+		var objThumbs = g_thumbs.getThumbs();
+		
+		//hide original image if image effect active
+		if(g_options.tile_enable_image_effect == true && g_options.tile_image_effect_reverse == false)
+			objThumbs.children(".ug-thumb-image").fadeTo(0,0);
+		
+		g_thumbs.setHtmlProperties();
+		
+		if(g_temp.isFixedMode == true){
+			objThumbs.children(".ug-thumb-image").fadeTo(0,0);			
+			g_thumbs.loadThumbsImages();
+		}
+	}
+
+	this._____________EXTERNAL_GETTERS____________=function(){};
+	
+	/**
+	 * get thumbs general option
+	 */
+	this.getObjThumbs = function(){
+		return g_thumbs;
+	}
+	
+	/**
+	 * get options
+	 */
+	this.getOptions = function(){
+		return g_options;
+	}
+
+	/**
+	 * get tile image
+	 */
+	this.getTileImage = function(objTile){
+		var objImage = objTile.children("img.ug-thumb-image");
+		return(objImage);
+	}
+
+	
+	/**
+	 * get item from tile
+	 */
+	this.getItemByTile = function(objTile){
+		return g_thumbs.getItemByThumb(objTile);
+	}
+	
 	
 }
 /**
@@ -17795,11 +17800,12 @@ function UGTiles(){
 		var gap = g_options.tiles_justified_space_between;
 		var numTiles = objTiles.length;
 		
-		
 		//get arr widths and total width
 		jQuery.each(objTiles, function(index, objTile){
 			objTile = jQuery(objTile);
-			var objSize = g_functions.getElementSize(objTile);
+			
+			var objImage = g_objTileDesign.getTileImage(objTile);
+			var objSize = g_functions.getImageOriginalSize(objImage);
 						
 			var tileWidth = objSize.width;
 			var tileHeight = objSize.height;
@@ -17812,7 +17818,6 @@ function UGTiles(){
 				objTile.data("originalWidth", tileWidth);
 				objTile.data("originalHeight", tileHeight);				
 			}
-			            
 			
 			if (tileHeight !== rowHeightOpt) 
 				tileWidth = Math.floor(tileWidth / tileHeight * rowHeightOpt);

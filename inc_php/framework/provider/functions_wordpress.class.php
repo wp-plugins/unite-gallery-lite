@@ -1310,8 +1310,27 @@ defined('_JEXEC') or die('Restricted access');
 		
 			return(true);
 		}
+
 		
-		
+		/**
+		 * do plugin activation without including plugin files
+		 * 
+		 */
+		public static function activatePlugin($pluginFile){
+			
+			if(file_exists($pluginFile) == false)
+				return(false);
+			
+			$plugin = plugin_basename( trim( $pluginFile ) );
+			
+			$current = get_option( 'active_plugins', array() );
+			$current[] = $plugin;
+			sort($current);
+			update_option('active_plugins', $current);
+			
+			return(true);
+		}
+				
 		
 	}	//end of the class
 	

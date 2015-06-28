@@ -8,7 +8,7 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Unite Gallery - ALL IN ONE IMAGE AND VIDEO GALLERY for WordPress.
+ALL IN ONE IMAGE AND VIDEO GALLERY for WordPress.
 
 == Description ==
 
@@ -85,6 +85,12 @@ Carousel displaying solution that allows you to show image thumbnails and open i
 13. Media Dialog
 
 == Changelog ==
+
+= 1.5.5 =
+
+-feature: added export/import function.
+-change: when updating to full version now the folder changed to unitegallery
+-bug fix: fixed justified view in safary for windows browser
 
 
 = 1.5 =

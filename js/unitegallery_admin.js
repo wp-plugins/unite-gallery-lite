@@ -273,6 +273,7 @@ function UGAdmin(){
 		
 	}
 
+	
 	/**
 	 * init gallery view with common settings
 	 */
@@ -282,6 +283,7 @@ function UGAdmin(){
 		jQuery("#title").focus();
 		initSaveGalleryButton("create_gallery");
 	};
+	
 	
 	/**
 	 * init gallery view with common settings
@@ -360,11 +362,43 @@ function UGAdmin(){
     };
 
     
+    /**
+     * init advaced tab import / export
+     */
+    function advanced_initExportImport(linkExport){
+    	
+    	//init export button - go to url
+    	jQuery("#export_gallery_settings").click(function(){
+    		
+    		location.href=linkExport;
+    		
+    	});
+    	
+    	
+    	//init import button - open dialog
+    	jQuery("#import_gallery_settings").click(function(){
+
+    		var buttonOpts = {};
+			
+			buttonOpts[g_text.cancel] = function(){
+				jQuery("#dialog_import_gallery").dialog("close");
+			};
+			
+			jQuery("#dialog_import_gallery").dialog({
+				buttons:buttonOpts,
+				minWidth:700,
+				modal:true
+			});
+    		
+    	});
+    	    	
+    }
+    
     
     /**
      * advanced view
      */
-    this.initAdvancedView = function(){
+    this.initAdvancedView = function(linkExport){
 		
     	//set codemirror
         setTimeout(function(){
@@ -405,6 +439,7 @@ function UGAdmin(){
         	
         });
         
+        advanced_initExportImport(linkExport);
     	
     }
     

@@ -32,8 +32,7 @@ try{
 		return($content);
 	}
 	
-	add_shortcode( 'unitegallery', 'unitegallery_shortcode' );	
-	
+	add_shortcode( 'unitegallery', 'unitegallery_shortcode' );
 	
 	/**
 	 * replace the post gallery with unite gallery

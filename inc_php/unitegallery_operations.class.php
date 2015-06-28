@@ -198,6 +198,26 @@ defined('_JEXEC') or die('Restricted access');
 			
 		}
 		
+		
+		/**
+		 * put first 3 fields of the ajax form
+		 */
+		public function putAjaxFormFields($clientAction, $galleryID = null){
+			?>
+				<input type="hidden" name="action" value="unitegallery_ajax_action">		
+				<input type="hidden" name="client_action" value="<?php echo $clientAction?>">
+				
+			<?php if(method_exists("UniteProviderFunctionsUG", "getNonce")):?>
+				
+				<input type="hidden" name="nonce" value="<?php echo UniteProviderFunctionsUG::getNonce(); ?>">
+			<?php endif;
+			 if(!empty($galleryID)): ?>
+				<input type="hidden" name="galleryid" value="<?php echo $galleryID ?>">
+			<?php endif;
+			
+		}
+		
+		
 	}
 
 ?>

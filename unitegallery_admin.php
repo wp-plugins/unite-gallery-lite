@@ -183,8 +183,8 @@ defined('_JEXEC') or die('Restricted access');
 		 * onAjax action handler
 		 */
 		public static function onAjaxAction(){
-					
-			$actionType = UniteFunctionsUG::getPostVariable("action");
+			
+			$actionType = UniteFunctionsUG::getPostGetVariable("action");
 			
 			if($actionType != "unitegallery_ajax_action")
 				return(false);
@@ -310,6 +310,15 @@ defined('_JEXEC') or die('Restricted access');
 							echo "Functionality Don't Exists";
 						}
 						
+					break;
+					case "export_gallery_settings":
+						$galleryID = UniteFunctionsUG::getPostGetVariable("galleryid");
+						$galleries->exportGallerySettings($galleryID);
+						
+					break;
+					case "import_gallery_settings":
+						$galleryID = UniteFunctionsUG::getPostGetVariable("galleryid");
+						$galleries->importGallerySettingsFromUploadFile($galleryID);
 					break;
 					default:
 						HelperUG::ajaxResponseError("wrong ajax action: <b>$action</b> ");

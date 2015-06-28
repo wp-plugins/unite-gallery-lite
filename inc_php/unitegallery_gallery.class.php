@@ -48,7 +48,7 @@ class UniteGalleryGallery extends UniteElementsBaseUG{
 		$id = $this->db->escape($id);
 				
 		$response = $this->db->fetch(GlobalsUG::$table_galleries,"id={$id}");
-			
+		
 		if(empty($response))
 			UniteFunctionsUG::throwError("Gallery with id: {$id} not found");
 		
@@ -406,6 +406,71 @@ class UniteGalleryGallery extends UniteElementsBaseUG{
 
 		$this->updateParam("category", $catID);
 		
+	}
+	
+	
+	/**
+	 * export gallery settings to downloadable file
+	 */
+	public function exportSettings(){
+		$this->validateInited();
+		$galleryID = $this->id;
+		
+		$record = $this->db->fetchSingle(GlobalsUG::$table_galleries,"id={$galleryID}");
+		UniteFunctionsUG::validateNotEmpty($record, "Gallery Record");
+		unset($record["id"]);
+		
+		$strRecord = serialize($record);
+		$filename = "unitegallery_".$record["alias"].".txt";
+		
+		UniteFunctionsUG::downloadFileFromContent($strRecord, $filename);
+		
+		//the download content should exit
+		UniteFunctionsUG::throwError("Something wrong witht the export, please try again");
+		exit();
+	}
+	
+	
+	/**
+	 * import settings
+	 */
+	public function importSettings($arrContent){
+		
+		$this->validateInited();
+		
+		$jsonParams = UniteFunctionsUG::getVal($arrContent, "params");
+		$paramsNew = (array)json_decode($jsonParams);
+		
+		if(empty($paramsNew))
+			return(false);
+		
+		//unset variables
+		$arrUnset = array(
+				"title",
+				"alias",
+				"category",
+				"gallery_width",
+				"gallery_height",
+				"full_width",
+				"enable_categories",
+				"shortcode",
+				"gallery_min_width",
+				"include_jquery",
+				"js_to_body",
+				"compress_output",
+				"gallery_debug_errors",
+				"categories",
+				"enable_category_tabs",
+				"gallery_min_width",
+				"gallery_min_height"
+		);
+		
+		foreach($arrUnset as $key){
+			if(array_key_exists($key, $paramsNew))
+				unset($paramsNew[$key]);
+		}
+		
+		$this->updateParams($paramsNew);
 	}
 	
 	

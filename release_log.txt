@@ -1,3 +1,13 @@
+version 1.5.5
+
+-feature: done "export/import gallery" feature
+-change: when updating from lite version, the plugin directory is now renamed to "unitegallery"
+-bug fix: fixed size bugs in justified type
+
+version 1.5.4 b2
+
+-bug fix: in video gallery second skin was not load
+
 version 1.5.4 b1
 
 -feature: added "lightbox zoom max ratio" functionality

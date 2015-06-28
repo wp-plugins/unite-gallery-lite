@@ -919,10 +919,11 @@ defined('_JEXEC') or die('Restricted access');
 			return($link);
 		}
 		
+		
 		/**
 		 * Download Image
 		 */
-		public function downloadImage($filepath, $filename, $mimeType=""){
+		public static function downloadImage($filepath, $filename, $mimeType=""){
 			$contents = file_get_contents($filepath);
 			$filesize = strlen($contents);
 		
@@ -938,6 +939,22 @@ defined('_JEXEC') or die('Restricted access');
 			echo $contents;
 			exit();
 		}
+		
+		
+		/**
+		 * Download file from content
+		 */
+		public static function downloadFileFromContent($content, $filename, $mimeType="text/plain"){
+			
+			$filesize = strlen($content);
+			
+			header("Content-Type: $mimeType");
+			header("Content-Disposition: attachment; filename=\"{$filename}\"");
+			header("Content-Length: {$filesize}");
+			echo $content;
+			exit();
+		}
+		
 		
 		/**
 		 *
@@ -1006,6 +1023,17 @@ defined('_JEXEC') or die('Restricted access');
 			return($content);
 		}
 		
+		/**
+		 * put javascript redirection script
+		 */
+		public static function putRedirectJS($url){
+			
+			$html = "<script type='text/javascript'>
+			location.href='{$url}';
+			</script>";
+			
+			echo $html;
+		}
 		
 	}
 	

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fields>
+
+			<fieldset name="export_import" label="Export / Import Settings" icon="eg-icon-cog-alt">
+               
+                <field name="export_gallery_settings"
+                       type="button"
+                       default="Export Settings"
+                       label="Export Gallery Settings"
+                       description="Export gallery settings - download file with all settings"
+                       >
+                </field>
+                
+                <field name="import_gallery_settings"
+                       type="button"
+                       default="Import Settings"
+                       label="Import Gallery Settings"
+                       description="Import gallery settings from the file previously imported"
+                       >
+                </field>
+                
+                <field type="hr"></field>
+                
+          
+          </fieldset>
+		  		  		
+</fields>

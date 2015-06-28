@@ -241,7 +241,18 @@ class UniteGalleryGalleries extends UniteElementsBaseUG{
 		
 	}
 
-	
+	/**
+	 * get gallery by id
+	 */
+	private function getGalleryByID($galleryID){
+		
+		UniteFunctionsUG::validateNotEmpty($galleryID,"gallery id");
+		UniteFunctionsUG::validateNumeric($galleryID);
+		$gallery = new UniteGalleryGallery();
+		$gallery->initByID($galleryID);
+		
+		return($gallery);
+	}
 	
 	/**
 	 * 
@@ -269,9 +280,66 @@ class UniteGalleryGalleries extends UniteElementsBaseUG{
 		
 		$gallery = new UniteGalleryGallery();
 		$gallery->initByID($galleryID);
+		
 		$gallery->duplicate();
 	}
 	
+	/**
+	 * export gallery settings from data
+	 */
+	public function exportGallerySettings($galleryID){
+		
+		$gallery = $this->getGalleryByID($galleryID);
+		$gallery->exportSettings();
+	}
+	
+	
+	/**
+	 * import gallery settings from upload file
+	 */
+	public function importGallerySettingsFromUploadFile($galleryID){
+		
+		$gallery = $this->getGalleryByID($galleryID);
+		
+		$arrFile = UniteFunctionsUG::getVal($_FILES, "export_file");
+		try{
+		
+			$linkBack = HelperUG::getAdvancedView($galleryID);
+			$htmlLinkBack = UniteFunctionsUG::getHtmlLink($linkBack, "Go Back");
+			
+			if(empty($arrFile))
+				UniteFunctionsUG::throwError("Import file not found");
+			
+			//get content
+			$filepath = UniteFunctionsUG::getVal($arrFile, "tmp_name");
+			$content = file_get_contents($filepath);
+			
+			//remove temp path
+			@unlink($filepath);
+			
+			if(empty($content))
+				UniteFunctionsUG::throwError("No content found");
+			
+			$arrContent = @unserialize($content);
+			
+			if(empty($arrContent))
+				UniteFunctionsUG::throwError("No content format");
+			
+			$gallery->importSettings($arrContent);
+			
+			//redirect back to settings
+			dmp("gallery settings imported, redirecting...");
+			UniteFunctionsUG::putRedirectJS($linkBack);
+			exit();
+			
+		}catch(Exception $e){
+			$message = $e->getMessage();
+			echo "<div style='color:#B80A0A;font-size:18px;'><b>Import Settings Error: </b> $message</div><br>";
+			echo $htmlLinkBack;
+			exit();
+		}
+		
+	}
 	
 }
 

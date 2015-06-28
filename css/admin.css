@@ -227,11 +227,6 @@ html{
 	padding:0px;
 }
 
-.unite-dialog-inside{
-	margin-top:10px;
-	margin-bottom:10px;
-}
-
 .unite-clear{
 	clear:both;
 	display:block;
@@ -290,7 +285,28 @@ ul.unite-top-main-menu li.active a{
 	font-weight:500;
 }
 
+#----------------DIALOG------------------{}
 
+.ui-dialog-content .unite-dialog-title{
+	font-weight:bold;
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+.ui-dialog-content .unite-dialog-desc{
+	font-style:italic;
+	padding-bottom:10px;
+}
+
+.ui-dialog-content .unite-dialog-fileinput{
+	width:500px;
+}
+
+
+.unite-dialog-inside{
+	margin-top:10px;
+	margin-bottom:10px;
+}
 
 #----------------BUTTONS------------------{}
 
