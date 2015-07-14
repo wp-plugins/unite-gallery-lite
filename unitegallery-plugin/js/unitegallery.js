@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.5.5, released 26 Jun 2015 
+// Unite Gallery, Version: 1.5.7, released 14 Jul 2015 
 
 
 /**
@@ -6840,6 +6840,7 @@ function UGLightbox(){
 			lightbox_slider_scale_mode: "down",
 			lightbox_slider_loader_type: 3,
 			lightbox_slider_loader_color: "black",
+			lightbox_slider_transition: "fade",
 			
 			lightbox_slider_image_padding_top: g_temp.topPanelHeight,
 			lightbox_slider_image_padding_bottom: 10,
@@ -16552,6 +16553,7 @@ function UGTileDesign(){
 			
 			tile_enable_icons: true,				//enable icons in mouseover mode
 			tile_show_link_icon: false,				//show link icon (if the tile has a link). In case of tile_as_link this option not enabled
+			tile_videoplay_icon_always_on: false,	//always show video play icon
 			tile_space_between_icons: 26,			//initial space between icons, (on small tiles it may change)
 			
 			tile_enable_image_effect:false,			//enable tile image effect
@@ -16616,7 +16618,6 @@ function UGTileDesign(){
 		
 		//check if saparate icons
 		g_temp.isSaparateIcons = !g_functions.isRgbaSupported();
-		
 	}
 	
 	
@@ -16732,7 +16733,11 @@ function UGTileDesign(){
 				
 			}
 		
-		if(g_temp.isSaparateIcons == true)		//put the icons on the thumb
+		var toSaparateIcon = g_temp.isSaparateIcons;
+		if(toSaparateIcon == false && objItem.type != "image" && g_options.tile_videoplay_icon_always_on == true)
+			toSaparateIcon = true;
+		
+		if(toSaparateIcon)		//put the icons on the thumb
 			var objOverlay = objThumbWrapper;
 		else
 			var objOverlay = objThumbWrapper.children(".ug-thumb-overlay");
@@ -17144,17 +17149,18 @@ function UGTileDesign(){
 				
 		if(g_options.tile_enable_image_effect)
 			setImageOverlayEffect(objTile, true);
-		
-		//var objImageOverlay = objTile.children(".ug-tile-image-overlay");			
-		//objImageOverlay.show();
 
 		if(g_options.tile_enable_textpanel == true && g_options.tile_textpanel_always_on == false)
 			setTextpanelEffect(objTile, true);
 		
 		//show/hide icons - if saparate (if not, they are part of the overlay)
+		//if the type is video and icon always on - the icon should stay
 		if(g_temp.isSaparateIcons && g_options.tile_enable_icons == true){
 			var isSet = (g_options.thumb_overlay_reverse == true);
-			setIconsEffect(objTile, isSet, false);
+			
+			var objItem = t.getItemByTile(objTile);
+			if( !(g_options.tile_videoplay_icon_always_on == true && objItem.type != "image"))
+				setIconsEffect(objTile, isSet, false);
 		}
 		
 	}
@@ -17509,6 +17515,7 @@ function UGTiles(){
 	var g_options = {
 		 tiles_type: "columns",				//columns / justified - tiles layout type
 		 tiles_col_width: 250,				//column width
+		 tiles_align:"center",				//align of the tiles in the space
 		 tiles_space_between_cols: 3,		//space between images
 		 tiles_justified_row_height: 150,	//base row height of the justified type
 		 tiles_justified_space_between: 3,	//space between the tiles justified type
@@ -17601,9 +17608,22 @@ function UGTiles(){
 		
 		g_vars.numCols = g_functions.getNumItemsInSpace(g_vars.galleryWidth, g_vars.colWidth, g_vars.colGap);
 		g_vars.totalWidth = g_vars.numCols*(g_vars.colWidth + g_vars.colGap) - g_vars.colGap;
-		g_vars.addX = Math.round( (g_vars.galleryWidth - g_vars.totalWidth) / 2 );	//add x to center point
-		g_vars.maxColHeight = 0;
 		
+		switch(g_options.tiles_align){
+			case "center":
+			default:
+				//add x to center point
+				g_vars.addX = Math.round( (g_vars.galleryWidth - g_vars.totalWidth) / 2 );
+			break;	
+			case "left":
+				g_vars.addX = 0;
+			break;
+			case "right":
+				g_vars.addX = g_vars.galleryWidth - g_vars.totalWidth;
+			break;
+		}
+		
+		g_vars.maxColHeight = 0;
 		
 		//get posx array (constact to all columns)
 		g_vars.arrPosx = [];		

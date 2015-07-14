@@ -86,6 +86,14 @@ Carousel displaying solution that allows you to show image thumbnails and open i
 
 == Changelog ==
 
+= 1.5.7 =
+
+-change: set lightbox transition "fade" as default transition
+-bug fix: fixed position: left,right for tiles columns view. 
+-feature: added option:  "Always Show Video Play Icon" in tile design section 
+- added export / import all content function for theme in php operations class.
+
+
 = 1.5.5 =
 
 -feature: added export/import function.

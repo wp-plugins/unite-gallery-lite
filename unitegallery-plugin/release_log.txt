@@ -1,3 +1,13 @@
+version 1.5.7
+
+-feature: added option: tiles_align for columns type
+-change: changed default lightbox transition to "fade" 
+
+version 1.5.6
+
+-bug fix: add "ug-rtl" style
+-feature: added option: tile_videoplay_icon_always_on in tile design section
+
 version 1.5.5
 
 -bug fix: fixed size bugs in justified type

@@ -220,6 +220,14 @@
 				label="&amp;nbsp; Space Between Icons"
 				unit="px"
 				description="initial space between icons, (on small tiles it may change)"></field>
+
+			<field name="tile_videoplay_icon_always_on" 
+				type="boolean"
+				default="false"
+				label="&amp;nbsp; Always Show Video Play Icon"
+				description="Always show the video play icon in case that the item is video. Not only on mouseover">	
+			</field>
+
 			
 			<field type="bulk_control_end"/>
 			

@@ -248,7 +248,7 @@ defined('_JEXEC') or die('Restricted access');
 		/**
 		 * get string from position options
 		 */
-		protected function getPositionString(){
+		protected function getPositionString($isTylesType = false){
 			
 			$position = $this->getParam("position");
 			
@@ -262,10 +262,12 @@ defined('_JEXEC') or die('Restricted access');
 					$wrapperStyle .= "margin:0px auto;";
 				break;
 				case "left":
-					$wrapperStyle .= "float:left;";
+					if($isTylesType == false)
+						$wrapperStyle .= "float:left;";
 					break;
 				case "right":
-					$wrapperStyle .= "float:right;";
+					if($isTylesType == false)
+						$wrapperStyle .= "float:right;";
 					break;
 			}
 			

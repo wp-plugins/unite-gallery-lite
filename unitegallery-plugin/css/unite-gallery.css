@@ -12,6 +12,10 @@
 
 .---------General_Styles--------{}
 
+.ug-rtl{
+	direction:rtl;
+}
+
 .ug-gallery-wrapper{
 	overflow:hidden;
 	position:relative;

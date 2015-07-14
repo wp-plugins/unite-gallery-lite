@@ -545,7 +545,8 @@ defined('_JEXEC') or die('Restricted access');
 				$arr[] = $this->buildJsParam("tile_overlay_color");
 				$arr[] = $this->buildJsParam("tile_enable_icons", null, self::TYPE_BOOLEAN);
 				$arr[] = $this->buildJsParam("tile_show_link_icon", null, self::TYPE_BOOLEAN);
-				$arr[] = $this->buildJsParam("tile_space_between_icons", null, self::TYPE_BOOLEAN);
+				$arr[] = $this->buildJsParam("tile_space_between_icons");
+				$arr[] = $this->buildJsParam("tile_videoplay_icon_always_on", null, self::TYPE_BOOLEAN);
 				$arr[] = $this->buildJsParam("tile_enable_image_effect", null, self::TYPE_BOOLEAN);
 				$arr[] = $this->buildJsParam("tile_image_effect_type");
 				$arr[] = $this->buildJsParam("tile_image_effect_reverse", null, self::TYPE_BOOLEAN);
@@ -942,7 +943,7 @@ defined('_JEXEC') or die('Restricted access');
 					$this->arrParams["gallery_width"] = "100%";
 				}
 				
-				$wrapperStyle = $this->getPositionString();
+				$wrapperStyle = $this->getPositionString($this->isTilesType);
 
 				$serial = self::$serial;
 				$galleryHtmlID = $this->galleryHtmlID;
@@ -960,6 +961,16 @@ defined('_JEXEC') or die('Restricted access');
 				$addScripts = $this->getAdditionalScripts($serial);
 				$hasAddScripts = !empty($addScripts);
 				$addStyles = $this->getAdditionalStyles();
+				$position = $this->getParam("position");
+				$isRtlWrapper = ($position == "right" && $this->isTilesType);
+				if($isRtlWrapper == true){
+					$rtlWrapperStyle = $wrapperStyle;
+					if(!empty($rtlWrapperStyle))
+						$rtlWrapperStyle = " style='$rtlWrapperStyle'";
+					$wrapperStyle = "";		//move the wrapper style to rtl wrapper
+				}
+				if(!empty($wrapperStyle))
+					$wrapperStyle = " style='$wrapperStyle'";
 				global $uniteGalleryVersion;
 				$output = "
 					\n
@@ -980,10 +991,16 @@ defined('_JEXEC') or die('Restricted access');
 				
 				if($enableCatTabs == true)
 					$output .= $htmlTabs;
+				//add rtl prefix to get the gallery to right if needed
+				if($isRtlWrapper == true){
+					$output .= $linePrefix."<div class='ug-rtl'{$rtlWrapperStyle}>";
+				}
 					
-				$output .= $linePrefix."<div id='{$this->galleryHtmlID}' style='{$wrapperStyle}'>";
+				$output .= $linePrefix."<div id='{$this->galleryHtmlID}' class='unite-gallery'{$wrapperStyle}>";
 				$output .= $linePrefix2.$this->putItems($arrItems);
 				$output .= $linePrefix."</div>";
+				if($isRtlWrapper == true)
+					$output .= $linePrefix."</div>";
 				$output .= $br;
 				$output .= $linePrefix."<script type='text/javascript'>";
 				

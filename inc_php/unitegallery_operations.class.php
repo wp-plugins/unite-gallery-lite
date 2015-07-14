@@ -218,6 +218,173 @@ defined('_JEXEC') or die('Restricted access');
 		}
 		
 		
+		/**
+		* encode category id for exporting
+		*/
+		private function export_encodeCatID($catID){
+			
+			//if multiple string
+			if(strpos($catID,",") !== false){
+				$arrIDs = explode(",", $catID);
+				foreach($arrIDs as $key=>$id)
+					$arrIDs[$key] = "cat_".$id;
+				$strIDs = implode(",", $arrIDs);
+				return($strIDs);
+			}
+			
+			//if simple number
+			$catID = "cat_".$catID;
+			
+			return($catID);
+		}
+		
+		
+		/**
+		 * decode category id
+		 */
+		private function export_decodeCatID($catID, $index){
+
+			//if multiple string
+			if(strpos($catID,",") !== false){
+				$arrIDs = explode(",", $catID);
+				foreach($arrIDs as $key=>$id)
+					$arrIDs[$key] = $index[$id];
+
+				$strIDs = implode(",", $arrIDs);
+				return($strIDs);
+			}
+			
+			//if simple number
+			$catID = $index[$catID];
+			
+			return($catID);
+		}
+		
+		
+		/**
+		 * export all gallery content
+		 */
+		public function exportAllContent(){
+			
+			//prepare categories			
+			$arrCats = $this->db->fetch(GlobalsUG::$table_categories);
+			
+			//update aliases
+			foreach($arrCats as $key=>$cat){
+				$cat["alias"] = $this->export_encodeCatID($cat["id"]);
+				$arrCats[$key] = $cat;
+			}
+			
+			//-----------------------
+			
+			//prepare galleries
+			$arrGalleries = $this->db->fetch(GlobalsUG::$table_galleries);
+			foreach($arrGalleries as $key=>$gallery){
+				
+				$params = $gallery["params"];
+				$arrParams = (array)json_decode($params);
+				
+				//change category id to alias
+				if(array_key_exists("category", $arrParams))
+					$arrParams["category"] = $this->export_encodeCatID($arrParams["category"]);
+				
+				if(array_key_exists("categorytabs_ids", $arrParams)){
+					$arrParams["categorytabs_ids"] = $this->export_encodeCatID($arrParams["categorytabs_ids"]);
+				}
+									
+				$params = json_encode($arrParams);
+				$arrGalleries[$key]["params"] = $params;
+			}
+			
+			//-----------------------
+			//prepare items
+			$arrItems = $this->db->fetch(GlobalsUG::$table_items);
+			foreach($arrItems as $key=>$item){
+				$item["catid"] = $this->export_encodeCatID($item["catid"]);
+				$arrItems[$key] = $item;
+			}
+			
+			$output = array();
+			$output["categories"] = $arrCats;
+			$output["galleries"] = $arrGalleries;
+			$output["items"] = $arrItems;
+			
+			$strOutput = serialize($output);
+			$filename = "unitegallery_export.txt";
+			 
+			header( 'Content-Description: File Transfer' );
+			header( 'Content-Disposition: attachment; filename=' . $filename );
+			
+			echo $strOutput;
+			exit();
+		}
+		
+		
+		
+		/**
+		 * import all content
+		 */
+		public function importAllContent($content){
+			
+			$arrData = unserialize($content);
+			$arrCats = $arrData["categories"];
+			
+			//insert categories
+			$this->db->runSql("delete from ".GlobalsUG::$table_categories);
+			
+			foreach($arrCats as $cat){
+				unset($cat["id"]);
+				$this->db->insert(GlobalsUG::$table_categories, $cat);
+			}
+			
+			$arrCatsNew = $this->db->fetch(GlobalsUG::$table_categories);
+			
+			//prepare cats index
+			$indexCats = array();
+			foreach($arrCatsNew as $cat){
+				$indexCats[$cat["alias"]] = $cat["id"];
+			}
+			
+			//--------------
+			//import galleries
+			$arrGalleries = $arrData["galleries"];
+			$this->db->runSql("delete from ".GlobalsUG::$table_galleries);
+			
+			foreach($arrGalleries as $gallery){
+				unset($gallery["id"]);
+				
+				$params = $gallery["params"];
+				$arrParams = (array)json_decode($params);
+				
+				//change category id to alias
+				if(array_key_exists("category", $arrParams))
+					$arrParams["category"] = $this->export_decodeCatID($arrParams["category"], $indexCats);
+				
+				if(array_key_exists("categorytabs_ids", $arrParams)){
+					$arrParams["categorytabs_ids"] = $this->export_decodeCatID($arrParams["categorytabs_ids"], $indexCats);
+				}
+				
+				$gallery["params"] = json_encode($arrParams);
+				
+				$this->db->insert(GlobalsUG::$table_galleries, $gallery);
+			}
+			
+			
+			//--------------
+			// import items
+			$arrItems = $arrData["items"];
+			$this->db->runSql("delete from ".GlobalsUG::$table_items);
+			
+			foreach($arrItems as $item){
+				unset($item["id"]);
+				$item["catid"] = $this->export_decodeCatID($item["catid"], $indexCats);
+				
+				$this->db->insert(GlobalsUG::$table_items, $item);
+			}
+			
+		}
+		
+		
 	}
 
 ?>

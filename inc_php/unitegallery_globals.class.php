@@ -22,9 +22,10 @@ defined('_JEXEC') or die('Restricted access');
 		const TABLE_ITEMS_NAME = "unitegallery_items";
 		const TABLE_CATEGORIES_NAME = "unitegallery_categories";
 				
-		const DIR_THUMBS = ".unitegallery_thumbs";
+		const DIR_THUMBS = "unitegallery_thumbs";
 		const THUMB_WIDTH = 300;
 		const THUMB_WIDTH_LARGE = 768;
+		const THUMB_WIDTH_BIG = 1024;
 		
 		const VIEW_DEFAULT = "galleries";
 		const VIEW_ITEMS = "items";

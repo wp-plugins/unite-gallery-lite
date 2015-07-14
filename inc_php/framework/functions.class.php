@@ -910,12 +910,25 @@ defined('_JEXEC') or die('Restricted access');
 		 */
 		public static function normalizeLink($link){
 		
+			//if there is no "?" - fix first appearance of & to ?
 			$pos = strpos($link, "?");
-			if($pos !== false)
-				return($link);
-		
-			$link = preg_replace('/\&/', '?', $link, 1);
-		
+			if($pos === false){
+				$link = preg_replace('/\&/', '?', $link, 1);
+			}
+			
+			
+			//if found more then one ?, convert the rest to &
+			$pos = strpos($link, "?");
+			if($pos !== false){
+				$pos2 = strpos($link, "?", $pos+1);
+				if($pos2 !== false){
+					$stringEnd = substr($link, $pos+1);
+					$stringEnd = str_replace("?","&",$stringEnd);
+					$link = substr_replace($link,$stringEnd,$pos+1);
+				}
+			}
+			
+			
 			return($link);
 		}
 		

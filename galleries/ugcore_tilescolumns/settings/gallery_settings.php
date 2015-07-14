@@ -7,8 +7,6 @@ defined('_JEXEC') or die('Restricted access');
 	$settingsParams = new UniteGallerySettingsUG();
 	$settingsParams->loadXMLFile(GlobalsUGGallery::$pathSettings."gallery_settings.xml");
 	
-	//$itemsSizing = array();
-	//$itemsSizing[unitefun]
 	
 	//$settingsParams->updateSettingItems($name, $items);
 	

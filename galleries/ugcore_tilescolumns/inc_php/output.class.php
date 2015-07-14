@@ -21,6 +21,20 @@ defined('_JEXEC') or die('Restricted access');
 		
 		
 		/**
+		 * modify options
+		 */
+		protected function modifyOptions(){
+			parent::modifyOptions();
+			
+			//set tiles_align if position is not center
+			$position = $this->getParam("position");
+			if($position == "left" || $position == "right")
+				$this->arrParams["tiles_align"] = $position;
+		
+		}
+		
+		
+		/**
 		 * 
 		 * put theme related scripts
 		 */
@@ -62,6 +76,7 @@ defined('_JEXEC') or die('Restricted access');
 			$arr[] = $this->buildJsParam("theme_preloading_height", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
 			$arr[] = $this->buildJsParam("theme_preloader_vertpos", self::VALIDATE_NUMERIC, self::TYPE_NUMBER);
 			$arr[] = $this->buildJsParam("tiles_enable_transition", null, self::TYPE_BOOLEAN);
+			$arr[] = $this->buildJsParam("tiles_align");	//param not in settings
 			
 			return($arr);
 		}

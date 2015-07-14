@@ -4,7 +4,7 @@
 		
 		<fieldset name="gallery_options" loadfrom="current"></fieldset>
 		
-		<fieldset name="position" loadfrom="helper"></fieldset>
+		<fieldset name="position_tiles" loadfrom="helper"></fieldset>
 		
 		<fieldset name="tiles_design" loadfrom="helper"></fieldset>
 
