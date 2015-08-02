@@ -86,6 +86,12 @@ Carousel displaying solution that allows you to show image thumbnails and open i
 
 == Changelog ==
 
+= 1.5.8 =
+
+-bug fix: the video player stayed on compact mode on slide change
+-change: added more "protection" agains another type of theme content filters.
+-change: make the gallery "updatable" from codecanyon main file
+
 = 1.5.7 =
 
 -change: set lightbox transition "fade" as default transition

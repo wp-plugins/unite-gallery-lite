@@ -161,6 +161,7 @@ defined('_JEXEC') or die('Restricted access');
 			if(!empty($params))
 				$urlAjax .= "&".$params;
 			
+			$urlAjax = UniteFunctionsUG::normalizeLink($urlAjax);
 			return($urlAjax);
 		}
 		

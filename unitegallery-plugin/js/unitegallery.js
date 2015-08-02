@@ -1,4 +1,4 @@
-// Unite Gallery, Version: 1.5.7, released 14 Jul 2015 
+// Unite Gallery, Version: 1.5.8, released 03 Aug 2015 
 
 
 /**
@@ -2566,6 +2566,26 @@ function UGFunctions(){
 			objSize.top += offsetY;
 		
 		t.setElementSizeAndPosition(objTarget, objSize.left, objSize.top, objSize.width, objSize.height);
+	}
+	
+	
+	/**
+	 * clone element position
+	 */
+	this.cloneElementPos = function(objSource, objTarget, offsetX, offsetY){
+
+		var objSize = objSource.position();
+		
+		trace(objSize);
+		
+		if(objSize == undefined){
+			throw new Error("Can't get size, empty element");
+		}
+
+		objSize.left = Math.round(objSize.left);
+		objSize.top = Math.round(objSize.top);
+		
+		t.placeElement(objTarget, objSize.left, objSize.top, offsetX, offsetY);
 	}
 	
 	
@@ -8155,7 +8175,7 @@ function UGLightbox(){
 		g_temp.isOpened = true;
 		
 		if(g_objSlider){
-			g_objSlider.setItem(objItem, "fade");
+			g_objSlider.setItem(objItem, "lightbox_open");
 		}
 		
 		if(g_objTextPanel)
@@ -8188,8 +8208,9 @@ function UGLightbox(){
 				
 		}
 				
-		if(g_objSlider)
+		if(g_objSlider){
 			g_objSlider.startSlideAction();
+		}
 		
 	}
 	
@@ -9279,7 +9300,7 @@ function UGSlider(){
 	
 		
 		//add video player
-		g_objVideoPlayer.setHtml(g_objSlider);
+		g_objVideoPlayer.setHtml(g_objInner);
 	}
 	
 	
@@ -9376,18 +9397,6 @@ function UGSlider(){
 	}
 	
 	
-	/**
-	 * 
-	 * animate opacity in and out
-	 */
-	function animateOpacity(objItem, opacity, completeFunction){
-		
-		if(completeFunction)
-			objItem.fadeTo(g_options.slider_transition_speed, opacity, completeFunction);
-		else
-			objItem.fadeTo(g_options.slider_transition_speed, opacity);
-	}
-	
 		
 	/**
 	 * position slides by their order
@@ -9438,152 +9447,6 @@ function UGSlider(){
 	
 	
 	/**
-	 * do the transition between the current and the next
-	 */
-	function doTransition(direction, objItem, forceTransition){
-		
-		g_objThis.trigger(t.events.TRANSITION_START);
-		
-		var transition = g_options.slider_transition;
-		if(forceTransition)
-			transition = forceTransition;
-		
-		switch(transition){
-			default:
-			case "fade":
-				transitionFade(objItem);
-			break;
-			case "slide":				
-				transitionSlide(direction, objItem);
-			break;
-			case "lightbox_open":		//fade transition without animation
-				transitionFade(objItem, true);
-			break;
-		}
-		
-	}
-	
-	/**
-	 * do slide transition
-	 */
-	function transitionSlide(direction, objItem){
-		
-		var animating = t.isAnimating();
-
-		if(animating == true){
-			g_temp.itemWaiting = objItem;
-			return(true);
-		}
-		
-		//always clear next item on transition start
-		// next item can be only in the middle of the transition.
-		if(g_temp.itemWaiting != null)
-			g_temp.itemWaiting = null;
-		
-		var slides = t.getSlidesReference();
-		
-		//trace(slides.objNextSlide.find("img").attr("src"));
-		//trace(objItem);
-		
-		switch(direction){
-			case "right":	//change to prev item
-				setItemToSlide(slides.objPrevSlide, objItem);
-				positionSlides();
-				
-				var posPrev = g_functions.getElementSize(slides.objPrevSlide);
-				var destX = -posPrev.left;
-				
-				t.switchSlideNums("right");
-				
-			break;	
-			case "left":		//change to next item
-				setItemToSlide(slides.objNextSlide, objItem);
-				positionSlides();
-				
-				var posNext = g_functions.getElementSize(slides.objNextSlide);
-				var destX = -posNext.left;
-				
-				t.switchSlideNums("left");
-				
-			break;
-			default:
-				throw new Error("wrong direction: "+direction);
-			break;
-		}
-				
-		var transSpeed = g_options.slider_transition_speed;
-		var transEasing = g_options.slider_transition_easing;
-				
-		g_objInner.animate({left:destX+"px"},{
-			duration: transSpeed,
-			easing: transEasing,
-			queue: false,
-			always:function(){
-								
-					//transit next item if waiting
-					if(g_temp.itemWaiting != null){
-						var direction = getSlideDirection(g_temp.itemWaiting);
-						transitionSlide(direction, g_temp.itemWaiting);
-					}else{
-						//if no item waiting, please neighbour items in places
-						t.placeNabourItems();
-						g_objThis.trigger(t.events.TRANSITION_END);
-					}
-				
-			}
-		});
-			
-	}
-	
-	
-	/**
-	 * do fade transition
-	 */
-	function transitionFade(objItem, noAnimation){
-		
-		if(!noAnimation)
-			var noAnimation = false;
-		
-		var slides = t.getSlidesReference();
-		 
-		setItemToSlide(slides.objNextSlide, objItem);
-		
-		var objCurrentPos = g_functions.getElementSize(slides.objCurrentSlide);
-				
-		g_functions.placeElement(slides.objNextSlide,objCurrentPos.left,objCurrentPos.top);
-		
-		var currentNum = g_temp.numCurrent;
-		g_temp.numCurrent = g_temp.numNext;
-		g_temp.numNext = currentNum;
-		
-		g_objThis.trigger(t.events.ITEM_CHANGED);
-		
-		slides.objNextSlide.stop(true);		
-		slides.objCurrentSlide.stop(true);
-		
-		if(noAnimation == true){
-			
-			slides.objCurrentSlide.fadeTo(0, 0);
-			slides.objNextSlide.fadeTo(0, 1);	
-			t.placeNabourItems();
-		
-		}else{
-			slides.objNextSlide.fadeTo(0,0);	
-			
-			animateOpacity(slides.objCurrentSlide,0,function(){
-				t.placeNabourItems();
-				g_objThis.trigger(t.events.TRANSITION_END);
-			});
-			
-			//animate to next show next
-			animateOpacity(slides.objNextSlide,1);			
-		}
-		
-	}
-	
-		
-	
-	/**
 	 * resize the slide image inside item
 	 */
 	function resizeSlideItem(objSlide){
@@ -9616,24 +9479,6 @@ function UGSlider(){
 	function hidePreloader(objPreloader){
 		
 		objPreloader.stop(true).hide(100);
-	}
-	
-	
-	/**
-	 * set video player constant size
-	 */
-	function setVideoPlayerConstantSize(){
-		
-		var videoWidth = g_options.slider_video_constantsize_width;
-		var videoHeight = g_options.slider_video_constantsize_height;
-		
-		g_objVideoPlayer.setSize(videoWidth, videoHeight);
-		g_objVideoPlayer.setPosition("center", "middle");
-		
-		//set video design
-		var videoElement = g_objVideoPlayer.getObject();
-		
-		setImageDesign(videoElement);
 	}
 	
 	
@@ -9924,8 +9769,275 @@ function UGSlider(){
 		return(true);
 	}
 	
+	function __________VIDEO_PLAYER_______(){};
 
+	
+	
+	/**
+	 * set video player position
+	 */
+	function setVideoPlayerPosition(){
+		
+		var objCurrentSlide = t.getCurrentSlide();
+		var objImage = t.getSlideImage(objCurrentSlide);
+		
+		var slideSize = g_functions.getElementSize(objCurrentSlide);
+		var left = slideSize.left;
+		var top = slideSize.top;
 
+		
+		//set by image position
+		if(g_options.slider_video_constantsize == true){
+			
+			var imageSize = g_functions.getElementSize(objImage);
+			left += imageSize.left;
+			top += imageSize.top;
+			
+		}else{	//set video padding
+			left += g_options.slider_video_padding_left;
+			top += g_options.slider_video_padding_top;
+		}
+		
+		g_objVideoPlayer.setPosition(left, top);
+	}
+	
+	
+	/**
+	 * set video player constant size
+	 */
+	function setVideoPlayerConstantSize(){
+		
+		var videoWidth = g_options.slider_video_constantsize_width;
+		var videoHeight = g_options.slider_video_constantsize_height;
+		
+		g_objVideoPlayer.setSize(videoWidth, videoHeight);
+		
+		//set video design
+		var videoElement = g_objVideoPlayer.getObject();
+		
+		setImageDesign(videoElement);
+	}
+	
+	
+	function __________TRANSITION_______(){};
+
+	
+	
+	/**
+	 * do the transition between the current and the next
+	 */
+	function doTransition(direction, objItem, forceTransition){
+		
+		g_objThis.trigger(t.events.TRANSITION_START);
+		
+		var transition = g_options.slider_transition;
+		if(forceTransition)
+			transition = forceTransition;
+
+		//stop current slide action
+		t.stopSlideAction(null, true);
+		
+		switch(transition){
+			default:
+			case "fade":
+				transitionFade(objItem);
+			break;
+			case "slide":				
+				transitionSlide(direction, objItem);
+			break;
+			case "lightbox_open":		//fade transition without animation
+				transitionFade(objItem, false, true);
+			break;
+		}
+		
+	}
+
+	
+	/**
+	 * switch slide numbers after transition (by direction)
+	 * 
+	 */
+	this.switchSlideNums = function(direction){
+		
+		//trigger item changed effect
+		g_objThis.trigger(t.events.BEFORE_SWITCH_SLIDES);
+		
+		switch(direction){
+			case "left":
+				var currentNum = g_temp.numCurrent;
+				g_temp.numCurrent = g_temp.numNext;
+				g_temp.numNext = g_temp.numPrev;
+				g_temp.numPrev = currentNum;
+			break;
+			case "right":
+				var currentNum = g_temp.numCurrent;
+				g_temp.numCurrent = g_temp.numPrev;
+				g_temp.numPrev = g_temp.numNext;
+				g_temp.numNext = currentNum;				
+			break;
+			default:
+				throw new Error("wrong direction: "+ direction);
+			break;
+		}
+		
+		//trace(g_temp.numCurrent);
+		
+		//trigger item changed effect
+		g_objThis.trigger(t.events.ITEM_CHANGED);
+	}
+	
+	
+	/**
+	 * do slide transition
+	 */
+	function transitionSlide(direction, objItem){
+		
+		var animating = t.isAnimating();
+
+		if(animating == true){
+			g_temp.itemWaiting = objItem;
+			return(true);
+		}
+		
+		//always clear next item on transition start
+		// next item can be only in the middle of the transition.
+		if(g_temp.itemWaiting != null)
+			g_temp.itemWaiting = null;
+		
+		var slides = t.getSlidesReference();
+		
+		//trace(slides.objNextSlide.find("img").attr("src"));
+		//trace(objItem);
+		
+		switch(direction){
+			case "right":	//change to prev item
+				setItemToSlide(slides.objPrevSlide, objItem);
+				positionSlides();
+				
+				var posPrev = g_functions.getElementSize(slides.objPrevSlide);
+				var destX = -posPrev.left;
+				
+				t.switchSlideNums("right");
+				
+			break;	
+			case "left":		//change to next item
+				setItemToSlide(slides.objNextSlide, objItem);
+				positionSlides();
+				
+				var posNext = g_functions.getElementSize(slides.objNextSlide);
+				var destX = -posNext.left;
+				
+				t.switchSlideNums("left");
+				
+			break;
+			default:
+				throw new Error("wrong direction: "+direction);
+			break;
+		}
+				
+		var transSpeed = g_options.slider_transition_speed;
+		var transEasing = g_options.slider_transition_easing;
+
+		
+		var animateParams = {
+				duration: transSpeed,
+				easing: transEasing,
+				queue: false,
+				always:function(){
+						
+						t.stopSlideAction();
+						g_objVideoPlayer.hide();
+						
+						//transit next item if waiting
+						if(g_temp.itemWaiting != null){
+							var direction = getSlideDirection(g_temp.itemWaiting);
+							transitionSlide(direction, g_temp.itemWaiting);
+						}else{
+							//if no item waiting, please neighbour items in places
+							t.placeNabourItems();
+							g_objThis.trigger(t.events.TRANSITION_END);
+						}
+					
+				}
+		};
+		
+		
+		g_objInner.animate({left:destX+"px"}, animateParams);
+			
+	}
+	
+	
+	/**
+	 * 
+	 * animate opacity in and out
+	 */
+	function animateOpacity(objItem, opacity, completeFunction){
+		
+		if(completeFunction)
+			objItem.fadeTo(g_options.slider_transition_speed, opacity, completeFunction);
+		else
+			objItem.fadeTo(g_options.slider_transition_speed, opacity);
+	}
+	
+	
+	/**
+	 * do fade transition
+	 */
+	function transitionFade(objItem, noAnimation, noHidePlayer){
+		
+		if(!noAnimation)
+			var noAnimation = false;
+		
+		var slides = t.getSlidesReference();
+		 
+		setItemToSlide(slides.objNextSlide, objItem);
+		
+		var objCurrentPos = g_functions.getElementSize(slides.objCurrentSlide);
+				
+		g_functions.placeElement(slides.objNextSlide,objCurrentPos.left,objCurrentPos.top);
+		
+		//switch slide nums
+		var currentNum = g_temp.numCurrent;
+		g_temp.numCurrent = g_temp.numNext;
+		g_temp.numNext = currentNum;
+		
+		g_objThis.trigger(t.events.ITEM_CHANGED);
+		
+		slides.objNextSlide.stop(true);		
+		slides.objCurrentSlide.stop(true);
+		
+		if(noAnimation == true){
+			
+			slides.objCurrentSlide.fadeTo(0, 0);
+			slides.objNextSlide.fadeTo(0, 1);	
+			t.placeNabourItems();
+			g_objThis.trigger(t.events.TRANSITION_END);
+			
+			if(noHidePlayer !== true)
+				g_objVideoPlayer.hide();
+		
+		}else{
+			slides.objNextSlide.fadeTo(0,0);	
+			
+			animateOpacity(slides.objCurrentSlide,0,function(){
+				t.placeNabourItems();
+				g_objThis.trigger(t.events.TRANSITION_END);
+				if(noHidePlayer !== true)
+					g_objVideoPlayer.hide();
+			});
+			
+			if(g_objVideoPlayer.isVisible() == true){
+				var videoElement = g_objVideoPlayer.getObject();
+				animateOpacity(videoElement, 0);
+			}
+			
+			//animate to next show next
+			animateOpacity(slides.objNextSlide,1);			
+		}
+		
+	}
+	
+	
 	
 	
 	function __________CONTROLS_OBJECT_______(){};
@@ -10224,15 +10336,6 @@ function UGSlider(){
 		
 	}
 	
-	/**
-	 * event before switching slide numbers
-	 */
-	function onBeforeSwitchingSlides(){
-		
-		g_objVideoPlayer.hide();
-		
-	}
-	
 	
 	/**
 	 * on slide video play button click
@@ -10386,8 +10489,6 @@ function UGSlider(){
 				
 		//init video player related events
 		g_objVideoPlayer.initEvents();
-		
-		g_objThis.on(t.events.BEFORE_SWITCH_SLIDES, onBeforeSwitchingSlides);
 		
 		//video API events
 		jQuery(g_objVideoPlayer).on(g_objVideoPlayer.events.SHOW, onVideoPlayerShow);		
@@ -10860,39 +10961,6 @@ function UGSlider(){
 	}
 	
 	
-	/**
-	 * switch slide numbers after transition (by direction)
-	 * 
-	 */
-	this.switchSlideNums = function(direction){
-		
-		//trigger item changed effect
-		g_objThis.trigger(t.events.BEFORE_SWITCH_SLIDES);
-		
-		switch(direction){
-			case "left":
-				var currentNum = g_temp.numCurrent;
-				g_temp.numCurrent = g_temp.numNext;
-				g_temp.numNext = g_temp.numPrev;
-				g_temp.numPrev = currentNum;
-			break;
-			case "right":
-				var currentNum = g_temp.numCurrent;
-				g_temp.numCurrent = g_temp.numPrev;
-				g_temp.numPrev = g_temp.numNext;
-				g_temp.numNext = currentNum;				
-			break;
-			default:
-				throw new Error("wrong direction: "+ direction);
-			break;
-		}
-		
-		//trace(g_temp.numCurrent);
-		
-		//trigger item changed effect
-		g_objThis.trigger(t.events.ITEM_CHANGED);
-	}
-	
 	
 	this.________EXTERNAL_API___________ = function(){};
 	
@@ -10900,18 +10968,18 @@ function UGSlider(){
 	/**
 	 * stop some slide action if active
 	 */
-	this.stopSlideAction = function(objSlide){
+	this.stopSlideAction = function(objSlide, isPause){
 		
 		if(!objSlide)
 			objSlide = t.getCurrentSlide();
 		
-		var slideType = t.getSlideType(objSlide);
+		if(isPause === true)
+			g_objVideoPlayer.pause();
+		else
+			g_objVideoPlayer.hide();
 		
-		switch(slideType){
-			default:
-				g_objVideoPlayer.hide();
-			break;
-		}
+	//	trace("stop action");
+		
 	}
 	
 	
@@ -10920,6 +10988,8 @@ function UGSlider(){
 	 * start some slide action if exists
 	 */
 	this.startSlideAction = function(objSlide){
+		
+	//	trace("start action");
 		
 		if(!objSlide)
 			objSlide = t.getCurrentSlide();
@@ -10931,7 +11001,9 @@ function UGSlider(){
 		
 		if(g_options.slider_video_constantsize == true)
 			setVideoPlayerConstantSize();
-			
+		
+		setVideoPlayerPosition();
+		
 		g_objVideoPlayer.show();
 		
 		switch(objItem.type){
@@ -11183,7 +11255,6 @@ function UGSlider(){
 			 
 			 //set video player size
 			 g_objVideoPlayer.setSize(videoWidth, videoHeight);
-			 g_objVideoPlayer.setPosition(g_options.slider_video_padding_left, g_options.slider_video_padding_top);
 		 }
 		 
 		 positionElements();
@@ -18507,16 +18578,6 @@ function UGTouchSliderControl(){
 		//check if video object need to be dragged
 		g_temp.isDragVideo = false;
 		
-		var objVideo = g_parent.getVideoObject();
-		if(objVideo.isVisible() == true){
-			g_temp.isDragVideo = true;
-			g_temp.videoObject = objVideo.getObject();
-			var videoSize = g_functions.getElementSize(g_temp.videoObject);
-			g_temp.videoStartX = videoSize.left;
-			
-		}
-			
-		
 		g_functions.storeEventData(event, g_temp.storedEventID);
 	}
 	
@@ -20261,6 +20322,7 @@ function UGVideoPlayer(){
 	var g_youtubeAPI = new UGYoutubeAPI(), g_vimeoAPI = new UGVimeoAPI();
 	var g_html5API = new UGHtml5MediaAPI(), g_soundCloudAPI = new UGSoundCloudAPI(), g_wistiaAPI = new UGWistiaAPI();
 	var g_objPlayer, g_objYoutube, g_objVimeo, g_objHtml5, g_objButtonClose, g_objSoundCloud, g_objWistia;
+	var g_activePlayerType = null;
 	
 	var g_options = {
 			video_enable_closebutton: true
@@ -20433,6 +20495,7 @@ function UGVideoPlayer(){
 		jQuery(g_wistiaAPI).off(g_wistiaAPI.events.START_PLAYING, onPlayStart);
 		jQuery(g_wistiaAPI).off(g_wistiaAPI.events.STOP_PLAYING, onPlayStop);
 		
+		g_activePlayerType = null;
 	}
 	
 	
@@ -20483,6 +20546,8 @@ function UGVideoPlayer(){
 		
 		g_objPlayer.show();
 		
+		g_objPlayer.fadeTo(0,1);
+		
 		if(g_objButtonClose)
 			g_objButtonClose.show();
 				
@@ -20500,11 +20565,57 @@ function UGVideoPlayer(){
 		
 		//pause all players
 		stopAndHidePlayers();
+		
+		g_activePlayerType = null;
+		
 		g_objPlayer.hide();
 		
 		g_objThis.trigger(t.events.HIDE);
 	}
-
+	
+	
+	/**
+	 * get active player
+	 */
+	this.getActiveAPI = function(){
+		
+		switch(g_activePlayerType){
+			case "youtube":
+				return g_youtubeAPI;
+			break;
+			case "vimeo":
+				return g_vimeoAPI;
+			break;
+			case "wistia":
+				return g_wistiaAPI;
+			break;
+			case "soundcloud":
+				return g_soundCloudAPI;
+			break;
+			case "html5":
+				return g_html5API;
+			break;
+			default:
+				return null;
+			break;
+		}
+	}
+	
+	
+	/**
+	 * pause active player if playing
+	 */
+	this.pause = function(){
+		
+		var activeAPI = t.getActiveAPI();
+		if(activeAPI == null)
+			return(false);
+		
+		if(typeof activeAPI.pause == "function")
+			activeAPI.pause();
+			
+	}
+	
 	
 	/**
 	 * return if the player is visible
@@ -20513,6 +20624,7 @@ function UGVideoPlayer(){
 		
 		return g_objPlayer.is(":visible");
 	}
+	
 	
 	/**
 	 * stop and hide other elements except some
@@ -20527,6 +20639,7 @@ function UGVideoPlayer(){
 			switch(player){
 				case "youtube":					
 					g_youtubeAPI.pause();
+					g_youtubeAPI.destroy();	
 					g_objYoutube.hide();
 				break;
 				case "vimeo":
@@ -20557,12 +20670,12 @@ function UGVideoPlayer(){
 	 * play youtube inside the video, isAutoplay - true by default
 	 */
 	this.playYoutube = function(videoID, isAutoplay){
-			
+				
 		if(typeof isAutoplay == "undefined")
 			var isAutoplay = true;
-				
-		stopAndHidePlayers("youtube");
 		
+		stopAndHidePlayers("youtube");
+
 		g_objYoutube.show();
 		
 		var objYoutubeInner = g_objYoutube.children("#"+g_temp.youtubeInnerID);
@@ -20575,6 +20688,8 @@ function UGVideoPlayer(){
 		else{
 			g_youtubeAPI.putVideo(g_temp.youtubeInnerID, videoID, "100%", "100%", isAutoplay);
 		}
+		
+		g_activePlayerType = "youtube";
 	}
 	
 	
@@ -20594,6 +20709,8 @@ function UGVideoPlayer(){
 			g_vimeoAPI.changeVideo(videoID, isAutoplay);
 		else
 			g_vimeoAPI.putVideo(g_temp.vimeoPlayerID, videoID, "100%", "100%", isAutoplay);
+
+		g_activePlayerType = "vimeo";
 
 	}
 	
@@ -20621,6 +20738,8 @@ function UGVideoPlayer(){
 		
 		g_html5API.putVideo(g_temp.html5PlayerID, data, "100%", "100%", isAutoplay);
 		
+		g_activePlayerType = "html5";
+
 	}
 
 	/**
@@ -20636,6 +20755,9 @@ function UGVideoPlayer(){
 		g_objSoundCloud.show();
 		
 		g_soundCloudAPI.putSound(g_temp.soundCloudPlayerID, trackID, "100%", "100%", isAutoplay);
+
+		g_activePlayerType = "soundcloud";
+	
 	}
 	
 	
@@ -20653,6 +20775,8 @@ function UGVideoPlayer(){
 		
 		g_wistiaAPI.putVideo(g_temp.wistiaPlayerID, videoID, "100%", "100%", isAutoplay);
 	
+		g_activePlayerType = "wistia";
+
 	}
 	
 }

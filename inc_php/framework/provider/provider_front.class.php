@@ -55,21 +55,34 @@ class UniteProviderFrontUG{
 	}
 	
 	
+	/**
+	 * check unite gallery output
+	 */
+	public static function process_shortcode($content){
+		
+		//clear all other tags
+		
+		global $shortcode_tags;
+		$current_shortcodes = $shortcode_tags;
+		$shortcode_tags = array();
+		
+		//process unite gallery shortcode
+		add_shortcode( 'unitegallery', 'unitegallery_shortcode' );
+		$content = do_shortcode($content);
+		
+		//return all other tags
+		$shortcode_tags = $current_shortcodes;
+		
+		return($content);
+	}	
 	
 	/**
 	 * on after theme setup - fix the wpautop after do_shortcode (if exists)
 	 */
 	public static function onAfterThemeSetup(){
 		
-		$priority = self::searchFilterFirstPriority("the_content", "do_shortcode");
-		
-		//fix br and p output - make do_shortcode to unitegallery shortcode work always after wpautop
-		if($priority < 11){
-			remove_shortcode("unitegallery");
-			add_filter("the_content", array(self::$t, "remove_shortcode_function"), 1);
-			add_filter("the_content", array(self::$t, "add_shortcode_function"), 11);
-			add_filter("the_content", "do_shortcode", 12);
-		}
+		remove_shortcode( 'unitegallery');
+		add_filter("the_content", array(self::$t, "process_shortcode"), 9999);
 		
 	}
 	

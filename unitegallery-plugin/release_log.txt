@@ -1,3 +1,7 @@
+version 1.5.8
+
+-bug fix: the video player stayed on compact mode on slide change
+
 version 1.5.7
 
 -feature: added option: tiles_align for columns type
