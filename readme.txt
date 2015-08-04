@@ -86,6 +86,10 @@ Carousel displaying solution that allows you to show image thumbnails and open i
 
 == Changelog ==
 
+= 1.5.8 b1 =
+
+-bug fix: fixed issue that gallery shortcode was working only on posts/pages content.
+
 = 1.5.8 =
 
 -bug fix: the video player stayed on compact mode on slide change

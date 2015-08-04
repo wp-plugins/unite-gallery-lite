@@ -76,12 +76,25 @@ class UniteProviderFrontUG{
 		return($content);
 	}	
 	
+	
+	/**
+	 * remove shortcode before adding the gallery
+	 * add it again in 999 position
+	 */
+	public static function remove_shortcode($content){
+		
+		remove_shortcode( 'unitegallery');
+		
+		return($content);
+	}
+	
+	
 	/**
 	 * on after theme setup - fix the wpautop after do_shortcode (if exists)
 	 */
 	public static function onAfterThemeSetup(){
 		
-		remove_shortcode( 'unitegallery');
+		add_filter("the_content", array(self::$t, "remove_shortcode"), 1);
 		add_filter("the_content", array(self::$t, "process_shortcode"), 9999);
 		
 	}
@@ -98,7 +111,7 @@ class UniteProviderFrontUG{
 		
 	}
 	
-		
+	
 }
 
 
