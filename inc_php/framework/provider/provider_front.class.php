@@ -16,25 +16,7 @@ class UniteProviderFrontUG{
 	}
 	
 	
-	/**
-	 * check unite gallery output
-	 */
-	public static function add_shortcode_function($content){
-		
-		add_shortcode( 'unitegallery', 'unitegallery_shortcode' );
-		
-		return($content);
-	}
 	
-	/**
-	 * check unite gallery output
-	 */
-	public static function remove_shortcode_function($content){
-	
-		remove_shortcode( 'unitegallery');
-	
-		return($content);
-	}
 	
 	
 	/**
@@ -61,13 +43,12 @@ class UniteProviderFrontUG{
 	public static function process_shortcode($content){
 		
 		//clear all other tags
-		
 		global $shortcode_tags;
 		$current_shortcodes = $shortcode_tags;
 		$shortcode_tags = array();
 		
 		//process unite gallery shortcode
-		add_shortcode( 'unitegallery', 'unitegallery_shortcode' );
+		add_shortcode( 'unitegalleryprocess', 'unitegallery_shortcode' );
 		$content = do_shortcode($content);
 		
 		//return all other tags
@@ -78,12 +59,13 @@ class UniteProviderFrontUG{
 	
 	
 	/**
-	 * remove shortcode before adding the gallery
-	 * add it again in 999 position
+	 * rename shortcode to another shortcode, don't let filters in between to touch it.
+	 * process it in 999 position. don't touch the unitegallery original shortcode
 	 */
-	public static function remove_shortcode($content){
+	public static function rename_shortcode($content){
 		
-		remove_shortcode( 'unitegallery');
+		$content = str_replace("[unitegallery ", "[unitegalleryprocess ", $content);
+		
 		
 		return($content);
 	}
@@ -94,7 +76,7 @@ class UniteProviderFrontUG{
 	 */
 	public static function onAfterThemeSetup(){
 		
-		add_filter("the_content", array(self::$t, "remove_shortcode"), 1);
+		add_filter("the_content", array(self::$t, "rename_shortcode"), 1);
 		add_filter("the_content", array(self::$t, "process_shortcode"), 9999);
 		
 	}
@@ -111,8 +93,6 @@ class UniteProviderFrontUG{
 		
 	}
 	
-	
 }
-
 
 ?>

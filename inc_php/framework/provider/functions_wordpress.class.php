@@ -711,6 +711,21 @@ defined('_JEXEC') or die('Restricted access');
 			return($arrItemsOrdered);
 		}
 		
+		/**
+		 * get attachment data
+		 */
+		public static function getAttachmentData($attachmentID){
+			$arr = array($attachmentID);
+			
+			$arrData = self::getArrItemsFromAttachments(array($attachmentID));
+			if(empty($arrData))
+				return(null);
+			
+			$data = $arrData[0];
+			
+			return($data);
+		}
+		
 		
 		/**
 		 * 

@@ -41,6 +41,7 @@
 					   description="Item Link">
 				</field>
 				
+				<!-- 
 				<field name="ug_item_link_open_in"
 					   type="radio" 
 					   default="same" 
@@ -49,6 +50,7 @@
 						  <option value="same" text="Same Window"></option>
 						  <option value="new" text="New Window"></option>
 				</field>
+				 -->
 				
 				<field type="bulk_control_end"></field>				
 				

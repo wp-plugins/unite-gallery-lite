@@ -424,7 +424,7 @@ defined('_JEXEC') or die('Restricted access');
 		 * return item id
 		 */
 		public function add($data){
-						
+			
 			$catID = UniteFunctionsUG::getVal($data, "catID");
 
 			$type = UniteFunctionsUG::getVal($data, "type");
@@ -450,6 +450,8 @@ defined('_JEXEC') or die('Restricted access');
 			$arrInsert["url_image"] = $urlImage;
 			$arrInsert["url_thumb"] = $urlThumb;
 			
+			$arrParams = array();
+			
 			switch($type){
 				case self::TYPE_IMAGE:
 					
@@ -458,11 +460,29 @@ defined('_JEXEC') or die('Restricted access');
 					
 					//set params					
 					$title = HelperUG::getTitleFromUrl($urlImage, $this->itemTitleBase);
-					$arrInsert["imageid"] = UniteFunctionsUG::getVal($data, "imageID" , 0);
-          
-				          if(empty($arrInsert["imageid"]))
-				            $arrInsert["imageid"] = 0;
-        
+					$imageID = UniteFunctionsUG::getVal($data, "imageID" , 0);
+					
+					$arrInsert["imageid"] = $imageID;
+			        
+					//get title from attachment
+					if(!empty($imageID)){
+						$data = null;
+						
+						if(method_exists("UniteProviderFunctionsUG", "getImageDataFromImageID"))
+							$data = UniteProviderFunctionsUG::getImageDataFromImageID($imageID);
+						
+						//set title from image meta
+						$dataTitle = UniteFunctionsUG::getVal($data, "title");
+						if(!empty($dataTitle))
+							$title = $dataTitle;
+						
+						//set decription from image meta
+						$dataDesc = UniteFunctionsUG::getVal($data, "description");
+						if(!empty($dataDesc))
+							$arrParams["ug_item_description"] = $dataDesc;
+						
+					}
+					
 				break;
 				default:			//add media item
 					$title = UniteFunctionsUG::getVal($data, "title");
@@ -474,7 +494,11 @@ defined('_JEXEC') or die('Restricted access');
 			UniteFunctionsUG::validateNotEmpty($title, "title");
 			
 			$arrInsert["title"] = $title;
-  
+  			
+			//add params
+			$jsonParams = json_encode($arrParams);
+			$arrInsert["params"] = $jsonParams;
+			
 			//insert the category
 			$itemID = $this->db->insert(GlobalsUG::$table_items,$arrInsert);
 			

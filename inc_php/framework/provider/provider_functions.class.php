@@ -116,6 +116,15 @@ class UniteProviderFunctionsUG{
 	}
 	
 	/**
+	 * get image data from image id
+	 */
+	public static function getImageDataFromImageID($imageID){
+		if(empty($imageID))
+			return(null);
+		$data = UniteFunctionsWPUG::getAttachmentData($imageID);
+		return($data);
+	}
+	/**
 	 * get image url from image id
 	 */
 	public static function getThumbUrlFromImageID($imageID, $size = null){

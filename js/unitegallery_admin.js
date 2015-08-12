@@ -82,6 +82,11 @@ function UGAdmin(){
 		
 		if(!g_ugAdmin)
 			g_ugAdmin = new UniteAdminUG();
+		//run provider global init
+		if(typeof g_providerAdmin != "undefined" && typeof g_providerAdmin.onGlobalInit == "function"){
+			if(g_providerAdmin.onGlobalInit() === false)
+				return(false);
+		}
 		
 		if(typeof g_providerAdmin.initGalleriesView == "function")
 			g_providerAdmin.initGalleriesView();
@@ -280,6 +285,11 @@ function UGAdmin(){
 	this.initCommonAddGalleryView = function(){
 		g_providerAdmin = new UniteProviderAdminUG();
 
+		//run provider global init
+		if(typeof g_providerAdmin != "undefined" && typeof g_providerAdmin.onGlobalInit == "function"){
+			if(g_providerAdmin.onGlobalInit() === false)
+				return(false);
+		}
 		jQuery("#title").focus();
 		initSaveGalleryButton("create_gallery");
 	};
@@ -290,6 +300,11 @@ function UGAdmin(){
 	 */
 	this.initCommonEditGalleryView = function(){
 		g_providerAdmin = new UniteProviderAdminUG();
+		//run provider global init
+		if(typeof g_providerAdmin != "undefined" && typeof g_providerAdmin.onGlobalInit == "function"){
+			if(g_providerAdmin.onGlobalInit() === false)
+				return(false);
+		}
 		
 		initSaveGalleryButton("update_gallery");
 		

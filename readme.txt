@@ -86,6 +86,13 @@ Carousel displaying solution that allows you to show image thumbnails and open i
 
 == Changelog ==
 
+= 1.5.8 b2 =
+
+-bug fix: fixed shortcode include on some special widgets and editors
+
+-change: take new image title from attachment title if available
+-change: removed link open in option from item edit window because it was not needed.
+
 = 1.5.8 b1 =
 
 -bug fix: fixed issue that gallery shortcode was working only on posts/pages content.
